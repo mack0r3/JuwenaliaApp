@@ -3,4 +3,10 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <!-- AttractionActivity -->
+    <color name="attracionActivityBackgroundColor">#000080</color>
+    <color name="attractionsItemTextColor">#FFFFFF</color>
+    <color name="attractionItemBorderColor">#FFFFFF</color>
+
 </resources>
