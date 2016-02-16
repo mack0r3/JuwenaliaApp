@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/event_row_borders">
+        <RelativeLayout
+            android:id="@+id/event_row_image"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Bomba Kaloryczna"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:fontFamily="sans-serif-light"
+                android:id="@+id/event_name"
+                android:paddingTop="100dp"
+                android:paddingRight="6dp"
+                android:paddingBottom="0dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="16:15"
+                android:textColor="#FFFFFF"
+                android:textSize="32sp"
+                android:fontFamily="sans-serif-bold"
+                android:textStyle="bold"
+                android:id="@+id/event_time"
+                android:paddingTop="20dp"
+                android:paddingLeft="65dp"
+                android:layout_gravity="center_horizontal"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="GODZ."
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif-condensed"
+                android:textStyle="bold"
+                android:paddingTop="54dp"
+                android:paddingLeft="65dp"
+                android:layout_gravity="center_horizontal"/>
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/info"
+                android:layout_marginTop="28sp"
+                android:layout_marginLeft="20sp"
+                android:contentDescription="@null" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

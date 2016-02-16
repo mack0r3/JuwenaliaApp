@@ -3,5 +3,5 @@
     <solid android:color="@color/backgroundColor" />
     <stroke
         android:width="2dp"
-        android:color="@color/attractionItemBorderColor" />
+        android:color="@color/borderColor" />
 </shape>
