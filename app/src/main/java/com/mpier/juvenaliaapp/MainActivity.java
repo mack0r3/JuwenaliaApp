@@ -32,26 +32,29 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
+
+                item.setChecked(true);
+                drawerLayout.closeDrawers();
                 Intent intent;
                 switch(item.getItemId())
                 {
                     case R.id.menu_attractions:
-                        item.setChecked(true);
-                        drawerLayout.closeDrawers();
                         intent = new Intent(getApplicationContext(), AttractionsActivity.class);
                         startActivity(intent);
-                        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-                        item.setChecked(false);
                         break;
                     case R.id.menu_line_up:
-                        item.setChecked(true);
-                        drawerLayout.closeDrawers();
                         intent = new Intent(getApplicationContext(), LineUpActivity.class);
                         startActivity(intent);
-                        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-                        item.setChecked(false);
                         break;
+                    case R.id.menu_contest: {
+                        intent = new Intent(getApplicationContext(), ContestActivity.class);
+                        startActivity(intent);
+                        break;
+                    }
+
                 }
+                overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+                item.setChecked(false);
                 return false;
             }
         });
