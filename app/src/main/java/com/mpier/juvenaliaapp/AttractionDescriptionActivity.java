@@ -23,4 +23,10 @@ public class AttractionDescriptionActivity extends AppCompatActivity {
         attractionName.setText(attrName);
         attractionDescription.setText(attrDesc);
     }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.r_slide_in, R.anim.r_slide_out);
+        finish();
+    }
 }

@@ -41,7 +41,14 @@ public class AttractionsActivity extends AppCompatActivity {
                 intent.putExtra("attrName", attractions[position].getAttrName());
                 intent.putExtra("attrDesc", attractions[position].getDescription());
                 startActivity(intent);
+                overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
             }
         });
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        overridePendingTransition(R.anim.r_slide_in, R.anim.r_slide_out);
     }
 }

@@ -11,14 +11,14 @@
     tools:context="com.mpier.juvenaliaapp.AttractionsActivity">
 
     <ListView
+        android:id="@+id/attractionsList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/attractionsList"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:clipToPadding="false"
         android:divider="@android:color/transparent"
         android:dividerHeight="10.0sp"
-        android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:clipToPadding="false"/>
+        android:paddingTop="10dp" />
 </RelativeLayout>
