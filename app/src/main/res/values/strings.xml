@@ -14,4 +14,12 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="contest_header">Juwenaliowe selfie!</string>
+    <string name="contest_content1">W tym roku po raz kolejny przygotowaliśmy dla Was konkurs na Juwenaliowe Selfie! Będziecie mogli pokazać, jak dobrze bawiliście się podczas studenckiego święta!</string>
+    <string name="contest_rules_title">Zasady są proste:</string>
+    <string name="contest_rules">1. Robisz sobie selfie przy materiale promującym Juwenalia PW(baner, ulotka, plakat, wlepka, Magnes Jacek) lub z naszym juwenaliowym gadżetem(koszulka, okulary, torba) w trakcie Juwenaliów PW\n2. Wrzucasz je na <a href="http://facebook.com">wydarzenie</a> i oznaczasz hashtagiem #JuwenaliaPW\n3. Masz czas do 25 maja\n4. Wygrywają 3 osoby, które wstawią najlepsze selfie. Wyróżnienia otrzymają 2 osoby z największą liczbą lajków.</string>
+    <string name="contest_content2">Liczy się kreatywność. Do wygrania m.in. kursy, miesięczne karnety na siłownię, gadżety i wiele innych, cennych nagród!</string>
+    <string name="contest_content3">Do dzieła!</string>
+    <string name="contest_content4">Regulamin konkursu:\n<a href="http://link.sspw.pl/konkurs-selfie">http://link.sspw.pl/konkurs-selfie</a></string>
 </resources>
