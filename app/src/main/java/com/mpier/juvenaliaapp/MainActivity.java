@@ -9,9 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.Window;
-import android.widget.TextView;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,12 +32,21 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
+                Intent intent;
                 switch(item.getItemId())
                 {
                     case R.id.menu_attractions:
                         item.setChecked(true);
                         drawerLayout.closeDrawers();
-                        Intent intent = new Intent(getApplicationContext(), AttractionsActivity.class);
+                        intent = new Intent(getApplicationContext(), AttractionsActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+                        item.setChecked(false);
+                        break;
+                    case R.id.menu_line_up:
+                        item.setChecked(true);
+                        drawerLayout.closeDrawers();
+                        intent = new Intent(getApplicationContext(), LineUpActivity.class);
                         startActivity(intent);
                         overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
                         item.setChecked(false);
@@ -49,9 +55,6 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-
-
     }
 
     @Override
@@ -65,10 +68,5 @@ public class MainActivity extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         actionBarDrawerToggle.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
     }
 }

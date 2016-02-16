@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mpier.juvenaliaapp">
+    package="com.mpier.juvenaliaapp" >
 
     <application
         android:allowBackup="true"
@@ -19,6 +19,7 @@
         <activity android:name=".AttractionsActivity" />
         <activity android:name=".AttractionDescriptionActivity" />
         <activity android:name=".ContestActivity" />
+        <activity android:name=".LineUpActivity" />
     </application>
 
 </manifest>

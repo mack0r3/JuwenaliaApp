@@ -6,12 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mpier.juvenaliaapp.R;
-
-import java.util.List;
 
 /**
  * Created by Korzonkie on 2016-02-15.
