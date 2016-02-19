@@ -51,6 +51,11 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     }
+                    case R.id.menu_map: {
+                        intent = new Intent(getApplicationContext(), MapsActivity.class);
+                        startActivity(intent);
+                        break;
+                    }
 
                 }
                 overridePendingTransition(R.anim.slide_in, R.anim.slide_out);

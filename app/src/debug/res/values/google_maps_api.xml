@@ -1,0 +1,24 @@
+<resources>
+    <!--
+    TODO: Temporary API debug key
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=CD:87:F7:4E:41:9D:70:BA:59:26:50:00:3F:60:43:CD:53:E9:A2:0D%3Bcom.mpier.juvenaliaapp
+
+    You can also add your credentials to an existing key, using this line:
+    CD:87:F7:4E:41:9D:70:BA:59:26:50:00:3F:60:43:CD:53:E9:A2:0D;com.mpier.juvenaliaapp
+
+    Alternatively, follow the directions here:
+    https://developers.google.com/maps/documentation/android/start#get-key
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    -->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
+        AIzaSyBPvi3GegFN6wUm6j1KsnpW1bTsJ5pFbcc
+    </string>
+    <string name="google_app_id" templateMergeStrategy="preserve" translatable="false">
+        juvenaliapw
+    </string>
+</resources>

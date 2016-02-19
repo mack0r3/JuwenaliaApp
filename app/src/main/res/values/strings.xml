@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">JuvenaliaApp</string>
 
+    <!-- Activity titles -->
+    <string name="title_activity_maps">Mapa</string>
+
     <!-- Drawer open icon -->
     <string name="drawer_open">drawer open</string>
     <string name="drawer_close">drawer close</string>
@@ -22,4 +25,5 @@
     <string name="contest_content2">Liczy się kreatywność. Do wygrania m.in. kursy, miesięczne karnety na siłownię, gadżety i wiele innych, cennych nagród!</string>
     <string name="contest_content3">Do dzieła!</string>
     <string name="contest_content4">Regulamin konkursu:\n<a href="http://link.sspw.pl/konkurs-selfie">http://link.sspw.pl/konkurs-selfie</a></string>
+
 </resources>
