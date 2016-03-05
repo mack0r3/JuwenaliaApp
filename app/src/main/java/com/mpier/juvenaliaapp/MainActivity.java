@@ -56,7 +56,10 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     }
-
+                    case R.id.menu_telebim:
+                        intent = new Intent(getApplicationContext(), TelebimActivity.class);
+                        startActivity(intent);
+                        break;
                 }
                 overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
                 item.setChecked(false);
