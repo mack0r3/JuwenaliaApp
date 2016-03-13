@@ -26,4 +26,8 @@
     <string name="contest_content3">Do dzieła!</string>
     <string name="contest_content4">Regulamin konkursu:\n<a href="http://link.sspw.pl/konkurs-selfie">http://link.sspw.pl/konkurs-selfie</a></string>
 
+    <string name="button_login">Zaloguj się</string>
+
+    <string name="facebook_app_id">1234</string>
+
 </resources>

@@ -2,15 +2,16 @@ package com.mpier.juvenaliaapp;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FacebookLoginFragment.OnFragmentInteractionListener {
 
     DrawerLayout drawerLayout;
     Toolbar toolbar;
@@ -27,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
+
+        FacebookLoginFragment facebookLoginFragment = new FacebookLoginFragment();
 
         navigationView = (NavigationView)findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -79,5 +82,10 @@ public class MainActivity extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         actionBarDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
