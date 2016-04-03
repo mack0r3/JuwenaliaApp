@@ -54,8 +54,11 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                     case R.id.menu_map: {
-                        intent = new Intent(getApplicationContext(), MapsActivity.class);
-                        startActivity(intent);
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.main_container, new MapFragment())
+                                .addToBackStack(null)
+                                .commit();
                         break;
                     }
 
