@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -53,9 +54,10 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
                         intent = new Intent(getApplicationContext(), LineUpActivity.class);
                         startActivity(intent);
                         break;
-                    case R.id.menu_contest: {
-                        intent = new Intent(getApplicationContext(), ContestActivity.class);
-                        startActivity(intent);
+                    case R.id.menu_selfie: {
+                        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.main_container, new SelfieFragment());
+                        fragmentTransaction.commit();
                         break;
                     }
                     case R.id.menu_map: {
@@ -72,6 +74,10 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
                 return false;
             }
         });
+    }
+
+    public void setActionBarTitle(String title) {
+        getSupportActionBar().setTitle(title);
     }
 
     @Override

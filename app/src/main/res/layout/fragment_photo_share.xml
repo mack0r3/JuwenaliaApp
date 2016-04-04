@@ -1,0 +1,63 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    tools:context="pl.kamilszyc.camera.PhotoShareFragment">
+
+
+    <ImageView
+        android:id="@+id/photoToShareView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/shareButtonsLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <RelativeLayout
+        android:id="@+id/shareButtonsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:id="@+id/shareToTextView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/facebookShareButton"
+            android:layout_toStartOf="@+id/facebookShareButton"
+            android:gravity="right"
+            android:text="@string/selfie_share_share_to" />
+
+        <ImageButton
+            android:id="@+id/facebookShareButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/instagramShareButton"
+            android:layout_toStartOf="@+id/instagramShareButton"
+            android:src="@drawable/ic_facebook_box_black_36dp" />
+
+        <ImageButton
+            android:id="@+id/instagramShareButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/customShareButton"
+            android:layout_toStartOf="@+id/customShareButton"
+            android:src="@drawable/ic_instagram_black_36dp" />
+
+        <ImageButton
+            android:id="@+id/customShareButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_share_black_36dp" />
+    </RelativeLayout>
+
+</RelativeLayout>

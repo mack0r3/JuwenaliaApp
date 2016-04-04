@@ -18,8 +18,8 @@
             android:title="@string/menu_attractions">
         </item>
         <item
-            android:id="@+id/menu_contest"
-            android:title="@string/menu_contest">
+            android:id="@+id/menu_selfie"
+            android:title="@string/menu_selfie">
         </item>
     </group>
 </menu>
