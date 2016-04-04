@@ -1,10 +1,9 @@
 package com.mpier.juvenaliaapp;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +17,14 @@ import com.facebook.login.widget.LoginButton;
 
 public class FacebookLoginFragment extends Fragment {
 
-    private OnFragmentInteractionListener mListener;
+    private LoginResultListener mListener;
     private CallbackManager callbackManager;
+
+    public FacebookLoginFragment() {}
+
+    public static FacebookLoginFragment newInstance() {
+        return new FacebookLoginFragment();
+    }
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -43,7 +48,7 @@ public class FacebookLoginFragment extends Fragment {
 
             @Override
             public void onCancel() {
-                // App code
+                loginResult(null);
             }
 
             @Override
@@ -60,18 +65,17 @@ public class FacebookLoginFragment extends Fragment {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    /* not used */
-    public void onButtonPressed(Uri uri) {
+    public void loginResult(LoginResult loginResult) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.onFacebookLoginResult(loginResult);
         }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof LoginResultListener) {
+            mListener = (LoginResultListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -84,7 +88,7 @@ public class FacebookLoginFragment extends Fragment {
         mListener = null;
     }
 
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
+    public interface LoginResultListener {
+        void onFacebookLoginResult(LoginResult loginResult);
     }
 }

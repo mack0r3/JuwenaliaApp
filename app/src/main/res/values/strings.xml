@@ -29,5 +29,6 @@
     <string name="button_login">Zaloguj się</string>
 
     <string name="facebook_app_id">1234</string>
+    <string name="sign_in">Sign in</string>
 
 </resources>
