@@ -25,6 +25,9 @@
     <string name="contest_content3">Do dzieła!</string>
     <string name="contest_content4">Regulamin konkursu:\n<a href="http://link.sspw.pl/konkurs-selfie">http://link.sspw.pl/konkurs-selfie</a></string>
 
+
+    <string name="sign_in">Sign in</string>
+
     <string name="selfie_lack_of_front_camera">Twój telefon nie ma przedniego aparatu</string>
     <string name="selfie_activity_title">Juwenaliowe selfie</string>
     <string name="selfie_input_text">Podaj tekst:</string>
@@ -37,5 +40,6 @@
     <string name="selfie_share_instagram_app_not_installed">Aplikacja Instagram nie jest zainstalowana</string>
     <string name="selfie_share_choose_app">Wybierz aplikację</string>
     <string name="selfie_share_share_to">Udostępnij na:</string>
+
 
 </resources>
