@@ -11,6 +11,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.mpier.juvenaliaapp.R;
 
@@ -42,10 +43,14 @@ public class MapDirectionsFragment extends Fragment implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        LatLng marker = new LatLng(52.2212022, 21.007445);
-        mMap.addMarker(new MarkerOptions().position(marker).title("Politechnika Warszawska"));
+        LatLng markerLatLng = new LatLng(52.2212022, 21.007445);
+        Marker marker = mMap.addMarker(new MarkerOptions()
+                .position(markerLatLng)
+                .title("Politechnika Warszawska"));
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 17));
+        marker.showInfoWindow();
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 17));
     }
 
 }
