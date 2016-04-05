@@ -11,6 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mpier.juvenaliaapp.MapChildFragments.MapDirectionsFragment;
+import com.mpier.juvenaliaapp.MapChildFragments.MapImageFragment;
+
+/**
+ * Created by Konpon96 on 2016-03-02.
+ */
 public class MapFragment extends Fragment {
 
     private ViewPager mViewPager;
@@ -40,21 +46,6 @@ public class MapFragment extends Fragment {
     }
 
     /**
-     * Fragment containing ImageView with map
-     */
-    public static class MapImageFragment extends Fragment {
-
-        public MapImageFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            return inflater.inflate(R.layout.fragment_map_map, container, false);
-        }
-
-    }
-
-    /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the tabs.
      */
@@ -73,7 +64,7 @@ public class MapFragment extends Fragment {
                 case 0:
                     return new MapImageFragment();
                 case 1:
-                    return new MapImageFragment(); // TODO: Implement second tab
+                    return new MapDirectionsFragment();
             }
             return null;
         }
