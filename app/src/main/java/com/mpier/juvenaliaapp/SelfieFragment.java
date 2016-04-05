@@ -42,6 +42,8 @@ public class SelfieFragment extends Fragment implements TextureView.SurfaceTextu
     private static String TAG = SelfieFragment.class.getName();
     private Camera camera;
     private Camera.PictureCallback pictureCallback;
+    private FrameLayout preview;
+    private TextureView textureView;
 
     public SelfieFragment() {
         pictureCallback = new SelfiePictureCallback();
@@ -72,25 +74,6 @@ public class SelfieFragment extends Fragment implements TextureView.SurfaceTextu
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        TextureView textureView = new TextureView(getActivity());
-        textureView.setSurfaceTextureListener(this);
-
-        FrameLayout preview = (FrameLayout) view.findViewById(R.id.cameraPreview);
-        preview.addView(textureView);
-
-        ImageButton button = (ImageButton) view.findViewById(R.id.buttonCapture);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                camera.takePicture(null, null, pictureCallback);
-            }
-        });
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
 
@@ -104,6 +87,21 @@ public class SelfieFragment extends Fragment implements TextureView.SurfaceTextu
             ImageButton button = (ImageButton) getView().findViewById(R.id.buttonCapture);
             button.setVisibility(View.INVISIBLE);
         }
+        else {
+            textureView = new TextureView(getActivity());
+            textureView.setSurfaceTextureListener(this);
+
+            preview = (FrameLayout) getView().findViewById(R.id.cameraPreview);
+            preview.addView(textureView);
+
+            ImageButton button = (ImageButton) getView().findViewById(R.id.buttonCapture);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    camera.takePicture(null, null, pictureCallback);
+                }
+            });
+        }
     }
 
     @Override
@@ -113,6 +111,10 @@ public class SelfieFragment extends Fragment implements TextureView.SurfaceTextu
             camera.stopPreview();
             camera.setPreviewCallback(null);
             camera.release();
+            camera = null;
+        }
+        if (preview != null) {
+            preview.removeView(textureView);
         }
     }
 
@@ -299,7 +301,6 @@ public class SelfieFragment extends Fragment implements TextureView.SurfaceTextu
 
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.main_container, newFragment);
-            transaction.addToBackStack(null);
             transaction.commit();
         }
     }
