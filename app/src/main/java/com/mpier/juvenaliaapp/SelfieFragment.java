@@ -10,7 +10,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.SurfaceTexture;
 import android.graphics.Typeface;
 import android.hardware.Camera;
 import android.os.Bundle;
@@ -21,7 +20,6 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -38,12 +36,12 @@ import java.util.Date;
 
 
 @SuppressWarnings("deprecation")
-public class SelfieFragment extends Fragment implements TextureView.SurfaceTextureListener {
+public class SelfieFragment extends Fragment {
     private static String TAG = SelfieFragment.class.getName();
     private Camera camera;
     private Camera.PictureCallback pictureCallback;
-    private FrameLayout preview;
-    private TextureView textureView;
+    private FrameLayout previewFrame;
+    private CameraPreview cameraPreview;
 
     public SelfieFragment() {
         pictureCallback = new SelfiePictureCallback();
@@ -88,11 +86,10 @@ public class SelfieFragment extends Fragment implements TextureView.SurfaceTextu
             button.setVisibility(View.INVISIBLE);
         }
         else {
-            textureView = new TextureView(getActivity());
-            textureView.setSurfaceTextureListener(this);
+            cameraPreview = new CameraPreview(getActivity(), camera);
 
-            preview = (FrameLayout) getView().findViewById(R.id.cameraPreview);
-            preview.addView(textureView);
+            previewFrame = (FrameLayout) getView().findViewById(R.id.cameraPreview);
+            previewFrame.addView(cameraPreview);
 
             ImageButton button = (ImageButton) getView().findViewById(R.id.buttonCapture);
             button.setOnClickListener(new View.OnClickListener() {
@@ -113,8 +110,8 @@ public class SelfieFragment extends Fragment implements TextureView.SurfaceTextu
             camera.release();
             camera = null;
         }
-        if (preview != null) {
-            preview.removeView(textureView);
+        if (previewFrame != null) {
+            previewFrame.removeView(cameraPreview);
         }
     }
 
@@ -153,37 +150,6 @@ public class SelfieFragment extends Fragment implements TextureView.SurfaceTextu
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_selfie, container, false);
-    }
-
-    @Override
-    public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
-
-        try {
-            camera.setDisplayOrientation(90);
-
-            /*Matrix matrix = new Matrix();
-            matrix.setScale(-1, 1);
-            matrix.postTranslate(width, 0);
-            mTextureView.setTransform(matrix);*/
-
-            camera.setPreviewTexture(surface);
-            camera.startPreview();
-        } catch (IOException e) {
-            Log.d(TAG, "Error setting camera preview: " + e.getMessage());
-        }
-    }
-
-    @Override
-    public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
-    }
-
-    @Override
-    public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
-        return true;
-    }
-
-    @Override
-    public void onSurfaceTextureUpdated(SurfaceTexture surface) {
     }
 
     private class SelfiePictureCallback implements Camera.PictureCallback {
