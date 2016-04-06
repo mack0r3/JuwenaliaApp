@@ -9,7 +9,6 @@
         android:id="@+id/cameraPreview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/buttonCapture"
         android:layout_alignParentTop="true" />
 
     <ImageButton
