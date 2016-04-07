@@ -19,7 +19,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -39,6 +41,7 @@ import java.util.Date;
 public class SelfieFragment extends Fragment {
     private static String TAG = SelfieFragment.class.getName();
     private Camera camera;
+    private int cameraId;
     private Camera.PictureCallback pictureCallback;
     private FrameLayout previewFrame;
     private CameraPreview cameraPreview;
@@ -76,6 +79,7 @@ public class SelfieFragment extends Fragment {
         super.onResume();
 
         MainActivity mainActivity = (MainActivity) getActivity();
+        mainActivity.getSupportActionBar().hide();
         mainActivity.setActionBarTitle(mainActivity.getString(R.string.selfie_activity_title));
 
         boolean initializationSuccessful = initializeCamera();
@@ -86,10 +90,11 @@ public class SelfieFragment extends Fragment {
             button.setVisibility(View.INVISIBLE);
         }
         else {
-            cameraPreview = new CameraPreview(getActivity(), camera);
+            cameraPreview = new CameraPreview(getActivity(), camera, cameraId);
 
             previewFrame = (FrameLayout) getView().findViewById(R.id.cameraPreview);
-            previewFrame.addView(cameraPreview);
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT, Gravity.CENTER);
+            previewFrame.addView(cameraPreview, params);
 
             ImageButton button = (ImageButton) getView().findViewById(R.id.buttonCapture);
             button.setOnClickListener(new View.OnClickListener() {
@@ -104,6 +109,10 @@ public class SelfieFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+
+        MainActivity mainActivity = (MainActivity) getActivity();
+        mainActivity.getSupportActionBar().show();
+
         if (camera != null) {
             camera.stopPreview();
             camera.setPreviewCallback(null);
@@ -125,16 +134,17 @@ public class SelfieFragment extends Fragment {
 
         try {
             int numberOfCameras = Camera.getNumberOfCameras();
-            int numberOfCameraFacingFront = -1;
+            int idOfCameraFacingFront = -1;
             for (int i = 0; i < numberOfCameras; i++) {
                 Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
                 Camera.getCameraInfo(i, cameraInfo);
                 if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-                    numberOfCameraFacingFront = i;
+                    idOfCameraFacingFront = i;
                 }
             }
-            if (numberOfCameraFacingFront != -1) {
-                camera = Camera.open(numberOfCameraFacingFront);
+            if (idOfCameraFacingFront != -1) {
+                camera = Camera.open(idOfCameraFacingFront);
+                cameraId = idOfCameraFacingFront;
                 opened = (camera != null);
             }
         } catch (Exception e) {
@@ -152,21 +162,53 @@ public class SelfieFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_selfie, container, false);
     }
 
+    private int getCameraDisplayOrientation() {
+        Camera.CameraInfo info = new Camera.CameraInfo();
+        Camera.getCameraInfo(cameraId, info);
+        int rotation = getActivity().getWindowManager().getDefaultDisplay().getRotation();
+        int degrees = 0;
+        switch (rotation) {
+            case Surface.ROTATION_0: degrees = 0; break;
+            case Surface.ROTATION_90: degrees = 90; break;
+            case Surface.ROTATION_180: degrees = 180; break;
+            case Surface.ROTATION_270: degrees = 270; break;
+        }
+
+        int result;
+        if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+            result = (info.orientation + degrees) % 360;
+            result = (360 - result) % 360;  // compensate the mirror
+        } else {  // back-facing
+            result = (info.orientation - degrees + 360) % 360;
+        }
+        return result;
+    }
+
     private class SelfiePictureCallback implements Camera.PictureCallback {
-        private Bitmap rotatedPhotoBitmap;
+        private Bitmap photoBitmap;
 
         @Override
         public void onPictureTaken(byte[] bitmapData, Camera camera) {
-            Bitmap photoBitmap = BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData.length);
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inMutable = true;
+            photoBitmap = BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData.length, options);
 
-            Matrix matrix = new Matrix();
-            matrix.postRotate(-90);
+            int rotation = getCameraDisplayOrientation();
+            if (rotation != 0) {
+                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    rotation += 180;
+                }
+                Matrix matrix = new Matrix();
+                matrix.postRotate(rotation);
+                Bitmap rotated = Bitmap.createBitmap(photoBitmap, 0, 0, photoBitmap.getWidth(), photoBitmap.getHeight(), matrix, true);
+                photoBitmap.recycle();
+                photoBitmap = rotated;
+            }
+            else {
 
-            rotatedPhotoBitmap = Bitmap.createBitmap(photoBitmap, 0, 0, photoBitmap.getWidth(), photoBitmap.getHeight(), matrix, true);
+            }
 
-            photoBitmap.recycle();
-
-            final Canvas canvas = new Canvas(rotatedPhotoBitmap);
+            final Canvas canvas = new Canvas(photoBitmap);
 
             AlertDialog.Builder builder = new AlertDialog.Builder(SelfieFragment.this.getActivity());
             builder.setTitle(R.string.selfie_input_text);
@@ -224,7 +266,7 @@ public class SelfieFragment extends Fragment {
                 backgroundPaint.setColor(Color.WHITE);
                 backgroundPaint.setAlpha(100);
 
-                canvas.drawRect(0, yPos - scaledPx - 5, rotatedPhotoBitmap.getWidth(), yPos + 5, backgroundPaint);
+                canvas.drawRect(0, yPos - scaledPx - 5, photoBitmap.getWidth(), yPos + 5, backgroundPaint);
 
 
                 canvas.drawText(text, xPos, yPos, paint);
@@ -240,7 +282,7 @@ public class SelfieFragment extends Fragment {
             try {
                 FileOutputStream fos = new FileOutputStream(outputFile);
 
-                rotatedPhotoBitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                photoBitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
 
                 fos.close();
             } catch (FileNotFoundException e) {
@@ -251,7 +293,7 @@ public class SelfieFragment extends Fragment {
                 return false;
             }
 
-            rotatedPhotoBitmap.recycle();
+            photoBitmap.recycle();
 
             Toast.makeText(getActivity(), getActivity().getString(R.string.selfie_photo_saved) + outputFile.getPath(), Toast.LENGTH_LONG).show();
 
