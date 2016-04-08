@@ -30,7 +30,7 @@
 
     <string name="selfie_lack_of_front_camera">Twój telefon nie ma przedniego aparatu</string>
     <string name="selfie_activity_title">Juwenaliowe selfie</string>
-    <string name="selfie_input_text">Podaj tekst:</string>
+    <string name="selfie_input_text">Podaj podpis</string>
     <string name="selfie_input_text_confirm">OK</string>
     <string name="selfie_input_tekst_without">Bez tekstu</string>
     <string name="selfie_photo_saved">Zdjęcie zapisane: </string>

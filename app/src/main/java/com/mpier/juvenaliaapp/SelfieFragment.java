@@ -62,7 +62,7 @@ public class SelfieFragment extends Fragment {
         // Create the storage directory if it does not exist
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {
-                Log.d("JuwenaliaPW", "failed to create directory");
+                Log.d(TAG, "failed to create directory");
                 return null;
             }
         }
@@ -71,7 +71,7 @@ public class SelfieFragment extends Fragment {
 
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 
-        return new File(String.format("%s\\IMG_%s.jpg", mediaStorageDir.getPath(), timeStamp));
+        return new File(String.format("%s/IMG_%s.jpg", mediaStorageDir.getPath(), timeStamp));
     }
 
     @Override
@@ -79,7 +79,7 @@ public class SelfieFragment extends Fragment {
         super.onResume();
 
         MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.getSupportActionBar().hide();
+        //mainActivity.getSupportActionBar().hide();
         mainActivity.setActionBarTitle(mainActivity.getString(R.string.selfie_activity_title));
 
         boolean initializationSuccessful = initializeCamera();
@@ -110,8 +110,8 @@ public class SelfieFragment extends Fragment {
     public void onPause() {
         super.onPause();
 
-        MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.getSupportActionBar().show();
+        //MainActivity mainActivity = (MainActivity) getActivity();
+        //mainActivity.getSupportActionBar().show();
 
         if (camera != null) {
             camera.stopPreview();
@@ -204,14 +204,12 @@ public class SelfieFragment extends Fragment {
                 photoBitmap.recycle();
                 photoBitmap = rotated;
             }
-            else {
-
-            }
 
             final Canvas canvas = new Canvas(photoBitmap);
 
             AlertDialog.Builder builder = new AlertDialog.Builder(SelfieFragment.this.getActivity());
             builder.setTitle(R.string.selfie_input_text);
+
             final EditText input = new EditText(SelfieFragment.this.getActivity());
             input.setInputType(InputType.TYPE_CLASS_TEXT);
             input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(25)});
@@ -223,6 +221,8 @@ public class SelfieFragment extends Fragment {
                     String text = input.getText().toString();
 
                     drawTextOnCanvas(canvas, text);
+
+                    drawLogoOnCanvas(canvas);
 
                     File outputFile = getOutputImageFile();
                     boolean saveSuccessful = savePhoto(outputFile);
@@ -236,6 +236,8 @@ public class SelfieFragment extends Fragment {
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.cancel();
 
+                    drawLogoOnCanvas(canvas);
+
                     File outputFile = getOutputImageFile();
                     boolean saveSuccessful = savePhoto(outputFile);
                     if (saveSuccessful) {
@@ -244,7 +246,10 @@ public class SelfieFragment extends Fragment {
                 }
             });
 
-            builder.show();
+            AlertDialog textInputDialog = builder.create();
+            textInputDialog.setCancelable(false);
+            textInputDialog.setCanceledOnTouchOutside(false);
+            textInputDialog.show();
         }
 
         private void drawTextOnCanvas(Canvas canvas, String text) {
@@ -268,9 +273,24 @@ public class SelfieFragment extends Fragment {
 
                 canvas.drawRect(0, yPos - scaledPx - 5, photoBitmap.getWidth(), yPos + 5, backgroundPaint);
 
-
                 canvas.drawText(text, xPos, yPos, paint);
             }
+        }
+
+        private void drawLogoOnCanvas(Canvas canvas) {
+            Bitmap logo = BitmapFactory.decodeResource(getResources(), R.drawable.jacek_selfie);
+            int logoWidth = logo.getWidth();
+            int logoHeight = logo.getHeight();
+            float ratio = logoHeight / logoWidth;
+
+            int logoWidthOnPhoto = canvas.getWidth() / 4;
+            int logoHeightOnPhoto = (int)(logoWidthOnPhoto * ratio);
+
+            Bitmap scaledLogo = Bitmap.createScaledBitmap(logo, logoWidthOnPhoto, logoHeightOnPhoto, true);
+            logo.recycle();
+
+            canvas.drawBitmap(scaledLogo, canvas.getWidth() - logoWidthOnPhoto, canvas.getHeight() - logoHeightOnPhoto, null);
+            scaledLogo.recycle();
         }
 
         private boolean savePhoto(File outputFile) {
