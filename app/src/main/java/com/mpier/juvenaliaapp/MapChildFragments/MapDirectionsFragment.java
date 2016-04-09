@@ -166,8 +166,8 @@ public class MapDirectionsFragment extends Fragment implements OnMapReadyCallbac
 
         // Main marker
         Marker marker = mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(52.2212022, 21.007445))
-                .title("Politechnika Warszawska"));
+                .position(new LatLng(52.21293, 21.01146))
+                .title("Stadion Syrenka"));
         boundsBuilder.include(marker.getPosition());
 
         // User location (if location is enabled)
