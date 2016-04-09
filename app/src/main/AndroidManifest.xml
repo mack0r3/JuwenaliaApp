@@ -34,8 +34,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AttractionsActivity" />
-        <activity android:name=".AttractionDescriptionActivity" />
         <activity android:name=".ContestActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

@@ -35,7 +35,7 @@ public class CustomAdapter extends ArrayAdapter {
         attractionName.setText(attractions[position].getAttrName());
         convertView.findViewById(R.id.attractionRowImage).setBackgroundResource(attractions[position].getAttrImgRes());
         Drawable background = convertView.findViewById(R.id.attractionRowImage).getBackground();
-        background.setAlpha(50);
+        background.setAlpha(0);
 
         return convertView;
     }
