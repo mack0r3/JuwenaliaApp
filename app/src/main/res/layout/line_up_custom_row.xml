@@ -20,11 +20,11 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Bomba Kaloryczna"
                 android:textColor="#FFFFFF"
-                android:textSize="30sp"
+                android:textSize="26sp"
                 android:fontFamily="sans-serif-light"
                 android:id="@+id/event_name"
                 android:paddingTop="100dp"
-                android:paddingRight="6dp"
+                android:paddingRight="10dp"
                 android:paddingBottom="0dp"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"/>

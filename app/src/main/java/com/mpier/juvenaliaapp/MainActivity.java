@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.facebook.login.LoginResult;
+import com.mpier.juvenaliaapp.LineUp.LineUpFragment;
 
 public class MainActivity extends AppCompatActivity implements FacebookLoginFragment.LoginResultListener, GoogleSigninFragment.LoginResultListener {
 
@@ -51,8 +52,9 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
                         startActivity(intent);
                         break;
                     case R.id.menu_line_up:
-                        intent = new Intent(getApplicationContext(), LineUpActivity.class);
-                        startActivity(intent);
+                        FragmentTransaction lineUpTransaction = getSupportFragmentManager().beginTransaction();
+                        lineUpTransaction.replace(R.id.main_container, new LineUpFragment());
+                        lineUpTransaction.commit();
                         break;
                     case R.id.menu_selfie: {
                         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
