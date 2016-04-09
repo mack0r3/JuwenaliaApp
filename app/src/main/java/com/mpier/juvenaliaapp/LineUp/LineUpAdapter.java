@@ -1,4 +1,4 @@
-package com.mpier.juvenaliaapp.LineUpActivityTools;
+package com.mpier.juvenaliaapp.LineUp;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -11,27 +11,29 @@ import android.widget.TextView;
 
 import com.mpier.juvenaliaapp.R;
 
+import java.util.ArrayList;
+
 /**
  * Created by Selve on 16.02.2016.
  */
 public class LineUpAdapter extends BaseAdapter {
 
-    Event[] events;
+    ArrayList<Event> events;
     Context context;
 
-    public LineUpAdapter(Context context, Event[] events) {
+    public LineUpAdapter(Context context, ArrayList<Event> events) {
         this.context = context;
         this.events = events;
     }
 
     @Override
     public int getCount() {
-        return events.length;
+        return events.size();
     }
 
     @Override
     public Event getItem(int position) {
-        return events[position];
+        return events.get(position);
     }
 
     @Override
@@ -44,7 +46,7 @@ public class LineUpAdapter extends BaseAdapter {
         LayoutInflater myInflater = LayoutInflater.from(context);
         View customView;
 
-        if(convertView == null) {
+        if (convertView == null) {
             customView = myInflater.inflate(R.layout.line_up_custom_row, parent, false);
         } else {
             customView = convertView;

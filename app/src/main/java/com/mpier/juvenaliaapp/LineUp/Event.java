@@ -1,8 +1,5 @@
-package com.mpier.juvenaliaapp.LineUpActivityTools;
+package com.mpier.juvenaliaapp.LineUp;
 
-/**
- * Created by Selve on 16.02.2016.
- */
 public class Event {
 
     private String time;
