@@ -9,7 +9,7 @@ import java.util.List;
 
 public class PagerAdapter extends FragmentPagerAdapter {
 
-    List<EventsFragment> fragmentsList = new ArrayList<>();
+    private List<EventsFragment> fragmentsList = new ArrayList<EventsFragment>();
 
     public PagerAdapter(FragmentManager fm, List<EventsFragment> fragmentsList) {
         super(fm);

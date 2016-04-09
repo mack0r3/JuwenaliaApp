@@ -14,8 +14,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@color/backgroundColor</item>
         <item name="android:textColor">#FFFFFF</item>
-        <item name="android:padding">14dp</item>
+        <item name="android:padding">10dp</item>
         <item name="android:textSize">20sp</item>
     </style>
-
 </resources>
