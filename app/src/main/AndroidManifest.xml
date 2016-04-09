@@ -53,7 +53,6 @@
             android:authorities="com.facebook.app.FacebookContentProvider1145685298775474"
             android:exported="true" />
 
-        </activity>
         <activity android:name="com.facebook.FacebookActivity"
             android:configChanges=
                 "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
