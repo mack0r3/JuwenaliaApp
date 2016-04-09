@@ -16,6 +16,7 @@ import android.view.View;
 
 import com.facebook.login.LoginResult;
 import com.mpier.juvenaliaapp.LineUp.LineUpFragment;
+import com.mpier.juvenaliaapp.selfie.SelfieFragment;
 
 public class MainActivity extends AppCompatActivity implements FacebookLoginFragment.LoginResultListener, GoogleSigninFragment.LoginResultListener {
 

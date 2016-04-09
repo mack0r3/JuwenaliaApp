@@ -1,4 +1,4 @@
-package com.mpier.juvenaliaapp;
+package com.mpier.juvenaliaapp.selfie;
 
 import android.app.Activity;
 import android.content.res.Configuration;

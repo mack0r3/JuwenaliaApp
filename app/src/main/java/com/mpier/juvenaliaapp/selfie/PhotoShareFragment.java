@@ -1,4 +1,4 @@
-package com.mpier.juvenaliaapp;
+package com.mpier.juvenaliaapp.selfie;
 
 
 import android.app.Activity;
@@ -18,6 +18,8 @@ import com.facebook.FacebookSdk;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
+import com.mpier.juvenaliaapp.MainActivity;
+import com.mpier.juvenaliaapp.R;
 
 import java.io.File;
 

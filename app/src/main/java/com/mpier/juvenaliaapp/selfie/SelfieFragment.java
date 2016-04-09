@@ -1,4 +1,4 @@
-package com.mpier.juvenaliaapp;
+package com.mpier.juvenaliaapp.selfie;
 
 
 import android.app.AlertDialog;
@@ -28,6 +28,9 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import com.mpier.juvenaliaapp.MainActivity;
+import com.mpier.juvenaliaapp.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;
