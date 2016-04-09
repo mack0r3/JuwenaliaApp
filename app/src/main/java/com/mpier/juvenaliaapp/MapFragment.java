@@ -130,7 +130,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         // Creating marker
         marker = mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(52.21293, 21.01146))
-                .title("Stadion Syrenka"));
+                .title(getString(R.string.map_marker_stadium)));
 
         // Switching between Marker and overlay display
         mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
