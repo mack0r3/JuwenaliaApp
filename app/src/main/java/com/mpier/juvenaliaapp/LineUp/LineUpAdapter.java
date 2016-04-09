@@ -18,8 +18,8 @@ import java.util.ArrayList;
  */
 public class LineUpAdapter extends BaseAdapter {
 
-    ArrayList<Event> events;
-    Context context;
+    private ArrayList<Event> events = new ArrayList<Event>();
+    private Context context;
 
     public LineUpAdapter(Context context, ArrayList<Event> events) {
         this.context = context;

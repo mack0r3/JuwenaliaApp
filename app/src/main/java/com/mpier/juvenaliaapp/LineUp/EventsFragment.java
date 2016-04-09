@@ -18,18 +18,26 @@ import java.util.ArrayList;
 public class EventsFragment extends Fragment {
 
     private String day;
-    private ArrayList<Event> events;
+    private ArrayList<Event> events = new ArrayList<Event>();
+    private View inflatedView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View inflatedView = inflater.inflate(R.layout.fragment_events, container, false);
+        inflatedView = inflater.inflate(R.layout.fragment_events, container, false);
 
-        LineUpAdapter eventAdapter = new LineUpAdapter(this.getContext(), events);
-        ListView listView = (ListView) inflatedView.findViewById(R.id.events_list_view);
-        listView.setAdapter(eventAdapter);
-        ListUtils.setDynamicHeight(listView);
+        if(savedInstanceState != null) {
+            events = (ArrayList<Event>) savedInstanceState.getSerializable("events");
+        }
+
+        setListView();
 
         return inflatedView;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("events", events);
     }
 
     public void setFragment(String day, ArrayList<Event> events) {
@@ -39,6 +47,13 @@ public class EventsFragment extends Fragment {
 
     public String getDay() {
         return this.day;
+    }
+
+    private void setListView() {
+        LineUpAdapter eventAdapter = new LineUpAdapter(this.getContext(), events);
+        ListView listView = (ListView) inflatedView.findViewById(R.id.events_list_view);
+        listView.setAdapter(eventAdapter);
+        ListUtils.setDynamicHeight(listView);
     }
 
     public static class ListUtils {
