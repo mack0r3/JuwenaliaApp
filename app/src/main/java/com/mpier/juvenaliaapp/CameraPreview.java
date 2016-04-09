@@ -30,8 +30,6 @@ public class CameraPreview extends TextureView implements TextureView.SurfaceTex
 
         setSurfaceTextureListener(this);
         supportedPreviewSizes = camera.getParameters().getSupportedPreviewSizes();
-        for (Camera.Size str : supportedPreviewSizes)
-            Log.e(TAG, str.width + "/" + str.height);
     }
 
     private void setCameraDisplayOrientation() {

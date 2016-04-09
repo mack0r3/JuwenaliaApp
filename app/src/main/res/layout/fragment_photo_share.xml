@@ -1,35 +1,45 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    tools:context="com.mpier.juvenaliaapp.SelfieFragment">
+    tools:context="com.mpier.juvenaliaapp.SelfieFragment" >
 
 
     <ImageView
         android:id="@+id/photoToShareView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:clickable="true" />
 
     <RelativeLayout
         android:id="@+id/shareButtonsLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="#50ffffff">
+        android:layout_gravity="center_horizontal|bottom"
+        android:background="@color/bright_foreground_disabled_material_dark"
+        android:clickable="true">
+
+        <ImageButton
+            android:id="@+id/fullscreenImage"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:src="@drawable/ic_fullscreen_black_36dp" />
 
         <TextView
             android:id="@+id/shareToTextView"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentLeft="false"
             android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/fullscreenImage"
+            android:layout_toEndOf="@+id/fullscreenImage"
             android:layout_toLeftOf="@+id/facebookShareButton"
             android:layout_toStartOf="@+id/facebookShareButton"
-            android:gravity="right"
+            android:gravity="end"
             android:text="@string/selfie_share_share_to"
             android:textColor="@android:color/primary_text_light" />
 
@@ -59,6 +69,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_share_black_36dp" />
+
     </RelativeLayout>
 
-</RelativeLayout>
+</FrameLayout>

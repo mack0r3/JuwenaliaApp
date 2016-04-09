@@ -80,7 +80,7 @@ public class SelfieFragment extends Fragment {
 
         MainActivity mainActivity = (MainActivity) getActivity();
         //mainActivity.getSupportActionBar().hide();
-        mainActivity.setActionBarTitle(mainActivity.getString(R.string.selfie_activity_title));
+        //mainActivity.setActionBarTitle(mainActivity.getString(R.string.selfie_activity_title));
 
         boolean initializationSuccessful = initializeCamera();
 

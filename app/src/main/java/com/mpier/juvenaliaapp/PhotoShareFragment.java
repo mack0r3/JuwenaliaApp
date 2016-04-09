@@ -21,8 +21,11 @@ import com.facebook.share.widget.ShareDialog;
 
 import java.io.File;
 
-public class PhotoShareFragment extends Fragment {
+public class PhotoShareFragment extends Fragment implements View.OnClickListener {
+    private static String TAG = PhotoShareFragment.class.getName();
     private Uri photoUri;
+    private boolean uiShown;
+
 
     public PhotoShareFragment() {
 
@@ -37,11 +40,34 @@ public class PhotoShareFragment extends Fragment {
     }
 
     @Override
+    public void onClick(View v) {
+        if (uiShown) {
+            hideSystemUI();
+            uiShown = false;
+        }
+        else {
+            showSystemUI();
+            uiShown = true;
+        }
+    }
+
+    private void hideSystemUI() {
+        MainActivity mainActivity = (MainActivity) getActivity();
+        mainActivity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+    }
+
+    private void showSystemUI() {
+        MainActivity mainActivity = (MainActivity) getActivity();
+        mainActivity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
 
-        MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.setActionBarTitle(mainActivity.getString(R.string.selfie_share_activity_title));
+        final MainActivity mainActivity = (MainActivity) getActivity();
+        //mainActivity.setActionBarTitle(mainActivity.getString(R.string.selfie_share_activity_title));
 
 
         ImageView photoToShareView = (ImageView) getView().findViewById(R.id.photoToShareView);
@@ -51,6 +77,33 @@ public class PhotoShareFragment extends Fragment {
         photoUri = Uri.fromFile(photoFile);
 
         photoToShareView.setImageURI(photoUri);
+        photoToShareView.setClickable(true);
+        photoToShareView.setOnClickListener(this);
+
+        uiShown = true;
+
+        View decorView = getActivity().getWindow().getDecorView();
+        decorView.setOnSystemUiVisibilityChangeListener
+                (new View.OnSystemUiVisibilityChangeListener() {
+                    @Override
+                    public void onSystemUiVisibilityChange(int visibility) {
+                        if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
+                            mainActivity.getSupportActionBar().show();
+
+                            View shareButtonsView = getView().findViewById(R.id.shareButtonsLayout);
+                            shareButtonsView.setVisibility(View.VISIBLE);
+                            shareButtonsView.bringToFront();
+                        } else {
+                            mainActivity.getSupportActionBar().hide();
+
+                            getView().findViewById(R.id.shareButtonsLayout).setVisibility(View.INVISIBLE);
+                        }
+                    }
+                });
+
+
+        ImageButton fullscreen = (ImageButton) getView().findViewById(R.id.fullscreenImage);
+        fullscreen.setOnClickListener(this);
 
         ImageButton facebookShareButton = (ImageButton) getView().findViewById(R.id.facebookShareButton);
         facebookShareButton.setOnClickListener(new FacebookShareHandler());
