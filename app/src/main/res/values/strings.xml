@@ -41,9 +41,11 @@
     <string name="selfie_share_choose_app">Wybierz aplikację</string>
     <string name="selfie_share_share_to">Udostępnij na:</string>
 
-<!-- TODO: Remove or change this placeholder text -->
+
+	<!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="location">Lokalizacja</string>
 
+    <string name="map_marker_stadium">Stadion Syrenka</string>
 
 </resources>
