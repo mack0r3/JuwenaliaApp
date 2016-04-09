@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,12 +45,12 @@ public class PhotoShareFragment extends Fragment implements View.OnClickListener
     @Override
     public void onClick(View v) {
         if (uiShown) {
-            hideSystemUI();
             uiShown = false;
+            hideSystemUI();
         }
         else {
-            showSystemUI();
             uiShown = true;
+            showSystemUI();
         }
     }
 
@@ -70,7 +71,6 @@ public class PhotoShareFragment extends Fragment implements View.OnClickListener
 
         final MainActivity mainActivity = (MainActivity) getActivity();
         //mainActivity.setActionBarTitle(mainActivity.getString(R.string.selfie_share_activity_title));
-
 
         ImageView photoToShareView = (ImageView) getView().findViewById(R.id.photoToShareView);
 
@@ -95,10 +95,16 @@ public class PhotoShareFragment extends Fragment implements View.OnClickListener
                             View shareButtonsView = getView().findViewById(R.id.shareButtonsLayout);
                             shareButtonsView.setVisibility(View.VISIBLE);
                             shareButtonsView.bringToFront();
+
+                            DrawerLayout drawerLayout = (DrawerLayout)mainActivity.findViewById(R.id.drawer_layout);
+                            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                         } else {
                             mainActivity.getSupportActionBar().hide();
 
                             getView().findViewById(R.id.shareButtonsLayout).setVisibility(View.INVISIBLE);
+
+                            DrawerLayout drawerLayout = (DrawerLayout)mainActivity.findViewById(R.id.drawer_layout);
+                            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
                         }
                     }
                 });
