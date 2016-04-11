@@ -1,7 +1,6 @@
 package com.mpier.juvenaliaapp.selfie;
 
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -16,6 +15,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.util.Log;
@@ -210,15 +210,17 @@ public class SelfieFragment extends Fragment {
 
             final Canvas canvas = new Canvas(photoBitmap);
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(SelfieFragment.this.getActivity());
-            builder.setTitle(R.string.selfie_input_text);
+            AlertDialog.Builder builder = new AlertDialog.Builder(SelfieFragment.this.getActivity(), R.style.AppTheme_AlertDialog);
+            builder.setTitle(R.string.selfie_input_title);
+            builder.setMessage(getActivity().getString(R.string.selfie_input_message));
 
-            final EditText input = new EditText(SelfieFragment.this.getActivity());
+            final EditText input = new EditText(builder.getContext());
             input.setInputType(InputType.TYPE_CLASS_TEXT);
             input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(25)});
+
             builder.setView(input);
 
-            builder.setPositiveButton(R.string.selfie_input_text_confirm, new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(R.string.selfie_input_confirm, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     String text = input.getText().toString();
@@ -234,7 +236,7 @@ public class SelfieFragment extends Fragment {
                     }
                 }
             });
-            builder.setNegativeButton(R.string.selfie_input_tekst_without, new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(R.string.selfie_input_without, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.cancel();

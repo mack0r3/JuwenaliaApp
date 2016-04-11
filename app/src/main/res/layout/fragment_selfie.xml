@@ -9,15 +9,16 @@
         android:id="@+id/cameraPreview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        android:background="@color/foreground_material_light" />
 
-    <ImageButton
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/buttonCapture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/ic_camera_alt_black_36dp" />
+        android:src="@drawable/ic_camera_alt_white_36dp" />
 
 
 </RelativeLayout>

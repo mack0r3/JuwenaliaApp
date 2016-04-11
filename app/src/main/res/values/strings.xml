@@ -21,16 +21,18 @@
 
     <string name="selfie_lack_of_front_camera">Twój telefon nie ma przedniego aparatu</string>
     <string name="selfie_activity_title">Juwenaliowe selfie</string>
-    <string name="selfie_input_text">Podaj podpis</string>
-    <string name="selfie_input_text_confirm">OK</string>
-    <string name="selfie_input_tekst_without">Bez tekstu</string>
+    <string name="selfie_input_title">Podaj podpis</string>
+    <string name="selfie_input_message">Możesz podać tekst, który będzie napisany na środku zdjęcia</string>
+    <string name="selfie_input_confirm">OK</string>
+    <string name="selfie_input_without">Bez podpisu</string>
     <string name="selfie_photo_saved">Zdjęcie zapisane: </string>
 
     <string name="selfie_share_activity_title">Udostępnij zdjęcie</string>
     <string name="selfie_share_facebook_app_not_installed">Aplikacja Facebook nie jest zainstalowana</string>
     <string name="selfie_share_instagram_app_not_installed">Aplikacja Instagram nie jest zainstalowana</string>
     <string name="selfie_share_choose_app">Wybierz aplikację</string>
-    <string name="selfie_share_share_to">Udostępnij na:</string>
+    <string name="selfie_share_share_to">Udostępnij:</string>
+    <string name="selfie_share_fullscreen">Pełny ekran</string>
 
 
 	<!-- TODO: Remove or change this placeholder text -->

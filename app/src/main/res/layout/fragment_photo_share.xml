@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    tools:context=".selfie.SelfieFragment" >
+    tools:context=".selfie.SelfieFragment"
+    android:background="@color/primary_dark_material_dark">
 
 
     <ImageView
@@ -11,65 +12,68 @@
         android:layout_height="match_parent"
         android:clickable="true" />
 
-    <RelativeLayout
-        android:id="@+id/shareButtonsLayout"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
+        android:gravity="center_vertical|center_horizontal"
         android:layout_gravity="center_horizontal|bottom"
-        android:background="@color/bright_foreground_disabled_material_dark"
+        android:id="@+id/shareButtonsLayout"
+        android:background="@android:color/white"
         android:clickable="true">
 
-        <ImageButton
-            android:id="@+id/fullscreenImage"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:src="@drawable/ic_fullscreen_black_36dp" />
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/shareToTextView"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="false"
-            android:layout_alignParentLeft="false"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/fullscreenImage"
-            android:layout_toEndOf="@+id/fullscreenImage"
-            android:layout_toLeftOf="@+id/facebookShareButton"
-            android:layout_toStartOf="@+id/facebookShareButton"
-            android:gravity="end"
+            android:gravity="end|right"
             android:text="@string/selfie_share_share_to"
             android:textColor="@android:color/primary_text_light" />
+
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/facebookShareButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/instagramShareButton"
-            android:layout_toStartOf="@+id/instagramShareButton"
-            android:src="@drawable/ic_facebook_box_black_36dp" />
+            android:src="@drawable/ic_facebook_box_black_36dp"
+            android:background="?attr/selectableItemBackground" />
+
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/instagramShareButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/customShareButton"
-            android:layout_toStartOf="@+id/customShareButton"
-            android:src="@drawable/ic_instagram_black_36dp" />
+            android:src="@drawable/ic_instagram_black_36dp"
+            android:background="?attr/selectableItemBackground" />
+
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/customShareButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_share_black_36dp" />
+            android:src="@drawable/ic_share_black_36dp"
+            android:background="?attr/selectableItemBackground" />
 
-    </RelativeLayout>
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
 
 </FrameLayout>

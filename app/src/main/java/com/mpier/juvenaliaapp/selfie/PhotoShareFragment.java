@@ -6,9 +6,13 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -34,6 +38,13 @@ public class PhotoShareFragment extends Fragment implements View.OnClickListener
 
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setHasOptionsMenu(true);
+    }
+
     @SuppressWarnings("deprecation")
     @Override
     public void onAttach(Activity activity) {
@@ -44,6 +55,10 @@ public class PhotoShareFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
+        toggleSystemUI();
+    }
+
+    private void toggleSystemUI() {
         if (uiShown) {
             uiShown = false;
             hideSystemUI();
@@ -112,9 +127,6 @@ public class PhotoShareFragment extends Fragment implements View.OnClickListener
                 });
 
 
-        ImageButton fullscreen = (ImageButton) getView().findViewById(R.id.fullscreenImage);
-        fullscreen.setOnClickListener(this);
-
         ImageButton facebookShareButton = (ImageButton) getView().findViewById(R.id.facebookShareButton);
         facebookShareButton.setOnClickListener(new FacebookShareHandler());
 
@@ -123,6 +135,24 @@ public class PhotoShareFragment extends Fragment implements View.OnClickListener
 
         ImageButton customShareButton = (ImageButton) getView().findViewById(R.id.customShareButton);
         customShareButton.setOnClickListener(new CustomShareHandler());
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_fullscreen:
+                toggleSystemUI();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.photo_share_menu, menu);
     }
 
     @Override

@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
                 switch(item.getItemId())
                 {
                     case R.id.menu_attractions:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new AttractionsFragment()).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new com.mpier.juvenaliaapp.AttractionsFragment()).commit();
                         break;
                     case R.id.menu_line_up:
                         FragmentTransaction lineUpTransaction = getSupportFragmentManager().beginTransaction();
