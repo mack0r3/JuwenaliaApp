@@ -49,17 +49,26 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
                 switch(item.getItemId())
                 {
                     case R.id.menu_attractions:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.main_container, new com.mpier.juvenaliaapp.AttractionsFragment()).commit();
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.main_container, new com.mpier.juvenaliaapp.AttractionsFragment())
+                                .addToBackStack(null)
+                                .commit();
                         break;
                     case R.id.menu_line_up:
-                        FragmentTransaction lineUpTransaction = getSupportFragmentManager().beginTransaction();
-                        lineUpTransaction.replace(R.id.main_container, new LineUpFragment());
-                        lineUpTransaction.commit();
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.main_container, new LineUpFragment())
+                                .addToBackStack(null)
+                                .commit();
+
                         break;
                     case R.id.menu_selfie: {
-                        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.main_container, new SelfieFragment());
-                        fragmentTransaction.commit();
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.main_container, new SelfieFragment())
+                                .addToBackStack(null)
+                                .commit();
                         break;
                     }
                     case R.id.menu_map: {
@@ -71,7 +80,11 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
                         break;
                     }
                     case R.id.menu_telebim:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.main_container, TelebimFragment.newInstance()).commit();
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.main_container, TelebimFragment.newInstance())
+                                .addToBackStack(null)
+                                .commit();
                         break;
                 }
                 overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
