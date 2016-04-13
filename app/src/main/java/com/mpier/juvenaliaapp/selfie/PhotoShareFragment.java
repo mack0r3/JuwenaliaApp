@@ -87,7 +87,8 @@ public class PhotoShareFragment extends Fragment implements View.OnClickListener
         super.onResume();
 
         final MainActivity mainActivity = (MainActivity) getActivity();
-        //mainActivity.setActionBarTitle(mainActivity.getString(R.string.selfie_share_activity_title));
+        DrawerLayout drawerLayout = (DrawerLayout)mainActivity.findViewById(R.id.drawer_layout);
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
 
         ImageView photoToShareView = (ImageView) getView().findViewById(R.id.photoToShareView);
 

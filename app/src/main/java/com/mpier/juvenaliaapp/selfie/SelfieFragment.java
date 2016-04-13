@@ -91,8 +91,7 @@ public class SelfieFragment extends Fragment {
             Toast.makeText(getActivity(), R.string.selfie_lack_of_front_camera, Toast.LENGTH_LONG).show();
             ImageButton button = (ImageButton) getView().findViewById(R.id.buttonCapture);
             button.setVisibility(View.INVISIBLE);
-        }
-        else {
+        } else {
             cameraPreview = new CameraPreview(getActivity(), camera, cameraId);
 
             previewFrame = (FrameLayout) getView().findViewById(R.id.cameraPreview);
@@ -171,10 +170,18 @@ public class SelfieFragment extends Fragment {
         int rotation = getActivity().getWindowManager().getDefaultDisplay().getRotation();
         int degrees = 0;
         switch (rotation) {
-            case Surface.ROTATION_0: degrees = 0; break;
-            case Surface.ROTATION_90: degrees = 90; break;
-            case Surface.ROTATION_180: degrees = 180; break;
-            case Surface.ROTATION_270: degrees = 270; break;
+            case Surface.ROTATION_0:
+                degrees = 0;
+                break;
+            case Surface.ROTATION_90:
+                degrees = 90;
+                break;
+            case Surface.ROTATION_180:
+                degrees = 180;
+                break;
+            case Surface.ROTATION_270:
+                degrees = 270;
+                break;
         }
 
         int result;
@@ -196,17 +203,19 @@ public class SelfieFragment extends Fragment {
             options.inMutable = true;
             photoBitmap = BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData.length, options);
 
+            Matrix matrix = new Matrix();
             int rotation = getCameraDisplayOrientation();
             if (rotation != 0) {
                 if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
                     rotation += 180;
                 }
-                Matrix matrix = new Matrix();
                 matrix.postRotate(rotation);
-                Bitmap rotated = Bitmap.createBitmap(photoBitmap, 0, 0, photoBitmap.getWidth(), photoBitmap.getHeight(), matrix, true);
-                photoBitmap.recycle();
-                photoBitmap = rotated;
             }
+            matrix.postScale(-1, 1);
+            Bitmap rotated = Bitmap.createBitmap(photoBitmap, 0, 0, photoBitmap.getWidth(), photoBitmap.getHeight(), matrix, true);
+            photoBitmap.recycle();
+            photoBitmap = rotated;
+
 
             final Canvas canvas = new Canvas(photoBitmap);
 
@@ -289,7 +298,7 @@ public class SelfieFragment extends Fragment {
             float ratio = logoHeight / logoWidth;
 
             int logoWidthOnPhoto = canvas.getWidth() / 4;
-            int logoHeightOnPhoto = (int)(logoWidthOnPhoto * ratio);
+            int logoHeightOnPhoto = (int) (logoWidthOnPhoto * ratio);
 
             Bitmap scaledLogo = Bitmap.createScaledBitmap(logo, logoWidthOnPhoto, logoHeightOnPhoto, true);
             logo.recycle();
