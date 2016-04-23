@@ -285,7 +285,7 @@ public class SelfieFragment extends Fragment {
                 backgroundPaint.setColor(Color.WHITE);
                 backgroundPaint.setAlpha(100);
 
-                canvas.drawRect(0, yPos - scaledPx - 5, photoBitmap.getWidth(), yPos + 5, backgroundPaint);
+                canvas.drawRect(0, yPos - 1.25f * scaledPx, photoBitmap.getWidth(), yPos + 0.25f * scaledPx, backgroundPaint);
 
                 canvas.drawText(text, xPos, yPos, paint);
             }
