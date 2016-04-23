@@ -1,4 +1,4 @@
-package com.mpier.juvenaliaapp.AttractionsActivityTools;
+package com.mpier.juvenaliaapp.Attractions;
 
 /**
  * Created by Korzonkie on 2016-02-15.

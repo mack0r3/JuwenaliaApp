@@ -1,11 +1,8 @@
-package com.mpier.juvenaliaapp;
+package com.mpier.juvenaliaapp.Attractions;
+import com.mpier.juvenaliaapp.R;
 
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.mpier.juvenaliaapp.AttractionsActivityTools.Attraction;
-import com.mpier.juvenaliaapp.AttractionsActivityTools.CustomAdapter;
+
 
 
 /**

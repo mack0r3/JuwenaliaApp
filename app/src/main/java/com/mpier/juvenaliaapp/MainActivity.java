@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.facebook.login.LoginResult;
+import com.mpier.juvenaliaapp.Attractions.AttractionsFragment;
 import com.mpier.juvenaliaapp.LineUp.LineUpFragment;
 import com.mpier.juvenaliaapp.selfie.SelfieFragment;
 
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
                     case R.id.menu_attractions:
                         getSupportFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.main_container, new com.mpier.juvenaliaapp.AttractionsFragment())
+                                .replace(R.id.main_container, new AttractionsFragment())
                                 .addToBackStack(null)
                                 .commit();
                         break;

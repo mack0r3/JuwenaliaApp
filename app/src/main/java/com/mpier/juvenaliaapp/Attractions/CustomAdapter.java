@@ -1,4 +1,4 @@
-package com.mpier.juvenaliaapp.AttractionsActivityTools;
+package com.mpier.juvenaliaapp.Attractions;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;

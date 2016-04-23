@@ -1,5 +1,5 @@
-package com.mpier.juvenaliaapp;
-
+package com.mpier.juvenaliaapp.Attractions;
+import com.mpier.juvenaliaapp.R;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -32,7 +32,7 @@ public class AttractionDescriptionFragment extends Fragment implements OnMapRead
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        inflatedView = inflater.inflate(R.layout.fragment_attraction_description, container, false);
+        if(inflatedView == null) inflatedView = inflater.inflate(R.layout.fragment_attraction_description, container, false);
 
         String attrName = "";
         String attrDesc = "";
