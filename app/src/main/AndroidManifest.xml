@@ -22,7 +22,7 @@
         android:label="JuwenaliaPW"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:largeHeap="true">
+        android:largeHeap="false">
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
