@@ -38,12 +38,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
  */
 public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    private static final String LOG_TAG = "Juwenalia Map";
     public static final int APP_PERMISSION_ACCESS_FINE_LOCATION = 1;
 
     private GoogleApiClient mGoogleApiClient;
     private GoogleMap mMap;
 
+    private Bitmap overlayBitmap;
     private GroundOverlay overlay;
     private Marker marker;
 
@@ -60,6 +60,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
                     .addApi(LocationServices.API)
                     .build();
         }
+
+        overlayBitmap = decodeMapBitmap();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDetach();
+        overlayBitmap.recycle();
     }
 
     @Override
@@ -84,17 +92,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         mapFragment.getMapAsync(this);
 
         return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (overlay != null) {
-            overlay.remove();
-        }
-        if (marker != null) {
-            marker.remove();
-        }
     }
 
     @Override
@@ -128,17 +125,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         }
 
         // Creating overlay
-        // TODO: Memory leak
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = false;
-        options.inScaled = false;
-        options.outWidth = 2048;
-        options.outHeight = 2048;
-
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.map, options);
-
         GroundOverlayOptions overlayOptions = new GroundOverlayOptions()
-                .image(BitmapDescriptorFactory.fromBitmap(bitmap))
+                .image(BitmapDescriptorFactory.fromBitmap(overlayBitmap))
                 .transparency(0.25f);
 
         LatLng southwest = new LatLng(52.211245, 21.008801);
@@ -158,7 +146,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition cameraPosition) {
-                if (cameraPosition.zoom > 15) {
+                if (cameraPosition.zoom > 15.5) {
                     marker.setVisible(false);
                     overlay.setVisible(true);
                 } else {
@@ -264,6 +252,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
             mMap.moveCamera(cameraUpdate);
         }
 
+    }
+
+    private Bitmap decodeMapBitmap() {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = false;
+        options.inScaled = false;
+        options.outWidth = 2048;
+        options.outHeight = 2048;
+
+        return BitmapFactory.decodeResource(getResources(), R.drawable.map, options);
     }
 
     @Override
