@@ -21,6 +21,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.GroundOverlay;
@@ -43,7 +44,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
     private GoogleApiClient mGoogleApiClient;
     private GoogleMap mMap;
 
-    private Bitmap overlayBitmap;
+    private static BitmapDescriptor overlayBitmapDescriptor;
+
     private GroundOverlay overlay;
     private Marker marker;
 
@@ -60,14 +62,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
                     .addApi(LocationServices.API)
                     .build();
         }
-
-        overlayBitmap = decodeMapBitmap();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDetach();
-        overlayBitmap.recycle();
     }
 
     @Override
@@ -125,8 +119,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         }
 
         // Creating overlay
+        if (overlayBitmapDescriptor == null) {
+            overlayBitmapDescriptor = BitmapDescriptorFactory.fromBitmap(decodeMapBitmap());
+        }
+
         GroundOverlayOptions overlayOptions = new GroundOverlayOptions()
-                .image(BitmapDescriptorFactory.fromBitmap(overlayBitmap))
+                .image(overlayBitmapDescriptor)
                 .transparency(0.25f);
 
         LatLng southwest = new LatLng(52.211245, 21.008801);
@@ -254,6 +252,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
 
     }
 
+    /**
+     * Load map image from resource and decode it
+     * into the non-scaled bitmap in order to display it on the map.
+     *
+     * @return Decoded bitmap
+     */
     private Bitmap decodeMapBitmap() {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = false;
