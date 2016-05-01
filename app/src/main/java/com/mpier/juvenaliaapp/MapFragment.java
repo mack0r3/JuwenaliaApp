@@ -1,15 +1,14 @@
 package com.mpier.juvenaliaapp;
 
 import android.Manifest;
-import android.app.ActivityManager;
-import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -129,24 +128,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         }
 
         // Creating overlay
-        GroundOverlayOptions overlayOptions;
-        try {
-            if (isDeviceLowMemory()) {
-                throw new OutOfMemoryError();
-            }
+        // TODO: Memory leak
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = false;
+        options.inScaled = false;
+        options.outWidth = 2048;
+        options.outHeight = 2048;
 
-            overlayOptions = new GroundOverlayOptions()
-                    .image(BitmapDescriptorFactory.fromResource(R.drawable.map))
-                    .transparency(0.25f);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.map, options);
 
-            Log.i(LOG_TAG, "Loaded normal map");
-        } catch (OutOfMemoryError e) {
-            overlayOptions = new GroundOverlayOptions()
-                    .image(BitmapDescriptorFactory.fromResource(R.drawable.map_lowmemory))
-                    .transparency(0.25f);
-
-            Log.i(LOG_TAG, "Loaded low-memory map");
-        }
+        GroundOverlayOptions overlayOptions = new GroundOverlayOptions()
+                .image(BitmapDescriptorFactory.fromBitmap(bitmap))
+                .transparency(0.25f);
 
         LatLng southwest = new LatLng(52.211245, 21.008801);
         LatLng northeast = new LatLng(52.214225, 21.013685);
@@ -165,7 +158,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition cameraPosition) {
-                if (cameraPosition.zoom > 16) {
+                if (cameraPosition.zoom > 15) {
                     marker.setVisible(false);
                     overlay.setVisible(true);
                 } else {
@@ -271,19 +264,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
             mMap.moveCamera(cameraUpdate);
         }
 
-    }
-
-    /**
-     * Utility method, used to determine if device is considered low-memory
-     * for this app purpose
-     *
-     * @return True if device has less than approximately 1 GB of total memory
-     */
-    private boolean isDeviceLowMemory() {
-        ActivityManager actManager = (ActivityManager) getContext().getSystemService(Context.ACTIVITY_SERVICE);
-        ActivityManager.MemoryInfo memInfo = new ActivityManager.MemoryInfo();
-        actManager.getMemoryInfo(memInfo);
-        return (memInfo.totalMem / 1000000) < 1000;
     }
 
     @Override
