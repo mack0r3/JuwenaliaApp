@@ -43,6 +43,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
     private GoogleApiClient mGoogleApiClient;
     private GoogleMap mMap;
 
+    private Bitmap overlayBitmap;
     private GroundOverlay overlay;
     private Marker marker;
 
@@ -59,6 +60,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
                     .addApi(LocationServices.API)
                     .build();
         }
+
+        overlayBitmap = decodeMapBitmap();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDetach();
+        overlayBitmap.recycle();
     }
 
     @Override
@@ -116,16 +125,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         }
 
         // Creating overlay
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.map);
-
         GroundOverlayOptions overlayOptions = new GroundOverlayOptions()
-                .image(BitmapDescriptorFactory.fromBitmap(bitmap))
+                .image(BitmapDescriptorFactory.fromBitmap(overlayBitmap))
                 .transparency(0.25f);
+
         LatLng southwest = new LatLng(52.211245, 21.008801);
         LatLng northeast = new LatLng(52.214225, 21.013685);
         overlayOptions.positionFromBounds(new LatLngBounds(southwest, northeast));
 
         overlay = mMap.addGroundOverlay(overlayOptions);
+        overlay.setVisible(false);
+        overlay.setVisible(true);
 
         // Creating marker
         marker = mMap.addMarker(new MarkerOptions()
@@ -136,7 +146,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition cameraPosition) {
-                if (cameraPosition.zoom > 16) {
+                if (cameraPosition.zoom > 15.5) {
                     marker.setVisible(false);
                     overlay.setVisible(true);
                 } else {
@@ -242,6 +252,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
             mMap.moveCamera(cameraUpdate);
         }
 
+    }
+
+    private Bitmap decodeMapBitmap() {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = false;
+        options.inScaled = false;
+        options.outWidth = 2048;
+        options.outHeight = 2048;
+
+        return BitmapFactory.decodeResource(getResources(), R.drawable.map, options);
     }
 
     @Override
