@@ -89,42 +89,8 @@ public class SelfieFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-
-        MainActivity mainActivity = (MainActivity) getActivity();
-        //mainActivity.getSupportActionBar().hide();
-        //mainActivity.setActionBarTitle(mainActivity.getString(R.string.selfie_activity_title));
-
-        boolean initializationSuccessful = initializeCamera();
-
-        if (!initializationSuccessful) {
-            Toast.makeText(getActivity(), R.string.selfie_lack_of_front_camera, Toast.LENGTH_LONG).show();
-            ImageButton button = (ImageButton) getView().findViewById(R.id.buttonCapture);
-            button.setVisibility(View.INVISIBLE);
-        } else {
-            cameraPreview = new CameraPreview(getActivity(), camera, cameraId);
-
-            previewFrame = (FrameLayout) getView().findViewById(R.id.cameraPreview);
-            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT, Gravity.CENTER);
-            previewFrame.addView(cameraPreview, params);
-
-            ImageButton button = (ImageButton) getView().findViewById(R.id.buttonCapture);
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    camera.takePicture(null, null, pictureCallback);
-                }
-            });
-        }
-    }
-
-    @Override
     public void onPause() {
         super.onPause();
-
-        //MainActivity mainActivity = (MainActivity) getActivity();
-        //mainActivity.getSupportActionBar().show();
 
         if (camera != null) {
             camera.stopPreview();
@@ -138,9 +104,31 @@ public class SelfieFragment extends Fragment {
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        boolean initializationSuccessful = initializeCamera();
+
+        if (!initializationSuccessful) {
+            return inflater.inflate(R.layout.fragment_selfie_no_camera, container, false);
+        } else {
+            View view = inflater.inflate(R.layout.fragment_selfie, container, false);
+            cameraPreview = new CameraPreview(getActivity(), camera, cameraId);
+
+            previewFrame = (FrameLayout) view.findViewById(R.id.cameraPreview);
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT, Gravity.CENTER);
+            previewFrame.addView(cameraPreview, params);
+
+            ImageButton button = (ImageButton) view.findViewById(R.id.buttonCapture);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    camera.takePicture(null, null, pictureCallback);
+                }
+            });
+            return view;
+        }
     }
+
 
     private boolean initializeCamera() {
         boolean opened = false;
@@ -195,13 +183,6 @@ public class SelfieFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
 
         inflater.inflate(R.menu.selfie_menu, menu);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_selfie, container, false);
     }
 
     private int getCameraDisplayOrientation() {

@@ -19,7 +19,7 @@
 
     <string name="sign_in">Sign in</string>
 
-    <string name="selfie_lack_of_front_camera">Twój telefon nie ma przedniego aparatu</string>
+    <string name="selfie_lack_of_front_camera">Twoje urządzenie nie ma przedniego aparatu</string>
     <string name="selfie_activity_title">Juwenaliowe selfie</string>
     <string name="selfie_input_title">Podaj podpis</string>
     <string name="selfie_input_message">Możesz podać tekst, który będzie napisany na środku zdjęcia</string>
