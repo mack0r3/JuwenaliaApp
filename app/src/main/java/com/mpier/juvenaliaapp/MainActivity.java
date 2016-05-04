@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +25,8 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
     ActionBarDrawerToggle actionBarDrawerToggle;
     NavigationView navigationView;
 
+    boolean isTilesFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,11 +40,13 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
 
         FacebookLoginFragment.newInstance();
 
+        isTilesFragment = true;
+
         navigationView = (NavigationView)findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
-
+                isTilesFragment = false;
                 item.setChecked(true);
                 drawerLayout.closeDrawers();
                 switch(item.getItemId())
@@ -50,14 +55,12 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
                         getSupportFragmentManager()
                                 .beginTransaction()
                                 .replace(R.id.main_container, new AttractionsFragment())
-                                .addToBackStack(null)
                                 .commit();
                         break;
                     case R.id.menu_line_up:
                         getSupportFragmentManager()
                                 .beginTransaction()
                                 .replace(R.id.main_container, new LineUpFragment())
-                                .addToBackStack(null)
                                 .commit();
 
                         break;
@@ -65,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
                         getSupportFragmentManager()
                                 .beginTransaction()
                                 .replace(R.id.main_container, new SelfieFragment())
-                                .addToBackStack(null)
                                 .commit();
                         break;
                     }
@@ -73,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
                         getSupportFragmentManager()
                                 .beginTransaction()
                                 .replace(R.id.main_container, new MapFragment())
-                                .addToBackStack(null)
                                 .commit();
                         break;
                     }
@@ -81,7 +82,6 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
                         getSupportFragmentManager()
                                 .beginTransaction()
                                 .replace(R.id.main_container, TelebimFragment.newInstance())
-                                .addToBackStack(null)
                                 .commit();
                         break;
                 }
@@ -90,10 +90,10 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
                 return false;
             }
         });
-    }
 
-    public void setActionBarTitle(String title) {
-        getSupportActionBar().setTitle(title);
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_container, new TilesFragment());
+        fragmentTransaction.commit();
     }
 
     @Override
@@ -127,5 +127,24 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
         View dialogView = inflater.inflate(R.layout.dialog_login, null);
         builder.setView(dialogView);
         builder.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isTilesFragment) {
+            super.onBackPressed();
+        }
+        else {
+            if (getSupportFragmentManager().getBackStackEntryCount() != 0) {
+                super.onBackPressed();
+            }
+            else {
+                isTilesFragment = true;
+
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.main_container, new TilesFragment());
+                fragmentTransaction.commit();
+            }
+        }
     }
 }
