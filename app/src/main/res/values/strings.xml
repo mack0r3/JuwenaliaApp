@@ -26,6 +26,9 @@
     <string name="selfie_input_confirm">OK</string>
     <string name="selfie_input_without">Bez podpisu</string>
     <string name="selfie_photo_saved">Zdjęcie zapisane: </string>
+    <string name="selfie_info">O funkcji selfie</string>
+    <string name="selfie_info_message">Możesz zrobić sobie selfie z logiem Juwenaliów i własnym podpisem</string>
+    <string name="selfie_info_title">Funkcja selfie</string>
 
     <string name="selfie_share_activity_title">Udostępnij zdjęcie</string>
     <string name="selfie_share_facebook_app_not_installed">Aplikacja Facebook nie jest zainstalowana</string>
