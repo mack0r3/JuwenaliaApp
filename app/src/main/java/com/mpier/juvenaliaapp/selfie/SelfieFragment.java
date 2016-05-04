@@ -70,8 +70,6 @@ public class SelfieFragment extends Fragment {
 
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_DCIM), "JuwenaliaPW");
-        // This location works best if you want the created images to be shared
-        // between applications and persist after your app has been uninstalled.
 
         // Create the storage directory if it does not exist
         if (!mediaStorageDir.exists()) {
@@ -82,7 +80,6 @@ public class SelfieFragment extends Fragment {
         }
 
         // Create a media file name
-
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 
         return new File(String.format("%s/IMG_%s.jpg", mediaStorageDir.getPath(), timeStamp));
@@ -350,7 +347,7 @@ public class SelfieFragment extends Fragment {
 
             photoBitmap.recycle();
 
-            Toast.makeText(getActivity(), getActivity().getString(R.string.selfie_photo_saved) + outputFile.getPath(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getActivity().getString(R.string.selfie_photo_saved), Toast.LENGTH_LONG).show();
 
             return true;
         }

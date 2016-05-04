@@ -25,7 +25,7 @@
     <string name="selfie_input_message">Możesz podać tekst, który będzie napisany na środku zdjęcia</string>
     <string name="selfie_input_confirm">OK</string>
     <string name="selfie_input_without">Bez podpisu</string>
-    <string name="selfie_photo_saved">Zdjęcie zapisane: </string>
+    <string name="selfie_photo_saved">Zdjęcie zapisane</string>
     <string name="selfie_info">O funkcji selfie</string>
     <string name="selfie_info_message">Możesz zrobić sobie selfie z logiem Juwenaliów i własnym podpisem</string>
     <string name="selfie_info_title">Funkcja selfie</string>
