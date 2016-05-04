@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
                 isTilesFragment = false;
                 item.setChecked(true);
                 drawerLayout.closeDrawers();
+                getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 switch(item.getItemId())
                 {
                     case R.id.menu_attractions:
