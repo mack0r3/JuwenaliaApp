@@ -41,7 +41,13 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
 
         FacebookLoginFragment.newInstance();
 
-        isTilesFragment = true;
+        if (savedInstanceState == null) {
+            isTilesFragment = true;
+
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.main_container, new TilesFragment());
+            fragmentTransaction.commit();
+        }
 
         navigationView = (NavigationView)findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -92,10 +98,6 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
                 return false;
             }
         });
-
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.main_container, new TilesFragment());
-        fragmentTransaction.commit();
     }
 
     @Override
