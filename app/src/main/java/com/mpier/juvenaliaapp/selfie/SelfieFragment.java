@@ -1,6 +1,7 @@
 package com.mpier.juvenaliaapp.selfie;
 
 
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -13,6 +14,7 @@ import android.graphics.Typeface;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -325,6 +327,15 @@ public class SelfieFragment extends Fragment {
             scaledLogo.recycle();
         }
 
+        private void addPhotoToGallery(File photoFile) {
+            ContentValues values = new ContentValues();
+            values.put(MediaStore.Images.Media.DATE_TAKEN, photoFile.lastModified());
+            values.put(MediaStore.Images.Media.DATA, "image/jpeg");
+            values.put(MediaStore.MediaColumns.DATA, photoFile.getPath());
+
+            getContext().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        }
+
         private boolean savePhoto(File outputFile) {
             if (outputFile == null) {
                 Log.d(TAG, "Error creating media file, check storage permissions");
@@ -346,6 +357,8 @@ public class SelfieFragment extends Fragment {
             }
 
             photoBitmap.recycle();
+
+            addPhotoToGallery(outputFile);
 
             Toast.makeText(getActivity(), getActivity().getString(R.string.selfie_photo_saved), Toast.LENGTH_LONG).show();
 
