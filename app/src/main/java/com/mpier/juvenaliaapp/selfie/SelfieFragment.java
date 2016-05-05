@@ -312,12 +312,12 @@ public class SelfieFragment extends Fragment {
         }
 
         private void drawLogoOnCanvas(Canvas canvas) {
-            Bitmap logo = BitmapFactory.decodeResource(getResources(), R.drawable.jacek_selfie);
-            int logoWidth = logo.getWidth();
-            int logoHeight = logo.getHeight();
+            Bitmap logo = BitmapFactory.decodeResource(getResources(), R.drawable.logo_selfie);
+            float logoWidth = logo.getWidth();
+            float logoHeight = logo.getHeight();
             float ratio = logoHeight / logoWidth;
 
-            int logoWidthOnPhoto = canvas.getWidth() / 4;
+            int logoWidthOnPhoto = canvas.getWidth() / 3;
             int logoHeightOnPhoto = (int) (logoWidthOnPhoto * ratio);
 
             Bitmap scaledLogo = Bitmap.createScaledBitmap(logo, logoWidthOnPhoto, logoHeightOnPhoto, true);
