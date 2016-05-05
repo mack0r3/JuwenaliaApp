@@ -18,8 +18,13 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/tilesFragmentTileHeight"
-            android:layout_marginBottom="@dimen/tilesMargin"
-            android:background="#006699">
+            android:layout_marginBottom="@dimen/tilesMargin">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:src="@drawable/juwenaliapwlogo"/>
 
         </RelativeLayout>
 
