@@ -7,8 +7,8 @@
     <string name="title_activity_maps">Mapa</string>
 
     <!-- Drawer open icon -->
-    <string name="drawer_open">drawer open</string>
-    <string name="drawer_close">drawer close</string>
+    <string name="drawer_open">Drawer open</string>
+    <string name="drawer_close">Drawer close</string>
 
     <!-- Navigation Drawer Menu Items -->
     <string name="menu_line_up">Line up</string>
@@ -16,6 +16,7 @@
     <string name="menu_map">Mapa</string>
     <string name="menu_attractions">Atrakcje</string>
     <string name="menu_selfie">Selfie</string>
+    <string name="menu_rules">Regulamin</string>
 
     <string name="sign_in">Sign in</string>
 
