@@ -119,7 +119,7 @@ public class PhotoShareFragment extends Fragment implements View.OnClickListener
                         } else {
                             mainActivity.getSupportActionBar().hide();
 
-                            getView().findViewById(R.id.shareButtonsLayout).setVisibility(View.INVISIBLE);
+                            getView().findViewById(R.id.shareButtonsLayout).setVisibility(View.GONE);
 
                             DrawerLayout drawerLayout = (DrawerLayout)mainActivity.findViewById(R.id.drawer_layout);
                             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
