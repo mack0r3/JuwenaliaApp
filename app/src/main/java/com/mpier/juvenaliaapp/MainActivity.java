@@ -92,6 +92,12 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
                                 .replace(R.id.main_container, TelebimFragment.newInstance())
                                 .commit();
                         break;
+                    case R.id.menu_rules: {
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.main_container, new RulesFragment())
+                                .commit();
+                    }
                 }
                 overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
                 item.setChecked(false);
