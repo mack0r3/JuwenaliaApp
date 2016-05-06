@@ -105,12 +105,21 @@ public class SelfieFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_selfie, container, false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
         boolean initializationSuccessful = initializeCamera();
 
         if (!initializationSuccessful) {
-            return inflater.inflate(R.layout.fragment_selfie_no_camera, container, false);
+            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.main_container, new LackOfCameraFragment());
+            fragmentTransaction.commit();
         } else {
-            View view = inflater.inflate(R.layout.fragment_selfie, container, false);
+            View view = getView();
             cameraPreview = new CameraPreview(getActivity(), camera, cameraId);
 
             previewFrame = (FrameLayout) view.findViewById(R.id.cameraPreview);
@@ -124,10 +133,8 @@ public class SelfieFragment extends Fragment {
                     camera.takePicture(null, null, pictureCallback);
                 }
             });
-            return view;
         }
     }
-
 
     private boolean initializeCamera() {
         boolean opened = false;
