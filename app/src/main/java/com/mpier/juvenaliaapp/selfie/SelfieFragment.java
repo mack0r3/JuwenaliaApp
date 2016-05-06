@@ -12,6 +12,8 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.hardware.Camera;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -33,6 +35,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.mpier.juvenaliaapp.MainActivity;
@@ -221,6 +224,101 @@ public class SelfieFragment extends Fragment {
         return result;
     }
 
+    private class SelfieSaver extends AsyncTask<Bitmap, Void, Void> {
+        private boolean saveSuccessful;
+        private File outputFile;
+
+        @Override
+        protected Void doInBackground(Bitmap... params) {
+            Bitmap photoBitmap = params[0];
+
+            final Canvas canvas = new Canvas(photoBitmap);
+
+            drawLogoOnCanvas(canvas);
+
+            outputFile = getOutputImageFile();
+            saveSuccessful = savePhoto(photoBitmap, outputFile);
+
+            photoBitmap.recycle();
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            if (saveSuccessful) {
+                SelfieFragment.this.getView().findViewById(R.id.cameraPreview).setVisibility(View.GONE);
+                ImageView photoView = (ImageView) SelfieFragment.this.getView().findViewById(R.id.photoPreview);
+                photoView.setVisibility(View.VISIBLE);
+                photoView.setImageURI(Uri.fromFile(outputFile));
+
+                addPhotoToGallery(outputFile);
+                Toast.makeText(getActivity(), getActivity().getString(R.string.selfie_photo_saved), Toast.LENGTH_LONG).show();
+                sharePhoto(outputFile);
+            }
+        }
+
+        private void drawLogoOnCanvas(Canvas canvas) {
+            Bitmap logo = BitmapFactory.decodeResource(getResources(), R.drawable.logo_selfie);
+            float logoWidth = logo.getWidth();
+            float logoHeight = logo.getHeight();
+            float ratio = logoHeight / logoWidth;
+
+            int logoWidthOnPhoto = canvas.getWidth() / 3;
+            int logoHeightOnPhoto = (int) (logoWidthOnPhoto * ratio);
+
+            Bitmap scaledLogo = Bitmap.createScaledBitmap(logo, logoWidthOnPhoto, logoHeightOnPhoto, true);
+            logo.recycle();
+
+            canvas.drawBitmap(scaledLogo, canvas.getWidth() - logoWidthOnPhoto, canvas.getHeight() - logoHeightOnPhoto, null);
+            scaledLogo.recycle();
+        }
+
+        private boolean savePhoto(Bitmap photoBitmap, File outputFile) {
+            if (outputFile == null) {
+                Log.d(TAG, "Error creating media file, check storage permissions");
+                return false;
+            }
+
+            try {
+                FileOutputStream fos = new FileOutputStream(outputFile);
+
+                photoBitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+
+                fos.close();
+            } catch (FileNotFoundException e) {
+                Log.d(TAG, "File not found: " + e.getMessage());
+                return false;
+            } catch (IOException e) {
+                Log.d(TAG, "Error accessing file: " + e.getMessage());
+                return false;
+            }
+
+            return true;
+        }
+
+        private void addPhotoToGallery(File photoFile) {
+            ContentValues values = new ContentValues();
+            values.put(MediaStore.Images.Media.DATE_TAKEN, photoFile.lastModified());
+            values.put(MediaStore.Images.Media.DATA, "image/jpeg");
+            values.put(MediaStore.MediaColumns.DATA, photoFile.getPath());
+
+            getContext().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        }
+
+        private void sharePhoto(File photoFile) {
+            Fragment newFragment = new PhotoShareFragment();
+
+            Bundle args = new Bundle();
+            args.putString("photoFilePath", photoFile.getPath());
+            newFragment.setArguments(args);
+
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.main_container, newFragment);
+            transaction.commit();
+        }
+    }
+
     private class SelfiePictureCallback implements Camera.PictureCallback {
         private Bitmap photoBitmap;
 
@@ -243,81 +341,7 @@ public class SelfieFragment extends Fragment {
             photoBitmap.recycle();
             photoBitmap = rotated;
 
-            final Canvas canvas = new Canvas(photoBitmap);
-
-            drawLogoOnCanvas(canvas);
-
-            File outputFile = getOutputImageFile();
-            boolean saveSuccessful = savePhoto(outputFile);
-            if (saveSuccessful) {
-                sharePhoto(outputFile);
-            }
-        }
-
-        private void drawLogoOnCanvas(Canvas canvas) {
-            Bitmap logo = BitmapFactory.decodeResource(getResources(), R.drawable.logo_selfie);
-            float logoWidth = logo.getWidth();
-            float logoHeight = logo.getHeight();
-            float ratio = logoHeight / logoWidth;
-
-            int logoWidthOnPhoto = canvas.getWidth() / 3;
-            int logoHeightOnPhoto = (int) (logoWidthOnPhoto * ratio);
-
-            Bitmap scaledLogo = Bitmap.createScaledBitmap(logo, logoWidthOnPhoto, logoHeightOnPhoto, true);
-            logo.recycle();
-
-            canvas.drawBitmap(scaledLogo, canvas.getWidth() - logoWidthOnPhoto, canvas.getHeight() - logoHeightOnPhoto, null);
-            scaledLogo.recycle();
-        }
-
-        private void addPhotoToGallery(File photoFile) {
-            ContentValues values = new ContentValues();
-            values.put(MediaStore.Images.Media.DATE_TAKEN, photoFile.lastModified());
-            values.put(MediaStore.Images.Media.DATA, "image/jpeg");
-            values.put(MediaStore.MediaColumns.DATA, photoFile.getPath());
-
-            getContext().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-        }
-
-        private boolean savePhoto(File outputFile) {
-            if (outputFile == null) {
-                Log.d(TAG, "Error creating media file, check storage permissions");
-                return false;
-            }
-
-            try {
-                FileOutputStream fos = new FileOutputStream(outputFile);
-
-                photoBitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-
-                fos.close();
-            } catch (FileNotFoundException e) {
-                Log.d(TAG, "File not found: " + e.getMessage());
-                return false;
-            } catch (IOException e) {
-                Log.d(TAG, "Error accessing file: " + e.getMessage());
-                return false;
-            }
-
-            photoBitmap.recycle();
-
-            addPhotoToGallery(outputFile);
-
-            Toast.makeText(getActivity(), getActivity().getString(R.string.selfie_photo_saved), Toast.LENGTH_LONG).show();
-
-            return true;
-        }
-
-        private void sharePhoto(File photoFile) {
-            Fragment newFragment = new PhotoShareFragment();
-
-            Bundle args = new Bundle();
-            args.putString("photoFilePath", photoFile.getPath());
-            newFragment.setArguments(args);
-
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            transaction.replace(R.id.main_container, newFragment);
-            transaction.commit();
+            new SelfieSaver().execute(photoBitmap);
         }
     }
 }
