@@ -38,7 +38,7 @@ public class SplashActivity extends AppCompatActivity {
             // Open MainActivity and finish SplashActivity
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
             finish();
-            // TODO: Face out transition
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         }
 
     }
