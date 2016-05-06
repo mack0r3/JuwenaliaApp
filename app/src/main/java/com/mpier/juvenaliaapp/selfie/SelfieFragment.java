@@ -59,13 +59,6 @@ public class SelfieFragment extends Fragment {
         pictureCallback = new SelfiePictureCallback();
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setHasOptionsMenu(true);
-    }
-
     private static File getOutputImageFile() {
         // To be safe, you should check that the SDCard is mounted
         // using Environment.getExternalStorageState() before doing this.
@@ -85,6 +78,13 @@ public class SelfieFragment extends Fragment {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 
         return new File(String.format("%s/IMG_%s.jpg", mediaStorageDir.getPath(), timeStamp));
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -243,78 +243,14 @@ public class SelfieFragment extends Fragment {
             photoBitmap.recycle();
             photoBitmap = rotated;
 
-
             final Canvas canvas = new Canvas(photoBitmap);
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(SelfieFragment.this.getActivity(), R.style.AppTheme_AlertDialog);
-            builder.setTitle(R.string.selfie_input_title);
-            builder.setMessage(getActivity().getString(R.string.selfie_input_message));
+            drawLogoOnCanvas(canvas);
 
-            final EditText input = new EditText(builder.getContext());
-            input.setInputType(InputType.TYPE_CLASS_TEXT);
-            input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(25)});
-
-            builder.setView(input);
-
-            builder.setPositiveButton(R.string.selfie_input_confirm, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    String text = input.getText().toString();
-
-                    drawTextOnCanvas(canvas, text);
-
-                    drawLogoOnCanvas(canvas);
-
-                    File outputFile = getOutputImageFile();
-                    boolean saveSuccessful = savePhoto(outputFile);
-                    if (saveSuccessful) {
-                        sharePhoto(outputFile);
-                    }
-                }
-            });
-            builder.setNegativeButton(R.string.selfie_input_without, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-
-                    drawLogoOnCanvas(canvas);
-
-                    File outputFile = getOutputImageFile();
-                    boolean saveSuccessful = savePhoto(outputFile);
-                    if (saveSuccessful) {
-                        sharePhoto(outputFile);
-                    }
-                }
-            });
-
-            AlertDialog textInputDialog = builder.create();
-            textInputDialog.setCancelable(false);
-            textInputDialog.setCanceledOnTouchOutside(false);
-            textInputDialog.show();
-        }
-
-        private void drawTextOnCanvas(Canvas canvas, String text) {
-            if (text != null && !text.isEmpty()) {
-                Paint paint = new Paint();
-                paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-                paint.setColor(Color.BLACK);
-
-                float densityMultiplier = getActivity().getResources().getDisplayMetrics().density;
-                float scaledPx = 20 * densityMultiplier;
-
-                paint.setTextSize(scaledPx);
-                float textWidth = paint.measureText(text);
-
-                float xPos = (canvas.getWidth() / 2) - textWidth / 2;
-                float yPos = (canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2);
-
-                Paint backgroundPaint = new Paint();
-                backgroundPaint.setColor(Color.WHITE);
-                backgroundPaint.setAlpha(100);
-
-                canvas.drawRect(0, yPos - 1.25f * scaledPx, photoBitmap.getWidth(), yPos + 0.25f * scaledPx, backgroundPaint);
-
-                canvas.drawText(text, xPos, yPos, paint);
+            File outputFile = getOutputImageFile();
+            boolean saveSuccessful = savePhoto(outputFile);
+            if (saveSuccessful) {
+                sharePhoto(outputFile);
             }
         }
 

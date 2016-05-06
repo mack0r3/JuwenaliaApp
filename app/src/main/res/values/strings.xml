@@ -21,13 +21,9 @@
 
     <string name="selfie_lack_of_front_camera">Twoje urządzenie nie ma przedniego aparatu</string>
     <string name="selfie_activity_title">Juwenaliowe selfie</string>
-    <string name="selfie_input_title">Podaj podpis</string>
-    <string name="selfie_input_message">Możesz podać tekst, który będzie napisany na środku zdjęcia</string>
-    <string name="selfie_input_confirm">OK</string>
-    <string name="selfie_input_without">Bez podpisu</string>
     <string name="selfie_photo_saved">Zdjęcie zostało zapisane</string>
     <string name="selfie_info">O funkcji selfie</string>
-    <string name="selfie_info_message">Możesz zrobić sobie selfie z logiem Juwenaliów i własnym podpisem</string>
+    <string name="selfie_info_message">Możesz zrobić sobie selfie z logiem Juwenaliów i udostępnić je</string>
     <string name="selfie_info_title">Funkcja selfie</string>
 
     <string name="selfie_share_activity_title">Udostępnij zdjęcie</string>
