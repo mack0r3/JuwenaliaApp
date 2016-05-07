@@ -118,7 +118,6 @@ public class SelfieFragment extends Fragment {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AppTheme_AlertDialog);
                 builder.setMessage(getContext().getString(R.string.selfie_info_message))
                         .setTitle(getContext().getString(R.string.selfie_info_title))
-                        .setCancelable(false)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.dismiss();
