@@ -6,6 +6,19 @@
     <!-- Activity titles -->
     <string name="title_activity_maps">Mapa</string>
 
+    <!-- TilesFragment -->
+    <string name="line_up_text">Line up</string>
+    <string name="line_up_description">sprawdź naszych artystów</string>
+    <string name="telebim_text">Twój telebim</string>
+    <string name="telebim_description">czyli pare słów od Ciebie</string>
+    <string name="selfie_text">Selfie</string>
+    <string name="selfie_description">...</string>
+    <string name="attractions_text">Atrakcje</string>
+    <string name="attractions_description">na juwe</string>
+    <string name="map_text">Mapa</string>
+    <string name="map_description">co, gdzie?</string>
+
+
     <!-- Drawer open icon -->
     <string name="drawer_open">Drawer open</string>
     <string name="drawer_close">Drawer close</string>
