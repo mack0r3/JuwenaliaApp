@@ -10,15 +10,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingBottom="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="16dp">
+        android:padding="@dimen/standard_activity_margin">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/tilesFragmentTileHeight"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="@dimen/header_logo_margin_bottom"
             android:orientation="horizontal">
 
             <ImageView
@@ -30,6 +27,7 @@
         </LinearLayout>
 
         <RelativeLayout
+            android:id="@+id/lineUpTile"
             android:layout_width="match_parent"
             android:layout_height="@dimen/tilesFragmentTileHeight"
             android:layout_marginBottom="@dimen/tilesMargin"
@@ -39,14 +37,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
-                android:alpha="0.5"
+                android:alpha="@dimen/tiles_images_alpha"
                 android:scaleType="centerCrop"
                 android:src="@drawable/lineup"></ImageView>
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
+                android:padding="@dimen/tiles_icons_padding"
                 android:src="@drawable/ic_event_white_48dp" />
 
             <TextView
@@ -56,8 +54,8 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
                 android:fontFamily="sans-serif-bold"
-                android:paddingBottom="8dp"
-                android:paddingRight="8dp"
+                android:paddingBottom="@dimen/tiles_texts_padding_bottom"
+                android:paddingRight="@dimen/tiles_texts_padding_bottom"
                 android:text="@string/line_up_description"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#FFFFFF"
@@ -70,7 +68,7 @@
                 android:layout_above="@id/lineUpTileTextDescription"
                 android:layout_alignParentRight="true"
                 android:fontFamily="sans-serif-condensed"
-                android:paddingRight="8dp"
+                android:paddingRight="@dimen/tiles_texts_padding_right"
                 android:text="@string/line_up_text"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#FFFFFF"
@@ -85,6 +83,7 @@
             android:orientation="horizontal">
 
             <RelativeLayout
+                android:id="@+id/telebimTile"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="@dimen/tilesMargin"
@@ -95,14 +94,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
-                    android:alpha="0.5"
+                    android:alpha="@dimen/tiles_images_alpha"
                     android:scaleType="centerCrop"
                     android:src="@drawable/telebim"></ImageView>
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="8dp"
+                    android:padding="@dimen/tiles_icons_padding"
                     android:src="@drawable/ic_tv_white_36dp" />
 
                 <TextView
@@ -112,8 +111,8 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
                     android:fontFamily="sans-serif-bold"
-                    android:paddingBottom="8dp"
-                    android:paddingRight="8dp"
+                    android:paddingBottom="@dimen/tiles_texts_padding_bottom"
+                    android:paddingRight="@dimen/tiles_texts_padding_bottom"
                     android:text="@string/telebim_description"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="#FFFFFF"
@@ -126,7 +125,7 @@
                     android:layout_above="@id/telebimTileTextDescription"
                     android:layout_alignParentRight="true"
                     android:fontFamily="sans-serif-condensed"
-                    android:paddingRight="8dp"
+                    android:paddingRight="@dimen/tiles_texts_padding_right"
                     android:text="@string/telebim_text"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="#FFFFFF"
@@ -135,6 +134,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/selfieTile"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="4"
@@ -144,14 +144,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
-                    android:alpha="0.5"
+                    android:alpha="@dimen/tiles_images_alpha"
                     android:scaleType="centerCrop"
                     android:src="@drawable/selfie"></ImageView>
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="8dp"
+                    android:padding="@dimen/tiles_icons_padding"
                     android:src="@drawable/ic_camera_alt_white_36dp" />
 
                 <TextView
@@ -161,8 +161,8 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
                     android:fontFamily="sans-serif-bold"
-                    android:paddingBottom="8dp"
-                    android:paddingRight="8dp"
+                    android:paddingBottom="@dimen/tiles_texts_padding_bottom"
+                    android:paddingRight="@dimen/tiles_texts_padding_bottom"
                     android:text="@string/selfie_description"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="#FFFFFF"
@@ -175,7 +175,7 @@
                     android:layout_above="@id/selfieTileTextDescription"
                     android:layout_alignParentRight="true"
                     android:fontFamily="sans-serif-condensed"
-                    android:paddingRight="8dp"
+                    android:paddingRight="@dimen/tiles_texts_padding_right"
                     android:text="@string/selfie_text"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="#FFFFFF"
@@ -190,6 +190,7 @@
             android:orientation="horizontal">
 
             <RelativeLayout
+                android:id="@+id/attractionsTile"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="@dimen/tilesMargin"
@@ -200,14 +201,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
-                    android:alpha="0.5"
+                    android:alpha="@dimen/tiles_images_alpha"
                     android:scaleType="centerCrop"
                     android:src="@drawable/atrakcje"></ImageView>
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="8dp"
+                    android:padding="@dimen/tiles_icons_padding"
                     android:src="@drawable/ic_whatshot_white_36dp" />
 
                 <TextView
@@ -217,8 +218,8 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
                     android:fontFamily="sans-serif-bold"
-                    android:paddingBottom="8dp"
-                    android:paddingRight="8dp"
+                    android:paddingBottom="@dimen/tiles_texts_padding_bottom"
+                    android:paddingRight="@dimen/tiles_texts_padding_bottom"
                     android:text="@string/attractions_description"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="#FFFFFF"
@@ -231,7 +232,7 @@
                     android:layout_above="@id/attractionsTileTextDescription"
                     android:layout_alignParentRight="true"
                     android:fontFamily="sans-serif-condensed"
-                    android:paddingRight="8dp"
+                    android:paddingRight="@dimen/tiles_texts_padding_right"
                     android:text="@string/attractions_text"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="#FFFFFF"
@@ -240,6 +241,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/mapTile"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -249,14 +251,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
-                    android:alpha="0.35"
+                    android:alpha="@dimen/tiles_images_alpha"
                     android:scaleType="centerCrop"
                     android:src="@drawable/mapa"></ImageView>
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="8dp"
+                    android:padding="@dimen/tiles_icons_padding"
                     android:src="@drawable/ic_map_white_36dp" />
 
                 <TextView
@@ -266,8 +268,8 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
                     android:fontFamily="sans-serif-bold"
-                    android:paddingBottom="8dp"
-                    android:paddingRight="8dp"
+                    android:paddingBottom="@dimen/tiles_texts_padding_bottom"
+                    android:paddingRight="@dimen/tiles_texts_padding_bottom"
                     android:text="@string/map_description"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="#FFFFFF"
@@ -280,7 +282,7 @@
                     android:layout_above="@id/mapTileTextDescription"
                     android:layout_alignParentRight="true"
                     android:fontFamily="sans-serif-condensed"
-                    android:paddingRight="8dp"
+                    android:paddingRight="@dimen/tiles_texts_padding_right"
                     android:text="@string/map_text"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="#FFFFFF"
