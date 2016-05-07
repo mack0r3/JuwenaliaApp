@@ -33,17 +33,16 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     private final Bitmap logoBitmap;
 
-    public CameraPreview(Activity activity, Camera camera, int cameraId) {
+    public CameraPreview(Activity activity, Camera camera, int cameraId, Bitmap logoBitmap) {
         super(activity);
         this.activity = activity;
         this.camera = camera;
         this.cameraId = cameraId;
+        this.logoBitmap = logoBitmap;
 
         surfaceHolder = getHolder();
         surfaceHolder.addCallback(this);
         supportedPreviewSizes = camera.getParameters().getSupportedPreviewSizes();
-        
-        logoBitmap = BitmapFactory.decodeResource(activity.getResources(), R.drawable.logo_selfie);
 
         setWillNotDraw(false);
     }
@@ -178,5 +177,11 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
 
+    }
+
+    public void releaseBitmap() {
+        if (logoBitmap != null) {
+            logoBitmap.recycle();
+        }
     }
 }

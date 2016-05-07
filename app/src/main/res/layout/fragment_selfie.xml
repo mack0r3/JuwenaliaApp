@@ -13,12 +13,11 @@
         android:layout_alignParentTop="true"
         android:visibility="gone" />
 
-    <ProgressBar
+    <ImageView
         android:id="@+id/cameraLoading"
+        android:src="@drawable/ic_camera_alt_white_36dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:indeterminate="true"
-        style="?android:attr/progressBarStyleLarge"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 

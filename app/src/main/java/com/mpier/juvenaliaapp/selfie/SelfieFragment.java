@@ -79,6 +79,7 @@ public class SelfieFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+        getView().findViewById(R.id.cameraLoading).setVisibility(View.VISIBLE);
         new CameraInitializer().execute();
     }
 
@@ -92,8 +93,14 @@ public class SelfieFragment extends Fragment {
             camera.release();
             camera = null;
         }
+        if (cameraPreview != null) {
+            cameraPreview.releaseBitmap();
+        }
         if (previewFrame != null) {
             previewFrame.removeView(cameraPreview);
+
+            previewFrame.setVisibility(View.GONE);
+            getView().findViewById(R.id.buttonCapture).setVisibility(View.GONE);
         }
     }
 
@@ -157,6 +164,7 @@ public class SelfieFragment extends Fragment {
     }
 
     private class CameraInitializer extends AsyncTask<Void, Void, Boolean> {
+        private Bitmap logoBitmap;
 
         @Override
         protected Boolean doInBackground(Void... params) {
@@ -176,6 +184,7 @@ public class SelfieFragment extends Fragment {
                     camera = Camera.open(idOfCameraFacingFront);
                     cameraId = idOfCameraFacingFront;
                     initializationSuccessful = (camera != null);
+                    logoBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.logo_selfie);
                 }
             } catch (Exception e) {
                 Log.e(TAG, "Failed to open Camera");
@@ -195,7 +204,7 @@ public class SelfieFragment extends Fragment {
             else {
                 View view = getView();
 
-                cameraPreview = new CameraPreview(getActivity(), camera, cameraId);
+                cameraPreview = new CameraPreview(getActivity(), camera, cameraId, logoBitmap);
 
                 previewFrame = (FrameLayout) view.findViewById(R.id.cameraPreview);
                 FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT, Gravity.CENTER);
