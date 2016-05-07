@@ -230,9 +230,21 @@ public class SelfieFragment extends Fragment {
 
         @Override
         public void onPictureTaken(byte[] bitmapData, Camera camera) {
+            new SelfieSaver().execute(bitmapData);
+        }
+    }
+
+    private class SelfieSaver extends AsyncTask<byte[], Void, Void> {
+        private boolean saveSuccessful;
+        private File outputFile;
+
+        @Override
+        protected Void doInBackground(byte[]... params) {
+            byte[] bitmapData = params[0];
+
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inMutable = true;
-            photoBitmap = BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData.length, options);
+            Bitmap photoBitmap = BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData.length, options);
 
             Matrix matrix = new Matrix();
             int rotation = getCameraDisplayOrientation();
@@ -246,18 +258,6 @@ public class SelfieFragment extends Fragment {
             Bitmap rotated = Bitmap.createBitmap(photoBitmap, 0, 0, photoBitmap.getWidth(), photoBitmap.getHeight(), matrix, true);
             photoBitmap.recycle();
             photoBitmap = rotated;
-
-            new SelfieSaver().execute(photoBitmap);
-        }
-    }
-
-    private class SelfieSaver extends AsyncTask<Bitmap, Void, Void> {
-        private boolean saveSuccessful;
-        private File outputFile;
-
-        @Override
-        protected Void doInBackground(Bitmap... params) {
-            Bitmap photoBitmap = params[0];
 
             final Canvas canvas = new Canvas(photoBitmap);
 
