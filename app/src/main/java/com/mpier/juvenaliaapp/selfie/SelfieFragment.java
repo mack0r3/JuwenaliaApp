@@ -62,32 +62,24 @@ public class SelfieFragment extends Fragment {
         pictureCallback = new SelfiePictureCallback();
     }
 
-    private static File getOutputImageFile() {
-        // To be safe, you should check that the SDCard is mounted
-        // using Environment.getExternalStorageState() before doing this.
-
-        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DCIM), "JuwenaliaPW");
-
-        // Create the storage directory if it does not exist
-        if (!mediaStorageDir.exists()) {
-            if (!mediaStorageDir.mkdirs()) {
-                Log.d(TAG, "failed to create directory");
-                return null;
-            }
-        }
-
-        // Create a media file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-
-        return new File(String.format("%s/IMG_%s.jpg", mediaStorageDir.getPath(), timeStamp));
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_selfie, container, false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        new CameraInitializer().execute();
     }
 
     @Override
@@ -106,63 +98,10 @@ public class SelfieFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_selfie, container, false);
-    }
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        boolean initializationSuccessful = initializeCamera();
-
-        if (!initializationSuccessful) {
-            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.main_container, new LackOfCameraFragment());
-            fragmentTransaction.commit();
-        } else {
-            View view = getView();
-            cameraPreview = new CameraPreview(getActivity(), camera, cameraId);
-
-            previewFrame = (FrameLayout) view.findViewById(R.id.cameraPreview);
-            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT, Gravity.CENTER);
-            previewFrame.addView(cameraPreview, params);
-
-            ImageButton button = (ImageButton) view.findViewById(R.id.buttonCapture);
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    camera.takePicture(null, null, pictureCallback);
-                }
-            });
-        }
-    }
-
-    private boolean initializeCamera() {
-        boolean opened = false;
-
-        try {
-            int numberOfCameras = Camera.getNumberOfCameras();
-            int idOfCameraFacingFront = -1;
-            for (int i = 0; i < numberOfCameras; i++) {
-                Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
-                Camera.getCameraInfo(i, cameraInfo);
-                if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-                    idOfCameraFacingFront = i;
-                }
-            }
-            if (idOfCameraFacingFront != -1) {
-                camera = Camera.open(idOfCameraFacingFront);
-                cameraId = idOfCameraFacingFront;
-                opened = (camera != null);
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "Failed to open Camera");
-            e.printStackTrace();
-        }
-
-        return opened;
+        inflater.inflate(R.menu.selfie_menu, menu);
     }
 
     @Override
@@ -185,13 +124,6 @@ public class SelfieFragment extends Fragment {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-
-        inflater.inflate(R.menu.selfie_menu, menu);
     }
 
     private int getCameraDisplayOrientation() {
@@ -222,6 +154,92 @@ public class SelfieFragment extends Fragment {
             result = (info.orientation - degrees + 360) % 360;
         }
         return result;
+    }
+
+    private class CameraInitializer extends AsyncTask<Void, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            boolean initializationSuccessful = false;
+
+            try {
+                int numberOfCameras = Camera.getNumberOfCameras();
+                int idOfCameraFacingFront = -1;
+                for (int i = 0; i < numberOfCameras; i++) {
+                    Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+                    Camera.getCameraInfo(i, cameraInfo);
+                    if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+                        idOfCameraFacingFront = i;
+                    }
+                }
+                if (idOfCameraFacingFront != -1) {
+                    camera = Camera.open(idOfCameraFacingFront);
+                    cameraId = idOfCameraFacingFront;
+                    initializationSuccessful = (camera != null);
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to open Camera");
+                e.printStackTrace();
+            }
+
+            return initializationSuccessful;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean initializationSuccessful) {
+            if (!initializationSuccessful) {
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.main_container, new LackOfCameraFragment());
+                fragmentTransaction.commit();
+            }
+            else {
+                View view = getView();
+
+                cameraPreview = new CameraPreview(getActivity(), camera, cameraId);
+
+                previewFrame = (FrameLayout) view.findViewById(R.id.cameraPreview);
+                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT, Gravity.CENTER);
+                previewFrame.addView(cameraPreview, params);
+
+                ImageButton button = (ImageButton) view.findViewById(R.id.buttonCapture);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        camera.takePicture(null, null, pictureCallback);
+                    }
+                });
+
+                view.findViewById(R.id.cameraLoading).setVisibility(View.GONE);
+                previewFrame.setVisibility(View.VISIBLE);
+                view.findViewById(R.id.buttonCapture).setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    private class SelfiePictureCallback implements Camera.PictureCallback {
+        private Bitmap photoBitmap;
+
+        @Override
+        public void onPictureTaken(byte[] bitmapData, Camera camera) {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inMutable = true;
+            photoBitmap = BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData.length, options);
+
+            Matrix matrix = new Matrix();
+            int rotation = getCameraDisplayOrientation();
+            if (rotation != 0) {
+                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    rotation += 180;
+                }
+                matrix.postRotate(rotation);
+            }
+            matrix.postScale(-1, 1);
+            Bitmap rotated = Bitmap.createBitmap(photoBitmap, 0, 0, photoBitmap.getWidth(), photoBitmap.getHeight(), matrix, true);
+            photoBitmap.recycle();
+            photoBitmap = rotated;
+
+            new SelfieSaver().execute(photoBitmap);
+        }
     }
 
     private class SelfieSaver extends AsyncTask<Bitmap, Void, Void> {
@@ -256,6 +274,26 @@ public class SelfieFragment extends Fragment {
                 Toast.makeText(getActivity(), getActivity().getString(R.string.selfie_photo_saved), Toast.LENGTH_LONG).show();
                 sharePhoto(outputFile);
             }
+        }
+
+        private File getOutputImageFile() {
+            // To be safe, you should check that the SDCard is mounted
+            // using Environment.getExternalStorageState() before doing this.
+
+            File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_DCIM), "JuwenaliaPW");
+
+            if (!mediaStorageDir.exists()) {
+                if (!mediaStorageDir.mkdirs()) {
+                    Log.d(TAG, "failed to create directory");
+                    return null;
+                }
+            }
+
+            // Create a media file name
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+
+            return new File(String.format("%s/IMG_%s.jpg", mediaStorageDir.getPath(), timeStamp));
         }
 
         private void drawLogoOnCanvas(Canvas canvas) {
@@ -316,32 +354,6 @@ public class SelfieFragment extends Fragment {
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.main_container, newFragment);
             transaction.commit();
-        }
-    }
-
-    private class SelfiePictureCallback implements Camera.PictureCallback {
-        private Bitmap photoBitmap;
-
-        @Override
-        public void onPictureTaken(byte[] bitmapData, Camera camera) {
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inMutable = true;
-            photoBitmap = BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData.length, options);
-
-            Matrix matrix = new Matrix();
-            int rotation = getCameraDisplayOrientation();
-            if (rotation != 0) {
-                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    rotation += 180;
-                }
-                matrix.postRotate(rotation);
-            }
-            matrix.postScale(-1, 1);
-            Bitmap rotated = Bitmap.createBitmap(photoBitmap, 0, 0, photoBitmap.getWidth(), photoBitmap.getHeight(), matrix, true);
-            photoBitmap.recycle();
-            photoBitmap = rotated;
-
-            new SelfieSaver().execute(photoBitmap);
         }
     }
 }
