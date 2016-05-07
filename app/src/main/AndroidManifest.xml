@@ -29,13 +29,18 @@
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:name=".MainActivity"
-            android:configChanges="keyboardHidden|orientation">
+            android:name=".SplashActivity"
+            android:theme="@style/AppTheme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="keyboardHidden|orientation">
         </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

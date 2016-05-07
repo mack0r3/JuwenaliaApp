@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#2758e9</color>
     <color name="colorAccent">#fd161c</color>
 
+    <color name="colorSplashBackground">#FFFFFF</color>
+
     <!-- AttractionActivity -->
     <color name="attractionsItemTextColor">#FFFFFF</color>
     <color name="attractionItemBorderColor">#FFFFFF</color>
