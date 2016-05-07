@@ -149,7 +149,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
                 .title(getString(R.string.map_marker_stadium)));
 
         setMapMode(isConnectedToInternet);
-        updateMap(true);
+        updateMap(isConnectedToInternet);
 
     }
 
