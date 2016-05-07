@@ -1,10 +1,13 @@
 package com.mpier.juvenaliaapp;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -43,6 +46,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
 
     private GoogleApiClient mGoogleApiClient;
     private GoogleMap mMap;
+    private boolean isConnectedToInternet;
 
     private static BitmapDescriptor overlayBitmapDescriptor;
 
@@ -62,6 +66,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
                     .addApi(LocationServices.API)
                     .build();
         }
+
+        isConnectedToInternet = isDeviceConnectedToInternet();
     }
 
     @Override
@@ -80,7 +86,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -94,29 +99,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
             @Override
             public boolean onMyLocationButtonClick() {
+                boolean isConnectedAtTheMoment = isDeviceConnectedToInternet();
+                if (isConnectedAtTheMoment != isConnectedToInternet){
+                    isConnectedToInternet = !isConnectedToInternet;
+                    setMapMode(isConnectedToInternet);
+                }
                 updateMap(true);
                 return true;
             }
         });
-
-        // Android 6.0+ permissions
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-                // User denied permission request earlier or in system settings - disable location layer
-                setMyLocationEnabled(false);
-            } else {
-                // User didn't grant nor deny permission earlier - request permission
-                ActivityCompat.requestPermissions(getActivity(),
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        APP_PERMISSION_ACCESS_FINE_LOCATION);
-            }
-
-        } else {
-            // Permission was granted earlier - enable location layer
-            setMyLocationEnabled(true);
-        }
 
         // Creating overlay
         if (overlayBitmapDescriptor == null) {
@@ -132,35 +123,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         overlayOptions.positionFromBounds(new LatLngBounds(southwest, northeast));
 
         overlay = mMap.addGroundOverlay(overlayOptions);
-        overlay.setVisible(false);
-        overlay.setVisible(true);
 
         // Creating marker
         marker = mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(52.21293, 21.01146))
                 .title(getString(R.string.map_marker_stadium)));
 
-        // Switching between Marker and overlay display
-        mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
-            @Override
-            public void onCameraChange(CameraPosition cameraPosition) {
-                if (cameraPosition.zoom > 15.5) {
-                    marker.setVisible(false);
-                    overlay.setVisible(true);
-                } else {
-                    marker.setVisible(true);
-                    overlay.setVisible(false);
-                    marker.showInfoWindow();
-                }
-            }
-        });
-
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                return false;
-            }
-        });
+        setMapMode(isConnectedToInternet);
 
     }
 
@@ -266,6 +235,66 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         options.outHeight = 2048;
 
         return BitmapFactory.decodeResource(getResources(), R.drawable.map, options);
+    }
+
+    private void setMapMode(boolean online){
+        if (online){
+            // Android 6.0+ permissions
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                        Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    // User denied permission request earlier or in system settings - disable location layer
+                    setMyLocationEnabled(false);
+                } else {
+                    // User didn't grant nor deny permission earlier - request permission
+                    ActivityCompat.requestPermissions(getActivity(),
+                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                            APP_PERMISSION_ACCESS_FINE_LOCATION);
+                }
+
+            } else {
+                // Permission was granted earlier - enable location layer
+                setMyLocationEnabled(true);
+            }
+
+            overlay.setTransparency(0.25f);
+            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+            mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+                @Override
+                public void onCameraChange(CameraPosition cameraPosition) {
+                    if (cameraPosition.zoom > 15.5) {
+                        marker.setVisible(false);
+                        overlay.setVisible(true);
+                    } else {
+                        marker.setVisible(true);
+                        overlay.setVisible(false);
+                        marker.showInfoWindow();
+                    }
+                }
+            });
+
+        } else {
+            setMyLocationEnabled(false);
+            overlay.setTransparency(0f);
+            mMap.setMapType(GoogleMap.MAP_TYPE_NONE);
+            mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+                @Override
+                public void onCameraChange(CameraPosition cameraPosition) {
+                    // Does nothing
+                }
+            });
+
+        }
+
+    }
+
+    private boolean isDeviceConnectedToInternet(){
+        ConnectivityManager cm =
+                (ConnectivityManager)getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
     @Override
