@@ -21,14 +21,7 @@ public class SplashActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... params) {
-
-            try {
-                Thread.sleep(1000);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            // TODO: Do long app initialization instructions here
+            // TODO: Do time consuming app initialization here
 
             return null;
         }
