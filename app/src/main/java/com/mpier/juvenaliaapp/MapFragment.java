@@ -1,15 +1,21 @@
 package com.mpier.juvenaliaapp;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -41,10 +47,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
 
     public static final int APP_PERMISSION_ACCESS_FINE_LOCATION = 1;
 
+    private static BitmapDescriptor overlayBitmapDescriptor;
+
+    private boolean isConnectedToInternet;
+
     private GoogleApiClient mGoogleApiClient;
     private GoogleMap mMap;
-
-    private static BitmapDescriptor overlayBitmapDescriptor;
 
     private GroundOverlay overlay;
     private Marker marker;
@@ -62,6 +70,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
                     .addApi(LocationServices.API)
                     .build();
         }
+
+        isConnectedToInternet = isDeviceConnectedToInternet();
     }
 
     @Override
@@ -80,7 +90,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -89,12 +98,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
             @Override
             public boolean onMyLocationButtonClick() {
-                updateMap(true);
+                attemptMapModeChange();
                 return true;
             }
         });
@@ -104,8 +113,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
                 != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
-                // User denied permission request earlier or in system settings - disable location layer
+                // User denied permission request earlier or in system settings
+                // Disable location layer and inflate support menu with refresh button
                 setMyLocationEnabled(false);
+                setHasOptionsMenu(true);
             } else {
                 // User didn't grant nor deny permission earlier - request permission
                 ActivityCompat.requestPermissions(getActivity(),
@@ -124,43 +135,21 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         }
 
         GroundOverlayOptions overlayOptions = new GroundOverlayOptions()
-                .image(overlayBitmapDescriptor)
-                .transparency(0.25f);
+                .image(overlayBitmapDescriptor);
 
         LatLng southwest = new LatLng(52.211245, 21.008801);
         LatLng northeast = new LatLng(52.214225, 21.013685);
         overlayOptions.positionFromBounds(new LatLngBounds(southwest, northeast));
 
         overlay = mMap.addGroundOverlay(overlayOptions);
-        overlay.setVisible(false);
-        overlay.setVisible(true);
 
         // Creating marker
         marker = mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(52.21293, 21.01146))
                 .title(getString(R.string.map_marker_stadium)));
 
-        // Switching between Marker and overlay display
-        mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
-            @Override
-            public void onCameraChange(CameraPosition cameraPosition) {
-                if (cameraPosition.zoom > 15.5) {
-                    marker.setVisible(false);
-                    overlay.setVisible(true);
-                } else {
-                    marker.setVisible(true);
-                    overlay.setVisible(false);
-                    marker.showInfoWindow();
-                }
-            }
-        });
-
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                return false;
-            }
-        });
+        setMapMode(isConnectedToInternet);
+        updateMap(isConnectedToInternet);
 
     }
 
@@ -185,7 +174,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
     /**
      * Method wrapper, catching a SecurityException
      *
-     * @param enabled If to enable location layer on Google Map
+     * @param enabled If location layer on Google Map should be enabled
      */
     private void setMyLocationEnabled(boolean enabled) {
         try {
@@ -235,6 +224,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         CameraUpdate cameraUpdate;
         if (mMap.isMyLocationEnabled()
                 && lastLocation != null
+                && isConnectedToInternet
                 && !overlay.getBounds().contains(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()))) {
             // If user location is determined and is not in the bounds of overlay
             cameraUpdate = CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(),
@@ -268,9 +258,69 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         return BitmapFactory.decodeResource(getResources(), R.drawable.map, options);
     }
 
+    /**
+     * Sets Google Map mode to either use Google Maps background
+     * or display the overlay only.
+     *
+     * @param online If true is passed, Google Maps will be loaded under the overlay
+     */
+    private void setMapMode(boolean online) {
+        if (online) {
+            overlay.setTransparency(0.25f);
+            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+            mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+                @Override
+                public void onCameraChange(CameraPosition cameraPosition) {
+                    if (cameraPosition.zoom > 15.5) {
+                        marker.setVisible(false);
+                        overlay.setVisible(true);
+                    } else {
+                        marker.setVisible(true);
+                        overlay.setVisible(false);
+                        marker.showInfoWindow();
+                    }
+                }
+            });
+        } else {
+            overlay.setTransparency(0f);
+            mMap.setMapType(GoogleMap.MAP_TYPE_NONE);
+            mMap.setOnCameraChangeListener(null);
+            marker.setVisible(false);
+            overlay.setVisible(true);
+        }
+    }
+
+    /**
+     * Check if connection with network has changed.
+     * If so, update local connection state (variable),
+     * switch the map mode and perform map update.
+     */
+    private void attemptMapModeChange() {
+        boolean isConnectedAtTheMoment = isDeviceConnectedToInternet();
+        if (isConnectedAtTheMoment != isConnectedToInternet) {
+            isConnectedToInternet = !isConnectedToInternet;
+            setMapMode(isConnectedToInternet);
+        }
+        updateMap(true);
+    }
+
+    /**
+     * Connects with system's connectivity service to determine if
+     * device is connected to the network.
+     *
+     * @return True if device is connected or connecting to the network
+     */
+    private boolean isDeviceConnectedToInternet() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
+
     @Override
     public void onConnected(Bundle bundle) {
-        updateMap(false);
+        updateMap(true);
     }
 
     @Override
@@ -279,7 +329,24 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        updateMap(false);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.map_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_map_refresh: {
+                attemptMapModeChange();
+                return true;
+            }
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 
