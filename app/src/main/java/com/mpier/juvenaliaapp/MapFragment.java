@@ -44,11 +44,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
 
     public static final int APP_PERMISSION_ACCESS_FINE_LOCATION = 1;
 
-    private GoogleApiClient mGoogleApiClient;
-    private GoogleMap mMap;
+    private static BitmapDescriptor overlayBitmapDescriptor;
+
     private boolean isConnectedToInternet;
 
-    private static BitmapDescriptor overlayBitmapDescriptor;
+    private GoogleApiClient mGoogleApiClient;
+    private GoogleMap mMap;
 
     private GroundOverlay overlay;
     private Marker marker;
@@ -94,7 +95,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
             @Override
@@ -109,14 +110,32 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
             }
         });
 
+        // Android 6.0+ permissions
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+                // User denied permission request earlier or in system settings - disable location layer
+                setMyLocationEnabled(false);
+            } else {
+                // User didn't grant nor deny permission earlier - request permission
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        APP_PERMISSION_ACCESS_FINE_LOCATION);
+            }
+
+        } else {
+            // Permission was granted earlier - enable location layer
+            setMyLocationEnabled(true);
+        }
+
         // Creating overlay
         if (overlayBitmapDescriptor == null) {
             overlayBitmapDescriptor = BitmapDescriptorFactory.fromBitmap(decodeMapBitmap());
         }
 
         GroundOverlayOptions overlayOptions = new GroundOverlayOptions()
-                .image(overlayBitmapDescriptor)
-                .transparency(0.25f);
+                .image(overlayBitmapDescriptor);
 
         LatLng southwest = new LatLng(52.211245, 21.008801);
         LatLng northeast = new LatLng(52.214225, 21.013685);
@@ -130,6 +149,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
                 .title(getString(R.string.map_marker_stadium)));
 
         setMapMode(isConnectedToInternet);
+        updateMap(true);
 
     }
 
@@ -154,7 +174,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
     /**
      * Method wrapper, catching a SecurityException
      *
-     * @param enabled If to enable location layer on Google Map
+     * @param enabled If location layer on Google Map should be enabled
      */
     private void setMyLocationEnabled(boolean enabled) {
         try {
@@ -204,6 +224,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         CameraUpdate cameraUpdate;
         if (mMap.isMyLocationEnabled()
                 && lastLocation != null
+                && isConnectedToInternet
                 && !overlay.getBounds().contains(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()))) {
             // If user location is determined and is not in the bounds of overlay
             cameraUpdate = CameraUpdateFactory.newLatLngBounds(boundsBuilder.build(),
@@ -237,27 +258,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         return BitmapFactory.decodeResource(getResources(), R.drawable.map, options);
     }
 
+    /**
+     * Sets Google Map mode to either use Google Maps background
+     * or display the overlay only.
+     *
+     * @param online If true is passed, Google Maps will be loaded under the overlay
+     */
     private void setMapMode(boolean online){
         if (online){
-            // Android 6.0+ permissions
-            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                        Manifest.permission.ACCESS_FINE_LOCATION)) {
-                    // User denied permission request earlier or in system settings - disable location layer
-                    setMyLocationEnabled(false);
-                } else {
-                    // User didn't grant nor deny permission earlier - request permission
-                    ActivityCompat.requestPermissions(getActivity(),
-                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                            APP_PERMISSION_ACCESS_FINE_LOCATION);
-                }
-
-            } else {
-                // Permission was granted earlier - enable location layer
-                setMyLocationEnabled(true);
-            }
-
             overlay.setTransparency(0.25f);
             mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
             mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
@@ -275,7 +283,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
             });
 
         } else {
-            setMyLocationEnabled(false);
+            marker.setVisible(false);
             overlay.setTransparency(0f);
             mMap.setMapType(GoogleMap.MAP_TYPE_NONE);
             mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
@@ -289,6 +297,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
 
     }
 
+    /**
+     * Connects with system's connectivity service to determine if
+     * device is connected to the network.
+     *
+     * @return True if device is connected or connecting to the network
+     */
     private boolean isDeviceConnectedToInternet(){
         ConnectivityManager cm =
                 (ConnectivityManager)getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -299,7 +313,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
 
     @Override
     public void onConnected(Bundle bundle) {
-        updateMap(false);
+        updateMap(true);
     }
 
     @Override
