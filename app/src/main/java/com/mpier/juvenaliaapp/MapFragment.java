@@ -13,6 +13,9 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -100,12 +103,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
             @Override
             public boolean onMyLocationButtonClick() {
-                boolean isConnectedAtTheMoment = isDeviceConnectedToInternet();
-                if (isConnectedAtTheMoment != isConnectedToInternet){
-                    isConnectedToInternet = !isConnectedToInternet;
-                    setMapMode(isConnectedToInternet);
-                }
-                updateMap(true);
+                attemptMapModeChange();
                 return true;
             }
         });
@@ -115,8 +113,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
                 != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
-                // User denied permission request earlier or in system settings - disable location layer
+                // User denied permission request earlier or in system settings
+                // Disable location layer and inflate support menu with refresh button
                 setMyLocationEnabled(false);
+                setHasOptionsMenu(true);
             } else {
                 // User didn't grant nor deny permission earlier - request permission
                 ActivityCompat.requestPermissions(getActivity(),
@@ -264,8 +264,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
      *
      * @param online If true is passed, Google Maps will be loaded under the overlay
      */
-    private void setMapMode(boolean online){
-        if (online){
+    private void setMapMode(boolean online) {
+        if (online) {
             overlay.setTransparency(0.25f);
             mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
             mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
@@ -281,20 +281,27 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
                     }
                 }
             });
-
         } else {
-            marker.setVisible(false);
             overlay.setTransparency(0f);
             mMap.setMapType(GoogleMap.MAP_TYPE_NONE);
-            mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
-                @Override
-                public void onCameraChange(CameraPosition cameraPosition) {
-                    // Does nothing
-                }
-            });
-
+            mMap.setOnCameraChangeListener(null);
+            marker.setVisible(false);
+            overlay.setVisible(true);
         }
+    }
 
+    /**
+     * Check if connection with network has changed.
+     * If so, update local connection state (variable),
+     * switch the map mode and perform map update.
+     */
+    private void attemptMapModeChange() {
+        boolean isConnectedAtTheMoment = isDeviceConnectedToInternet();
+        if (isConnectedAtTheMoment != isConnectedToInternet) {
+            isConnectedToInternet = !isConnectedToInternet;
+            setMapMode(isConnectedToInternet);
+        }
+        updateMap(true);
     }
 
     /**
@@ -303,9 +310,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
      *
      * @return True if device is connected or connecting to the network
      */
-    private boolean isDeviceConnectedToInternet(){
+    private boolean isDeviceConnectedToInternet() {
         ConnectivityManager cm =
-                (ConnectivityManager)getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
@@ -322,7 +329,24 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        updateMap(false);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.map_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_map_refresh: {
+                attemptMapModeChange();
+                return true;
+            }
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 
