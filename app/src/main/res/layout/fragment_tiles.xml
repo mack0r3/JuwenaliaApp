@@ -1,31 +1,31 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.mpier.juvenaliaapp.TilesFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
     android:fillViewport="true"
-    android:background="@color/backgroundColor">
+    tools:context="com.mpier.juvenaliaapp.TilesFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="16dp"
+        android:orientation="vertical"
+        android:paddingBottom="16dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:paddingBottom="16dp"
-        android:orientation="vertical">
+        android:paddingTop="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/tilesFragmentTileHeight"
-            android:orientation="horizontal"
-            android:layout_marginBottom="@dimen/tilesMargin">
+            android:layout_marginBottom="32dp"
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
-                android:src="@drawable/juwenaliapwlogo"/>
+                android:src="@drawable/juwenaliapwlogo" />
 
         </LinearLayout>
 
@@ -34,6 +34,46 @@
             android:layout_height="@dimen/tilesFragmentTileHeight"
             android:layout_marginBottom="@dimen/tilesMargin"
             android:background="@drawable/event_row_borders">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:alpha="0.5"
+                android:scaleType="centerCrop"
+                android:src="@drawable/lineup">
+            </ImageView>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:src="@drawable/ic_event_white_48dp"/>
+            <TextView
+                android:id="@+id/lineUpTileTextDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:fontFamily="sans-serif-bold"
+                android:paddingBottom="8dp"
+                android:paddingRight="8dp"
+                android:text="sprawdź naszych artystów"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/lineUpTileTextDescription"
+                android:layout_alignParentRight="true"
+                android:fontFamily="sans-serif-condensed"
+                android:paddingRight="8dp"
+                android:text="Line up"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp" />
 
         </RelativeLayout>
 
@@ -46,9 +86,48 @@
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="6"
                 android:layout_marginRight="@dimen/tilesMargin"
+                android:layout_weight="6"
                 android:background="@drawable/event_row_borders">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:alpha="0.5"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/telebim"></ImageView>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_tv_white_36dp"/>
+                <TextView
+                    android:id="@+id/lineUpTileTextDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:fontFamily="sans-serif-bold"
+                    android:paddingBottom="8dp"
+                    android:paddingRight="8dp"
+                    android:text="czyli pare słów od Ciebie"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/lineUpTileTextDescription"
+                    android:layout_alignParentRight="true"
+                    android:fontFamily="sans-serif-condensed"
+                    android:paddingRight="8dp"
+                    android:text="Twój telebim"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#FFFFFF"
+                    android:textSize="26sp" />
 
             </RelativeLayout>
 
@@ -57,6 +136,45 @@
                 android:layout_height="match_parent"
                 android:layout_weight="4"
                 android:background="@drawable/event_row_borders">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:alpha="0.5"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/selfie"></ImageView>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_camera_alt_white_36dp"/>
+                <TextView
+                    android:id="@+id/lineUpTileTextDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:fontFamily="sans-serif-bold"
+                    android:paddingBottom="8dp"
+                    android:paddingRight="8dp"
+                    android:text="..."
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/lineUpTileTextDescription"
+                    android:layout_alignParentRight="true"
+                    android:fontFamily="sans-serif-condensed"
+                    android:paddingRight="8dp"
+                    android:text="Selfie"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#FFFFFF"
+                    android:textSize="26sp" />
 
             </RelativeLayout>
         </LinearLayout>
@@ -69,9 +187,48 @@
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_marginRight="@dimen/tilesMargin"
+                android:layout_weight="1"
                 android:background="@drawable/event_row_borders">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:alpha="0.5"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/atrakcje"></ImageView>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_whatshot_white_36dp"/>
+                <TextView
+                    android:id="@+id/lineUpTileTextDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:fontFamily="sans-serif-bold"
+                    android:paddingBottom="8dp"
+                    android:paddingRight="8dp"
+                    android:text="na juwe"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/lineUpTileTextDescription"
+                    android:layout_alignParentRight="true"
+                    android:fontFamily="sans-serif-condensed"
+                    android:paddingRight="8dp"
+                    android:text="Atrakcje"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#FFFFFF"
+                    android:textSize="26sp" />
 
             </RelativeLayout>
 
@@ -81,6 +238,44 @@
                 android:layout_weight="1"
                 android:background="@drawable/event_row_borders">
 
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:alpha="0.35"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/mapa"></ImageView>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_map_white_36dp"/>
+                <TextView
+                    android:id="@+id/lineUpTileTextDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:fontFamily="sans-serif-bold"
+                    android:paddingBottom="8dp"
+                    android:paddingRight="8dp"
+                    android:text="co, gdzie?"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/lineUpTileTextDescription"
+                    android:layout_alignParentRight="true"
+                    android:fontFamily="sans-serif-condensed"
+                    android:paddingRight="8dp"
+                    android:text="Mapa"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#FFFFFF"
+                    android:textSize="26sp" />
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
