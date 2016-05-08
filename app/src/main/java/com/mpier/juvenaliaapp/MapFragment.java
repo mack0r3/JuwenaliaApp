@@ -9,9 +9,11 @@ import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -75,26 +77,34 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
     }
 
     @Override
-    public void onStart() {
-        mGoogleApiClient.connect();
-        super.onStart();
-    }
-
-    @Override
-    public void onStop() {
-        mGoogleApiClient.disconnect();
-        super.onStop();
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        final MapFragment callbackFragment = this;
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Creating overlay
+                if (overlayBitmapDescriptor == null) {
+                    overlayBitmapDescriptor = BitmapDescriptorFactory.fromBitmap(decodeMapBitmap());
+                }
+
+                SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
+                        .findFragmentById(R.id.map);
+                mapFragment.getMapAsync(callbackFragment);
+
+                mGoogleApiClient.connect();
+            }
+        }, 0);
 
         return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mGoogleApiClient.disconnect();
     }
 
     @Override
@@ -127,11 +137,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         } else {
             // Permission was granted earlier - enable location layer
             setMyLocationEnabled(true);
-        }
-
-        // Creating overlay
-        if (overlayBitmapDescriptor == null) {
-            overlayBitmapDescriptor = BitmapDescriptorFactory.fromBitmap(decodeMapBitmap());
         }
 
         GroundOverlayOptions overlayOptions = new GroundOverlayOptions()
@@ -320,15 +325,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
 
     @Override
     public void onConnected(Bundle bundle) {
-        updateMap(true);
+        Log.i(getClass().getSimpleName(), "Connected with Google Play Services");
     }
 
     @Override
     public void onConnectionSuspended(int i) {
+        Log.i(getClass().getSimpleName(), "Google Play Services connection suspended");
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.e(getClass().getSimpleName(), "Google Play Services connection error: " + connectionResult.getErrorMessage());
     }
 
     @Override
