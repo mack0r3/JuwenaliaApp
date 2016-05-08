@@ -234,10 +234,11 @@ public class SelfieFragment extends Fragment {
                     FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT, Gravity.CENTER);
                     previewFrame.addView(cameraPreview, params);
 
-                    ImageButton button = (ImageButton) view.findViewById(R.id.buttonCapture);
+                    final ImageButton button = (ImageButton) view.findViewById(R.id.buttonCapture);
                     button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            button.setEnabled(false);
                             camera.takePicture(null, null, pictureCallback);
                         }
                     });
