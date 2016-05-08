@@ -3,7 +3,6 @@ package com.mpier.juvenaliaapp.selfie;
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.hardware.Camera;
@@ -11,8 +10,6 @@ import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-
-import com.mpier.juvenaliaapp.R;
 
 import java.io.IOException;
 import java.util.List;
@@ -26,12 +23,9 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     private final Camera camera;
     private final int cameraId;
     private final List<Camera.Size> supportedPreviewSizes;
-
-    private Camera.Size previewSize;
-
-    private SurfaceHolder surfaceHolder;
-
     private final Bitmap logoBitmap;
+    private Camera.Size previewSize;
+    private SurfaceHolder surfaceHolder;
 
     public CameraPreview(Activity activity, Camera camera, int cameraId, Bitmap logoBitmap) {
         super(activity);
@@ -176,12 +170,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-
-    }
-
-    public void releaseBitmap() {
-        if (logoBitmap != null) {
-            logoBitmap.recycle();
-        }
+        logoBitmap.recycle();
     }
 }

@@ -31,8 +31,8 @@ import java.io.File;
 
 public class PhotoShareFragment extends Fragment implements View.OnClickListener {
     private static String TAG = PhotoShareFragment.class.getName();
-    private Uri photoUri;
     private boolean uiShown;
+    private Uri photoUri;
 
 
     public PhotoShareFragment() {
@@ -101,8 +101,6 @@ public class PhotoShareFragment extends Fragment implements View.OnClickListener
         photoToShareView.setClickable(true);
         photoToShareView.setOnClickListener(this);
 
-        uiShown = true;
-
         // Handling exiting fullscreen mode
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();
@@ -122,6 +120,8 @@ public class PhotoShareFragment extends Fragment implements View.OnClickListener
             }
         });
 
+
+        uiShown = true;
         View decorView = getActivity().getWindow().getDecorView();
         decorView.setOnSystemUiVisibilityChangeListener
                 (new View.OnSystemUiVisibilityChangeListener() {

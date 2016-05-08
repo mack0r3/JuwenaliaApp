@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.hardware.Camera;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -52,6 +51,7 @@ public class SelfieFragment extends Fragment {
     private Camera.PictureCallback pictureCallback;
     private FrameLayout previewFrame;
     private CameraPreview cameraPreview;
+    private Bitmap photoBitmap;
 
     public SelfieFragment() {
         pictureCallback = new SelfiePictureCallback();
@@ -88,7 +88,6 @@ public class SelfieFragment extends Fragment {
     public void onPause() {
         super.onPause();
 
-
         synchronized (isRunning) {
             if (camera != null) {
                 isRunning.set(false);
@@ -99,15 +98,15 @@ public class SelfieFragment extends Fragment {
                 camera = null;
             }
         }
-        if (cameraPreview != null) {
-            cameraPreview.releaseBitmap();
-        }
         if (previewFrame != null) {
             previewFrame.removeView(cameraPreview);
 
             previewFrame.setVisibility(View.GONE);
             if (getView() != null)
                 getView().findViewById(R.id.buttonCapture).setVisibility(View.GONE);
+        }
+        if (photoBitmap != null) {
+            photoBitmap.recycle();
         }
     }
 
@@ -261,6 +260,14 @@ public class SelfieFragment extends Fragment {
     private class SelfieSaver extends AsyncTask<byte[], Void, Void> {
         private boolean saveSuccessful;
         private File outputFile;
+        private int destWidth;
+        private int destHeigth;
+
+        @Override
+        protected void onPreExecute() {
+            destHeigth = cameraPreview.getHeight();
+            destWidth = cameraPreview.getWidth();
+        }
 
         @Override
         protected Void doInBackground(byte[]... params) {
@@ -268,7 +275,7 @@ public class SelfieFragment extends Fragment {
 
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inMutable = true;
-            Bitmap photoBitmap = BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData.length, options);
+            photoBitmap = BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData.length, options);
 
             Matrix matrix = new Matrix();
             int rotation = getCameraDisplayOrientation();
@@ -290,7 +297,9 @@ public class SelfieFragment extends Fragment {
             outputFile = getOutputImageFile();
             saveSuccessful = savePhoto(photoBitmap, outputFile);
 
+            Bitmap scaled = Bitmap.createScaledBitmap(photoBitmap, destWidth, destHeigth, true);
             photoBitmap.recycle();
+            photoBitmap = scaled;
 
             return null;
         }
@@ -301,11 +310,15 @@ public class SelfieFragment extends Fragment {
                 View view = getView();
                 if (view != null) {
                     getView().findViewById(R.id.cameraPreview).setVisibility(View.GONE);
+
                     ImageView photoView = (ImageView) getView().findViewById(R.id.photoPreview);
+                    photoView.setImageBitmap(photoBitmap);
                     photoView.setVisibility(View.VISIBLE);
-                    photoView.setImageURI(Uri.fromFile(outputFile));
+
                     addPhotoToGallery(outputFile);
+
                     Toast.makeText(getActivity(), getActivity().getString(R.string.selfie_photo_saved), Toast.LENGTH_LONG).show();
+
                     sharePhoto(outputFile);
                 }
             }
