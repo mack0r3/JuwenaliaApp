@@ -7,10 +7,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -21,8 +18,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
-import android.text.InputFilter;
-import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -32,13 +27,11 @@ import android.view.MenuItem;
 import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.mpier.juvenaliaapp.MainActivity;
 import com.mpier.juvenaliaapp.R;
 
 import java.io.File;
@@ -53,14 +46,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @SuppressWarnings("deprecation")
 public class SelfieFragment extends Fragment {
     private static String TAG = SelfieFragment.class.getName();
+    private final AtomicBoolean isRunning;
     private Camera camera;
     private int cameraId;
     private Camera.PictureCallback pictureCallback;
     private FrameLayout previewFrame;
     private CameraPreview cameraPreview;
-    private CameraInitializer cameraInitializer;
-
-    private final AtomicBoolean isRunning;
 
     public SelfieFragment() {
         pictureCallback = new SelfiePictureCallback();
@@ -89,7 +80,7 @@ public class SelfieFragment extends Fragment {
 
         isRunning.set(true);
 
-        cameraInitializer = new CameraInitializer();
+        CameraInitializer cameraInitializer = new CameraInitializer();
         cameraInitializer.execute();
     }
 
@@ -115,7 +106,8 @@ public class SelfieFragment extends Fragment {
             previewFrame.removeView(cameraPreview);
 
             previewFrame.setVisibility(View.GONE);
-            getView().findViewById(R.id.buttonCapture).setVisibility(View.GONE);
+            if (getView() != null)
+                getView().findViewById(R.id.buttonCapture).setVisibility(View.GONE);
         }
     }
 
@@ -198,8 +190,7 @@ public class SelfieFragment extends Fragment {
                     synchronized (isRunning) {
                         if (isRunning.get()) {
                             camera = Camera.open(idOfCameraFacingFront);
-                        }
-                        else {
+                        } else {
                             return false;
                         }
                     }
@@ -208,8 +199,7 @@ public class SelfieFragment extends Fragment {
 
                     if (isRunning.get()) {
                         logoBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.logo_selfie);
-                    }
-                    else {
+                    } else {
                         return false;
                     }
 
@@ -233,30 +223,29 @@ public class SelfieFragment extends Fragment {
                         fragmentTransaction.commit();
                     }
                 }
-            }
-            else {
+            } else {
+                View view = getView();
                 synchronized (isRunning) {
-                    View view = getView();
                     if (isRunning.get()) {
                         cameraPreview = new CameraPreview(getActivity(), camera, cameraId, logoBitmap);
                     }
-                    if (cameraPreview != null) {
-                        previewFrame = (FrameLayout) view.findViewById(R.id.cameraPreview);
-                        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT, Gravity.CENTER);
-                        previewFrame.addView(cameraPreview, params);
+                }
+                if (cameraPreview != null) {
+                    previewFrame = (FrameLayout) view.findViewById(R.id.cameraPreview);
+                    FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT, Gravity.CENTER);
+                    previewFrame.addView(cameraPreview, params);
 
-                        ImageButton button = (ImageButton) view.findViewById(R.id.buttonCapture);
-                        button.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                camera.takePicture(null, null, pictureCallback);
-                            }
-                        });
+                    ImageButton button = (ImageButton) view.findViewById(R.id.buttonCapture);
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            camera.takePicture(null, null, pictureCallback);
+                        }
+                    });
 
-                        view.findViewById(R.id.cameraLoading).setVisibility(View.GONE);
-                        previewFrame.setVisibility(View.VISIBLE);
-                        view.findViewById(R.id.buttonCapture).setVisibility(View.VISIBLE);
-                    }
+                    view.findViewById(R.id.cameraLoading).setVisibility(View.GONE);
+                    previewFrame.setVisibility(View.VISIBLE);
+                    view.findViewById(R.id.buttonCapture).setVisibility(View.VISIBLE);
                 }
             }
         }
@@ -309,14 +298,16 @@ public class SelfieFragment extends Fragment {
         @Override
         protected void onPostExecute(Void aVoid) {
             if (saveSuccessful) {
-                SelfieFragment.this.getView().findViewById(R.id.cameraPreview).setVisibility(View.GONE);
-                ImageView photoView = (ImageView) SelfieFragment.this.getView().findViewById(R.id.photoPreview);
-                photoView.setVisibility(View.VISIBLE);
-                photoView.setImageURI(Uri.fromFile(outputFile));
-
-                addPhotoToGallery(outputFile);
-                Toast.makeText(getActivity(), getActivity().getString(R.string.selfie_photo_saved), Toast.LENGTH_LONG).show();
-                sharePhoto(outputFile);
+                View view = getView();
+                if (view != null) {
+                    getView().findViewById(R.id.cameraPreview).setVisibility(View.GONE);
+                    ImageView photoView = (ImageView) getView().findViewById(R.id.photoPreview);
+                    photoView.setVisibility(View.VISIBLE);
+                    photoView.setImageURI(Uri.fromFile(outputFile));
+                    addPhotoToGallery(outputFile);
+                    Toast.makeText(getActivity(), getActivity().getString(R.string.selfie_photo_saved), Toast.LENGTH_LONG).show();
+                    sharePhoto(outputFile);
+                }
             }
         }
 
