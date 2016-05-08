@@ -3,27 +3,27 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/menu_line_up"
-            android:icon="@drawable/ic_event_black_48dp"
+            android:icon="@drawable/ic_event_white_48dp"
             android:title="@string/menu_line_up">
         </item>
         <item
             android:id="@+id/menu_telebim"
-            android:icon="@drawable/ic_tv_black_48dp"
+            android:icon="@drawable/ic_tv_white_48dp"
             android:title="@string/menu_telebim">
         </item>
         <item
             android:id="@+id/menu_map"
-            android:icon="@drawable/ic_map_black_48dp"
+            android:icon="@drawable/ic_map_white_48dp"
             android:title="@string/menu_map">
         </item>
         <item
             android:id="@+id/menu_attractions"
-            android:icon="@drawable/ic_whatshot_black_48dp"
+            android:icon="@drawable/ic_whatshot_white_48dp"
             android:title="@string/menu_attractions">
         </item>
         <item
             android:id="@+id/menu_selfie"
-            android:icon="@drawable/ic_camera_alt_black_48dp"
+            android:icon="@drawable/ic_camera_alt_white_48dp"
             android:title="@string/menu_selfie">
         </item>
         <item
