@@ -10,7 +10,16 @@
         android:id="@+id/cameraPreview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/cameraLoading"
+        android:src="@drawable/ic_camera_alt_white_48dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
     <ImageView
         android:id="@+id/photoPreview"
@@ -25,7 +34,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/ic_camera_alt_white_36dp" />
+        android:src="@drawable/ic_camera_alt_white_36dp"
+        android:visibility="gone" />
 
 
 </RelativeLayout>

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -102,6 +103,25 @@ public class PhotoShareFragment extends Fragment implements View.OnClickListener
 
         uiShown = true;
 
+        // Handling exiting fullscreen mode
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){
+                    if (!uiShown) {
+                        toggleSystemUI();
+                    }
+                    else {
+                        mainActivity.onBackPressed();
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
+
         View decorView = getActivity().getWindow().getDecorView();
         decorView.setOnSystemUiVisibilityChangeListener
                 (new View.OnSystemUiVisibilityChangeListener() {
@@ -119,7 +139,7 @@ public class PhotoShareFragment extends Fragment implements View.OnClickListener
                         } else {
                             mainActivity.getSupportActionBar().hide();
 
-                            getView().findViewById(R.id.shareButtonsLayout).setVisibility(View.INVISIBLE);
+                            getView().findViewById(R.id.shareButtonsLayout).setVisibility(View.GONE);
 
                             DrawerLayout drawerLayout = (DrawerLayout)mainActivity.findViewById(R.id.drawer_layout);
                             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
