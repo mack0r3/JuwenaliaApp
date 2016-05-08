@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
                         setFragment(menuItem);
                     }
                 }, 300);
-                //overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
                 //menuItem.setChecked(false);
                 drawerLayout.closeDrawers();
 
