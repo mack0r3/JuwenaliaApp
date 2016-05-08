@@ -57,8 +57,7 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
             @Override
             public boolean onNavigationItemSelected(final MenuItem menuItem) {
                 isTilesFragment = false;
-                menuItem.setChecked(true);
-                drawerLayout.closeDrawers();
+                //menuItem.setChecked(true);
                 getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 new Handler().postDelayed(new Runnable(){
                     @Override
@@ -66,8 +65,10 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
                         setFragment(menuItem);
                     }
                 }, 300);
-                overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-                menuItem.setChecked(false);
+                //overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+                //menuItem.setChecked(false);
+                drawerLayout.closeDrawers();
+
                 return false;
             }
         });
@@ -125,9 +126,7 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
             else {
                 isTilesFragment = true;
 
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.main_container, new TilesFragment());
-                fragmentTransaction.commit();
+                FragmentReplacer.switchToTiles(getSupportFragmentManager());
             }
         }
     }
@@ -137,44 +136,23 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
         switch(menuItem.getItemId())
         {
             case R.id.menu_attractions:
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.main_container, new AttractionsFragment())
-                        .commit();
+                FragmentReplacer.switchFragment(getSupportFragmentManager(), new AttractionsFragment());
                 break;
             case R.id.menu_line_up:
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.main_container, new LineUpFragment())
-                        .commit();
-
+                FragmentReplacer.switchFragment(getSupportFragmentManager(), new LineUpFragment());
                 break;
-            case R.id.menu_selfie: {
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.main_container, new SelfieFragment())
-                        .commit();
+            case R.id.menu_selfie:
+                FragmentReplacer.switchFragment(getSupportFragmentManager(), new SelfieFragment());
                 break;
-            }
-            case R.id.menu_map: {
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.main_container, new MapFragment())
-                        .commit();
+            case R.id.menu_map:
+                FragmentReplacer.switchFragment(getSupportFragmentManager(), new MapFragment());
                 break;
-            }
             case R.id.menu_telebim:
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.main_container, TelebimFragment.newInstance())
-                        .commit();
+                FragmentReplacer.switchFragment(getSupportFragmentManager(), TelebimFragment.newInstance());
                 break;
-            case R.id.menu_rules: {
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.main_container, new RulesFragment())
-                        .commit();
-            }
+            case R.id.menu_rules:
+                FragmentReplacer.switchFragment(getSupportFragmentManager(), new RulesFragment());
+                break;
         }
     }
 
