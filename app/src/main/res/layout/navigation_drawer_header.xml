@@ -4,11 +4,10 @@
     android:layout_height="180dp"
     android:background="#ecf0f1">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/sign_in"
-        android:onClick="signIn"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/juwenaliapw_text_logo"
+        android:layout_margin="30dp"/>
 
 </RelativeLayout>
