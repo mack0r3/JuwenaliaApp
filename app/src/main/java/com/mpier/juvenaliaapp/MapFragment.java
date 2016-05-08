@@ -46,7 +46,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 /**
  * MapFragment, displaying marker if user is far from the target
  * or surroundings overlay if he/she is close.
- * <p/>
+ * <p>
  * Created by Konpon96 on 2016-03-02.
  */
 public class MapFragment extends Fragment implements OnMapReadyCallback,
@@ -86,6 +86,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
+
+        // Set up FAB
+        rootView.findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mMap != null && overlay != null)
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(overlay.getBounds(), 0));
+            }
+        });
 
         final MapFragment callbackFragment = this;
 
@@ -133,7 +142,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
                 // User denied permission request earlier or in system settings
-                // Disable location layer and inflate support menu with refresh button
                 setMyLocationEnabled(false);
             } else {
                 // User didn't grant nor deny permission earlier - request permission
@@ -160,9 +168,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         marker = mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(52.21293, 21.01146))
                 .title(getString(R.string.map_marker_stadium)));
-
-        // Menu
-        setHasOptionsMenu(true);
 
         setMapMode(isConnectedToInternet);
     }
@@ -334,24 +339,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.e(getClass().getSimpleName(), "Google Play Services connection error: " + connectionResult.getErrorMessage());
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.map_menu, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_map_zoom_stadium: {
-                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(overlay.getBounds(), 0));
-                return true;
-            }
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     /**
