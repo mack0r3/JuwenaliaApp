@@ -15,7 +15,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.facebook.login.LoginResult;
+import com.facebook.Profile;
 import com.mpier.juvenaliaapp.Attractions.AttractionsFragment;
 import com.mpier.juvenaliaapp.LineUp.LineUpFragment;
 import com.mpier.juvenaliaapp.selfie.SelfieFragment;
@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
     Toolbar toolbar;
     ActionBarDrawerToggle actionBarDrawerToggle;
     NavigationView navigationView;
+    private String username = null;
 
     boolean isTilesFragment;
 
@@ -88,10 +89,14 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
                         break;
                     }
                     case R.id.menu_telebim:
-                        getSupportFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.main_container, TelebimFragment.newInstance())
-                                .commit();
+                        if(username == null) {
+                            signIn(null);
+                        } else {
+                            getSupportFragmentManager()
+                                    .beginTransaction()
+                                    .replace(R.id.main_container, TelebimFragment.newInstance(username))
+                                    .commit();
+                        }
                         break;
                     case R.id.menu_rules: {
                         getSupportFragmentManager()
@@ -121,15 +126,23 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
     }
 
     @Override
-    public void onFacebookLoginResult(LoginResult loginResult) {
-        if(loginResult == null) {
+    public void onFacebookLoginResult(boolean loginResult) {
+        if(loginResult) {
+            username = Profile.getCurrentProfile().getFirstName() + " " + Profile.getCurrentProfile().getLastName();
+        } else {
+            username = null;
             new AlertDialog.Builder(this).setTitle("Facebook login").setMessage("Facebook login error").setNeutralButton("OK", null).show();
         }
     }
 
     @Override
-    public void onGoogleLoginResult(String text) {
-        new AlertDialog.Builder(this).setTitle("Google login").setMessage(text).setNeutralButton("OK", null).show();
+    public void onGoogleLoginResult(boolean result, String name) {
+        if(result) {
+            username = name;
+        } else {
+            username = null;
+            new AlertDialog.Builder(this).setTitle("Google login").setMessage("Google login error").setNeutralButton("OK", null).show();
+        }
     }
 
     public void signIn(View view) {

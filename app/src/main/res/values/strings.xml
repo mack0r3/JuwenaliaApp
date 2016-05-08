@@ -33,6 +33,8 @@
 
     <string name="sign_in">Sign in</string>
 
+    <string name="telebim_info">Tutaj możesz przesłać pozdrowienia dla swoich znajomych:</string>
+
     <string name="selfie_lack_of_front_camera">Twoje urządzenie nie ma przedniego aparatu</string>
     <string name="selfie_activity_title">Juwenaliowe selfie</string>
     <string name="selfie_photo_saved">Zdjęcie zostało zapisane</string>

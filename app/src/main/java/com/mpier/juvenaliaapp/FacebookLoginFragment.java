@@ -43,17 +43,17 @@ public class FacebookLoginFragment extends Fragment {
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                // App code
+                loginResult(true);
             }
 
             @Override
             public void onCancel() {
-                loginResult(null);
+                loginResult(false);
             }
 
             @Override
             public void onError(FacebookException exception) {
-                // App code
+                loginResult(false);
             }
         });
         return view;
@@ -65,7 +65,7 @@ public class FacebookLoginFragment extends Fragment {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void loginResult(LoginResult loginResult) {
+    public void loginResult(boolean loginResult) {
         if (mListener != null) {
             mListener.onFacebookLoginResult(loginResult);
         }
@@ -89,6 +89,6 @@ public class FacebookLoginFragment extends Fragment {
     }
 
     public interface LoginResultListener {
-        void onFacebookLoginResult(LoginResult loginResult);
+        void onFacebookLoginResult(boolean loginResult);
     }
 }
