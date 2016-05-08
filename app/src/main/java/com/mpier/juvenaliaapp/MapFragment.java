@@ -90,7 +90,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
         final MapFragment callbackFragment = this;
 
-        new Handler().postDelayed(new Runnable() {
+        new Handler().post(new Runnable() {
             @Override
             public void run() {
                 // Creating overlay
@@ -98,14 +98,25 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
                     overlayBitmapDescriptor = BitmapDescriptorFactory.fromBitmap(decodeMapBitmap());
                 }
 
-                SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
-                        .findFragmentById(R.id.map);
-                mapFragment.getMapAsync(callbackFragment);
+                // Android 6.0+ permissions
+                if ((ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED)
+                        && (!shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION))) {
+                        // User didn't grant nor deny permission earlier - request permission
+                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                APP_PERMISSION_ACCESS_FINE_LOCATION);
+                } else {
+                    // Permission was granted or denied earlier - proceed with map loading
+                    SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
+                            .findFragmentById(R.id.map);
+                    mapFragment.getMapAsync(callbackFragment);
 
-                connectivityBroadcastReceiver.register();
-                mGoogleApiClient.connect();
+                    connectivityBroadcastReceiver.register();
+                    mGoogleApiClient.connect();
+                }
+
             }
-        }, 0);
+        });
 
         return rootView;
     }
@@ -128,24 +139,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
             }
         });
 
-        // Android 6.0+ permissions
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-                // User denied permission request earlier or in system settings
-                setMyLocationEnabled(false);
-            } else {
-                // User didn't grant nor deny permission earlier - request permission
-                ActivityCompat.requestPermissions(getActivity(),
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        APP_PERMISSION_ACCESS_FINE_LOCATION);
-            }
-
-        } else {
-            // Permission was granted earlier - enable location layer
-            setMyLocationEnabled(true);
-        }
+        setMyLocationEnabled(ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED);
 
         GroundOverlayOptions overlayOptions = new GroundOverlayOptions()
                 .image(overlayBitmapDescriptor);
@@ -179,12 +174,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
                                            @NonNull int[] grantResults) {
         switch (requestCode) {
             case APP_PERMISSION_ACCESS_FINE_LOCATION: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // Permission granted - enable location layer
-                    setMyLocationEnabled(true);
-                }
+                // Permission was handled - proceed with map loading
+                SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
+                        .findFragmentById(R.id.map);
+                mapFragment.getMapAsync(this);
+
+                connectivityBroadcastReceiver.register();
+                mGoogleApiClient.connect();
                 break;
             }
         }
@@ -371,7 +367,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
             boolean wasPreviouslyConnected = isConnectedToInternet;
             isConnectedToInternet = isDeviceConnectedToInternet();
 
-            if (wasPreviouslyConnected != isConnectedToInternet) {
+            if (wasPreviouslyConnected != isConnectedToInternet && mMap != null) {
                 setMapMode(isConnectedToInternet);
                 updateMap(true);
             }
