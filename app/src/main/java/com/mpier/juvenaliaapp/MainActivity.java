@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
         FacebookLoginFragment.newInstance();
 
         if (savedInstanceState == null) {
+            isTilesFragment = true;
+
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.main_container, new TilesFragment());
             fragmentTransaction.commit();
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
+                isTilesFragment = false;
                 item.setChecked(true);
                 drawerLayout.closeDrawers();
                 getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -61,14 +64,12 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
                         getSupportFragmentManager()
                                 .beginTransaction()
                                 .replace(R.id.main_container, new AttractionsFragment())
-                                .addToBackStack(null)
                                 .commit();
                         break;
                     case R.id.menu_line_up:
                         getSupportFragmentManager()
                                 .beginTransaction()
                                 .replace(R.id.main_container, new LineUpFragment())
-                                .addToBackStack(null)
                                 .commit();
 
                         break;
@@ -76,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
                         getSupportFragmentManager()
                                 .beginTransaction()
                                 .replace(R.id.main_container, new SelfieFragment())
-                                .addToBackStack(null)
                                 .commit();
                         break;
                     }
@@ -84,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
                         getSupportFragmentManager()
                                 .beginTransaction()
                                 .replace(R.id.main_container, new MapFragment())
-                                .addToBackStack(null)
                                 .commit();
                         break;
                     }
@@ -92,14 +91,12 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
                         getSupportFragmentManager()
                                 .beginTransaction()
                                 .replace(R.id.main_container, TelebimFragment.newInstance())
-                                .addToBackStack(null)
                                 .commit();
                         break;
                     case R.id.menu_rules: {
                         getSupportFragmentManager()
                                 .beginTransaction()
                                 .replace(R.id.main_container, new RulesFragment())
-                                .addToBackStack(null)
                                 .commit();
                     }
                 }
@@ -148,8 +145,20 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         }
-        else {
+        else if (isTilesFragment) {
             super.onBackPressed();
+        }
+        else {
+            if (getSupportFragmentManager().getBackStackEntryCount() != 0) {
+                super.onBackPressed();
+            }
+            else {
+                isTilesFragment = true;
+
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.main_container, new TilesFragment());
+                fragmentTransaction.commit();
+            }
         }
     }
 }
