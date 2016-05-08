@@ -3,6 +3,7 @@ package com.mpier.juvenaliaapp;
 import android.app.AlertDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -11,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -53,55 +55,19 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
         navigationView = (NavigationView)findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(MenuItem item) {
+            public boolean onNavigationItemSelected(final MenuItem menuItem) {
                 isTilesFragment = false;
-                item.setChecked(true);
+                menuItem.setChecked(true);
                 drawerLayout.closeDrawers();
                 getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                switch(item.getItemId())
-                {
-                    case R.id.menu_attractions:
-                        getSupportFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.main_container, new AttractionsFragment())
-                                .commit();
-                        break;
-                    case R.id.menu_line_up:
-                        getSupportFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.main_container, new LineUpFragment())
-                                .commit();
-
-                        break;
-                    case R.id.menu_selfie: {
-                        getSupportFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.main_container, new SelfieFragment())
-                                .commit();
-                        break;
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run() {
+                        setFragment(menuItem);
                     }
-                    case R.id.menu_map: {
-                        getSupportFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.main_container, new MapFragment())
-                                .commit();
-                        break;
-                    }
-                    case R.id.menu_telebim:
-                        getSupportFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.main_container, TelebimFragment.newInstance())
-                                .commit();
-                        break;
-                    case R.id.menu_rules: {
-                        getSupportFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.main_container, new RulesFragment())
-                                .commit();
-                    }
-                }
+                }, 300);
                 overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-                item.setChecked(false);
+                menuItem.setChecked(false);
                 return false;
             }
         });
@@ -161,4 +127,51 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
             }
         }
     }
+
+    private void setFragment(MenuItem menuItem)
+    {
+        switch(menuItem.getItemId())
+        {
+            case R.id.menu_attractions:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.main_container, new AttractionsFragment())
+                        .commit();
+                break;
+            case R.id.menu_line_up:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.main_container, new LineUpFragment())
+                        .commit();
+
+                break;
+            case R.id.menu_selfie: {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.main_container, new SelfieFragment())
+                        .commit();
+                break;
+            }
+            case R.id.menu_map: {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.main_container, new MapFragment())
+                        .commit();
+                break;
+            }
+            case R.id.menu_telebim:
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.main_container, TelebimFragment.newInstance())
+                        .commit();
+                break;
+            case R.id.menu_rules: {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.main_container, new RulesFragment())
+                        .commit();
+            }
+        }
+    }
+
 }
