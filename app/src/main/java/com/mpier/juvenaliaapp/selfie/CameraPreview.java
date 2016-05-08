@@ -149,11 +149,34 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         canvas.drawBitmap(logoBitmap, null, rect, null);
     }
 
+    private Camera.Size getBestPictureResolution() {
+        List<Camera.Size> supportedPictureSizes = camera.getParameters().getSupportedPictureSizes();
+        Camera.Size bestSize = null;
+        for (Camera.Size size : supportedPictureSizes) {
+            int width = Math.max(size.width, size.height);
+            if (bestSize == null) {
+                bestSize = size;
+            }
+            else {
+                int currentWidth = Math.max(bestSize.width, bestSize.height);
+                if (currentWidth > width
+                        && currentWidth <= 1280) {
+                    bestSize = size;
+                }
+            }
+        }
+        return bestSize;
+    }
+
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         try {
             Camera.Parameters parameters = camera.getParameters();
             parameters.setPreviewSize(previewSize.width, previewSize.height);
+
+            Camera.Size bestRes = getBestPictureResolution();
+            parameters.setPictureSize(bestRes.width, bestRes.height);
+
             camera.setParameters(parameters);
             setCameraDisplayOrientation();
             camera.setPreviewDisplay(holder);

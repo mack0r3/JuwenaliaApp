@@ -370,9 +370,7 @@ public class SelfieFragment extends Fragment {
 
             try {
                 FileOutputStream fos = new FileOutputStream(outputFile);
-
-                photoBitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-
+                photoBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
                 fos.close();
             } catch (FileNotFoundException e) {
                 Log.d(TAG, "File not found: " + e.getMessage());
