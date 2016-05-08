@@ -9,56 +9,61 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:background="@drawable/event_row_borders">
+
         <RelativeLayout
             android:id="@+id/event_row_image"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="2dp">
+
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Bomba Kaloryczna"
-                android:textColor="#FFFFFF"
-                android:textSize="26sp"
-                android:fontFamily="sans-serif-light"
                 android:id="@+id/event_name"
-                android:paddingTop="100dp"
-                android:paddingRight="10dp"
-                android:paddingBottom="0dp"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"/>
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:fontFamily="sans-serif-light"
+                android:paddingBottom="0dp"
+                android:paddingRight="10dp"
+                android:paddingTop="100dp"
+                android:text="Bomba Kaloryczna"
                 android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#FFFFFF"
+                android:textSize="26sp" />
+
+            <TextView
+                android:id="@+id/event_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="sans-serif-bold"
+                android:paddingLeft="65dp"
+                android:paddingTop="20dp"
                 android:text="16:15"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#FFFFFF"
                 android:textSize="32sp"
-                android:fontFamily="sans-serif-bold"
-                android:textStyle="bold"
-                android:id="@+id/event_time"
-                android:paddingTop="20dp"
-                android:paddingLeft="65dp"
-                android:layout_gravity="center_horizontal"/>
+                android:textStyle="bold" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="sans-serif-condensed"
+                android:paddingLeft="65dp"
+                android:paddingTop="54dp"
                 android:text="GODZ."
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
-                android:fontFamily="sans-serif-condensed"
-                android:textStyle="bold"
-                android:paddingTop="54dp"
-                android:paddingLeft="65dp"
-                android:layout_gravity="center_horizontal"/>
+                android:textStyle="bold" />
+
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@drawable/info"
-                android:layout_marginTop="28sp"
                 android:layout_marginLeft="20sp"
+                android:layout_marginTop="28sp"
+                android:background="@drawable/info"
                 android:contentDescription="@null" />
         </RelativeLayout>
 

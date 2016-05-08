@@ -1,8 +1,5 @@
 package com.mpier.juvenaliaapp.Attractions;
 
-/**
- * Created by Korzonkie on 2016-02-15.
- */
 public class Attraction {
     private String attrName;
     private int attrImgRes;

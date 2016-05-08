@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mpier.juvenaliaapp.R;
@@ -15,7 +16,12 @@ import com.mpier.juvenaliaapp.R;
  */
 public class CustomAdapter extends ArrayAdapter {
 
+    View convertView;
+
     Attraction[] attractions = null;
+
+    TextView attractionName;
+    ImageView attractionImage;
 
     public CustomAdapter(Context context, int resource, Attraction[] attractions) {
         super(context, R.layout.attraction_row, attractions);
@@ -25,18 +31,26 @@ public class CustomAdapter extends ArrayAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        if( convertView == null )
-        {
+        if (convertView == null) {
             LayoutInflater layoutInflater = LayoutInflater.from(getContext());
             convertView = layoutInflater.inflate(R.layout.attraction_row, parent, false);
         }
 
-        TextView attractionName = (TextView)convertView.findViewById(R.id.attractionName);
-        attractionName.setText(attractions[position].getAttrName());
-        convertView.findViewById(R.id.attractionRowImage).setBackgroundResource(attractions[position].getAttrImgRes());
-        Drawable background = convertView.findViewById(R.id.attractionRowImage).getBackground();
-        background.setAlpha(0);
+        this.convertView = convertView;
+
+        initializeAndSetTextView(position);
+        initializeAndSetImageView(position);
 
         return convertView;
+    }
+
+    private void initializeAndSetTextView(int index) {
+        TextView attractionName = (TextView) convertView.findViewById(R.id.attractionName);
+        attractionName.setText(attractions[index].getAttrName());
+    }
+
+    private void initializeAndSetImageView(int index) {
+        ImageView attractionImage = (ImageView) convertView.findViewById(R.id.attractionRowImage);
+        attractionImage.setImageResource(attractions[index].getAttrImgRes());
     }
 }

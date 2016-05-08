@@ -7,7 +7,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/juwenaliapw_text_logo"
-        android:layout_margin="30dp"/>
+        android:layout_margin="30dp"
+        android:src="@drawable/juwenaliapw_text_logo" />
 
 </RelativeLayout>

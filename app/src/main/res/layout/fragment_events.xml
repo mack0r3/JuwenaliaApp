@@ -5,8 +5,8 @@
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
     android:fitsSystemWindows="true"
-    android:orientation="vertical"
     android:focusableInTouchMode="true"
+    android:orientation="vertical"
     android:paddingBottom="0dp"
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
@@ -16,9 +16,9 @@
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:background="@color/backgroundColor"
         android:fillViewport="true"
-        android:orientation="vertical"
-        android:background="@color/backgroundColor">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,9 +30,9 @@
                 android:id="@+id/events_list_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:divider="@android:color/transparent"
                 android:dividerHeight="10.0sp"
-                android:layout_marginBottom="10dp"
                 android:fontFamily="sans-serif-condensed" />
 
         </LinearLayout>

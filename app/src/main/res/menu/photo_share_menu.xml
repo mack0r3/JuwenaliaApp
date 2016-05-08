@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
     <item
         android:id="@+id/action_fullscreen"
+        android:icon="@drawable/ic_fullscreen_white_36dp"
         android:orderInCategory="1"
-        app:showAsAction="ifRoom"
         android:title="@string/selfie_share_fullscreen"
-        android:icon="@drawable/ic_fullscreen_white_36dp">
-    </item>
+        app:showAsAction="ifRoom" />
 </menu>

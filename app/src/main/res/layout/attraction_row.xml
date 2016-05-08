@@ -1,37 +1,33 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="120dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:background="@drawable/attraction_row_borders">
 
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/attractionRowImage"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:alpha="@dimen/tile_alpha"
+        android:cropToPadding="true"
+        android:padding="2px"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/attractionName"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/attraction_row_borders">
-        <RelativeLayout
-            android:id="@+id/attractionRowImage"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Stoisko Coca - Coli"
-                android:textColor="#FFFFFF"
-                android:textSize="30sp"
-                android:fontFamily="sans-serif-condensed"
-                android:textStyle="bold"
-                android:id="@+id/attractionName"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:paddingTop="40dp"
-                android:paddingRight="20dp"/>
-        </RelativeLayout>
-
-    </RelativeLayout>
-
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:fontFamily="sans-serif-bold"
+        android:paddingBottom="8dp"
+        android:paddingRight="8dp"
+        android:text="Beer pong"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp" />
 
 </RelativeLayout>

@@ -1,4 +1,5 @@
 package com.mpier.juvenaliaapp.Attractions;
+
 import com.mpier.juvenaliaapp.R;
 
 import android.os.Bundle;
@@ -9,8 +10,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-
-
 
 
 /**
@@ -35,14 +34,14 @@ public class AttractionsFragment extends Fragment {
 
         return inflatedView;
     }
-    public void initializeFragment()
-    {
+
+    public void initializeFragment() {
         attractions = createAttractions();
         ListView attractionsList = createListViewForAttractions(attractions);
         attractionsList.setOnItemClickListener(onItemClickHandler);
     }
 
-    AdapterView.OnItemClickListener onItemClickHandler = new AdapterView.OnItemClickListener(){
+    AdapterView.OnItemClickListener onItemClickHandler = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
             Fragment fragment = new AttractionDescriptionFragment();
@@ -54,11 +53,11 @@ public class AttractionsFragment extends Fragment {
         }
     };
 
-    private Attraction[] createAttractions(){
+    private Attraction[] createAttractions() {
 
         String description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec nulla euismod, luctus dui vitae, fermentum arcu.";
 
-        Attraction attractions[] = new Attraction[] {
+        Attraction attractions[] = new Attraction[]{
                 new Attraction("Stoisko Coca - Cola", R.drawable.cocacola, description),
                 new Attraction("Gra we frisbee", R.drawable.cocacola, description),
                 new Attraction("Stoisko mediów", R.drawable.cocacola, description),
@@ -71,10 +70,10 @@ public class AttractionsFragment extends Fragment {
         return attractions;
     }
 
-    private ListView createListViewForAttractions(Attraction[] attractions){
+    private ListView createListViewForAttractions(Attraction[] attractions) {
 
         ListAdapter myAdapter = new CustomAdapter(getContext(), R.layout.attraction_row, attractions);
-        ListView attractionsList = (ListView)inflatedView.findViewById(R.id.attractionsList);
+        ListView attractionsList = (ListView) inflatedView.findViewById(R.id.attractionsList);
         attractionsList.setAdapter(myAdapter);
         return attractionsList;
     }

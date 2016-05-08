@@ -4,32 +4,26 @@
         <item
             android:id="@+id/menu_line_up"
             android:icon="@drawable/ic_event_white_48dp"
-            android:title="@string/menu_line_up">
-        </item>
+            android:title="@string/menu_line_up" />
         <item
             android:id="@+id/menu_telebim"
             android:icon="@drawable/ic_tv_white_48dp"
-            android:title="@string/menu_telebim">
-        </item>
+            android:title="@string/menu_telebim" />
         <item
             android:id="@+id/menu_map"
             android:icon="@drawable/ic_map_white_48dp"
-            android:title="@string/menu_map">
-        </item>
+            android:title="@string/menu_map" />
         <item
             android:id="@+id/menu_attractions"
             android:icon="@drawable/ic_whatshot_white_48dp"
-            android:title="@string/menu_attractions">
-        </item>
+            android:title="@string/menu_attractions" />
         <item
             android:id="@+id/menu_selfie"
             android:icon="@drawable/ic_camera_alt_white_48dp"
-            android:title="@string/menu_selfie">
-        </item>
+            android:title="@string/menu_selfie" />
         <item
             android:id="@+id/menu_rules"
             android:icon="@drawable/ic_security_black_48dp"
-            android:title="@string/menu_rules">
-        </item>
+            android:title="@string/menu_rules" />
     </group>
 </menu>

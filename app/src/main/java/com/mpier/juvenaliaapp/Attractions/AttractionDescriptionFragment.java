@@ -1,4 +1,5 @@
 package com.mpier.juvenaliaapp.Attractions;
+
 import com.mpier.juvenaliaapp.R;
 
 import android.os.Bundle;
@@ -15,10 +16,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class AttractionDescriptionFragment extends Fragment implements OnMapReadyCallback {
 
     View inflatedView;
@@ -28,30 +25,19 @@ public class AttractionDescriptionFragment extends Fragment implements OnMapRead
         // Required empty public constructor
     }
 
+    TextView attractionName;
+    TextView attractionDescription;
+
+    String attrName;
+    String attrDesc;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if(inflatedView == null) inflatedView = inflater.inflate(R.layout.fragment_attraction_description, container, false);
+        if (inflatedView == null)
+            inflatedView = inflater.inflate(R.layout.fragment_attraction_description, container, false);
 
-        String attrName = "";
-        String attrDesc = "";
-
-        Bundle bundle = this.getArguments();
-        if (bundle != null) {
-            attrName = bundle.getString("attrName", "");
-            attrDesc = bundle.getString("attrDesc", "");
-        }
-
-        TextView attractionName = (TextView)inflatedView.findViewById(R.id.attractionName);
-        TextView attractionDescription = (TextView)inflatedView.findViewById(R.id.attractionDescription);
-
-        attractionName.setText(attrName);
-        attractionDescription.setText(attrDesc);
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        initializeFragment();
 
         return inflatedView;
     }
@@ -64,5 +50,33 @@ public class AttractionDescriptionFragment extends Fragment implements OnMapRead
         mMap.addMarker(new MarkerOptions().position(marker).title("Politechnika Warszawska"));
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 17));
+    }
+
+    private void initializeFragment() {
+        assignDataFromBundle();
+        initializeAndSetTextViews();
+        initializeMap();
+    }
+
+    private void assignDataFromBundle() {
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            attrName = bundle.getString("attrName", "");
+            attrDesc = bundle.getString("attrDesc", "");
+        }
+    }
+
+    private void initializeAndSetTextViews() {
+        attractionName = (TextView) inflatedView.findViewById(R.id.attractionName);
+        attractionDescription = (TextView) inflatedView.findViewById(R.id.attractionDescription);
+
+        attractionName.setText(attrName);
+        attractionDescription.setText(attrDesc);
+    }
+
+    private void initializeMap() {
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
     }
 }
