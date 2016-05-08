@@ -75,7 +75,7 @@ public class TilesFragment extends Fragment {
                     MainActivity mainActivity = (MainActivity) getActivity();
                     mainActivity.setIsTilesFragment(false);
 
-                    FragmentReplacer.switchFragment(getFragmentManager(), fragment);
+                    FragmentReplacer.switchFragment(getFragmentManager(), fragment, false);
                 }
             });
         }

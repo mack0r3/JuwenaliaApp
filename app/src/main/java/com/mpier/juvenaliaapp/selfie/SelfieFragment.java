@@ -31,6 +31,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.mpier.juvenaliaapp.FragmentReplacer;
 import com.mpier.juvenaliaapp.R;
 
 import java.io.File;
@@ -400,9 +401,7 @@ public class SelfieFragment extends Fragment {
             args.putString("photoFilePath", photoFile.getPath());
             newFragment.setArguments(args);
 
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            transaction.replace(R.id.main_container, newFragment);
-            transaction.commit();
+            FragmentReplacer.switchFragment(getFragmentManager(), newFragment, false);
         }
     }
 }

@@ -1,7 +1,5 @@
 package com.mpier.juvenaliaapp.Attractions;
 
-import com.mpier.juvenaliaapp.R;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,6 +9,9 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.mpier.juvenaliaapp.FragmentReplacer;
+import com.mpier.juvenaliaapp.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,6 +20,17 @@ public class AttractionsFragment extends Fragment {
 
     View inflatedView;
     Attraction attractions[];
+    AdapterView.OnItemClickListener onItemClickHandler = new AdapterView.OnItemClickListener() {
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            Fragment fragment = new AttractionDescriptionFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("attrName", attractions[position].getAttrName());
+            bundle.putString("attrDesc", attractions[position].getDescription());
+            fragment.setArguments(bundle);
+            FragmentReplacer.switchFragment(getFragmentManager(), fragment, true);
+        }
+    };
 
     public AttractionsFragment() {
         // Required empty public constructor
@@ -40,18 +52,6 @@ public class AttractionsFragment extends Fragment {
         ListView attractionsList = createListViewForAttractions(attractions);
         attractionsList.setOnItemClickListener(onItemClickHandler);
     }
-
-    AdapterView.OnItemClickListener onItemClickHandler = new AdapterView.OnItemClickListener() {
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-            Fragment fragment = new AttractionDescriptionFragment();
-            Bundle bundle = new Bundle();
-            bundle.putString("attrName", attractions[position].getAttrName());
-            bundle.putString("attrDesc", attractions[position].getDescription());
-            fragment.setArguments(bundle);
-            getFragmentManager().beginTransaction().replace(R.id.main_container, fragment).addToBackStack(null).commit();
-        }
-    };
 
     private Attraction[] createAttractions() {
 

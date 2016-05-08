@@ -12,7 +12,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -136,22 +135,22 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
         switch(menuItem.getItemId())
         {
             case R.id.menu_attractions:
-                FragmentReplacer.switchFragment(getSupportFragmentManager(), new AttractionsFragment());
+                FragmentReplacer.switchFragment(getSupportFragmentManager(), new AttractionsFragment(), false);
                 break;
             case R.id.menu_line_up:
-                FragmentReplacer.switchFragment(getSupportFragmentManager(), new LineUpFragment());
+                FragmentReplacer.switchFragment(getSupportFragmentManager(), new LineUpFragment(), false);
                 break;
             case R.id.menu_selfie:
-                FragmentReplacer.switchFragment(getSupportFragmentManager(), new SelfieFragment());
+                FragmentReplacer.switchFragment(getSupportFragmentManager(), new SelfieFragment(), false);
                 break;
             case R.id.menu_map:
-                FragmentReplacer.switchFragment(getSupportFragmentManager(), new MapFragment());
+                FragmentReplacer.switchFragment(getSupportFragmentManager(), new MapFragment(), false);
                 break;
             case R.id.menu_telebim:
-                FragmentReplacer.switchFragment(getSupportFragmentManager(), TelebimFragment.newInstance());
+                FragmentReplacer.switchFragment(getSupportFragmentManager(), TelebimFragment.newInstance(), false);
                 break;
             case R.id.menu_rules:
-                FragmentReplacer.switchFragment(getSupportFragmentManager(), new RulesFragment());
+                FragmentReplacer.switchFragment(getSupportFragmentManager(), new RulesFragment(), false);
                 break;
         }
     }
