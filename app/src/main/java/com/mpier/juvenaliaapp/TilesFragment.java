@@ -3,7 +3,6 @@ package com.mpier.juvenaliaapp;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,10 +72,11 @@ public class TilesFragment extends Fragment {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    MainActivity mainActivity = (MainActivity) getActivity();
+                    mainActivity.setIsTilesFragment(false);
                     getFragmentManager()
                             .beginTransaction()
                             .replace(R.id.main_container, fragment)
-                            .addToBackStack(null)
                             .commit();
                 }
             });
@@ -96,12 +96,12 @@ class Pair<View, Fragment>{
         return view;
     }
 
-    public Fragment getFragment() {
-        return fragment;
-    }
-
     public void setView(View view) {
         this.view = view;
+    }
+
+    public Fragment getFragment() {
+        return fragment;
     }
 
     public void setFragment(Fragment fragment) {

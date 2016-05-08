@@ -140,6 +140,10 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
         builder.show();
     }
 
+    public void setIsTilesFragment(boolean isTilesFragment) {
+        this.isTilesFragment = isTilesFragment;
+    }
+
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
