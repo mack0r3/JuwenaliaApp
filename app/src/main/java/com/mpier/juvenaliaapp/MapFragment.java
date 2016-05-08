@@ -1,7 +1,10 @@
 package com.mpier.juvenaliaapp;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,13 +12,14 @@ import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -43,14 +47,17 @@ import com.google.android.gms.maps.model.MarkerOptions;
  * <p/>
  * Created by Konpon96 on 2016-03-02.
  */
-public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class MapFragment extends Fragment implements OnMapReadyCallback,
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     public static final int APP_PERMISSION_ACCESS_FINE_LOCATION = 1;
 
     private static BitmapDescriptor overlayBitmapDescriptor;
 
     private boolean isConnectedToInternet;
+    private ConnectivityBroadcastReceiver connectivityBroadcastReceiver;
 
+    private FloatingActionButton fab;
     private GoogleApiClient mGoogleApiClient;
     private GoogleMap mMap;
 
@@ -72,29 +79,42 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         }
 
         isConnectedToInternet = isDeviceConnectedToInternet();
-    }
-
-    @Override
-    public void onStart() {
-        mGoogleApiClient.connect();
-        super.onStart();
-    }
-
-    @Override
-    public void onStop() {
-        mGoogleApiClient.disconnect();
-        super.onStop();
+        connectivityBroadcastReceiver = new ConnectivityBroadcastReceiver(getContext());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+
+        final MapFragment callbackFragment = this;
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Creating overlay
+                if (overlayBitmapDescriptor == null) {
+                    overlayBitmapDescriptor = BitmapDescriptorFactory.fromBitmap(decodeMapBitmap());
+                }
+
+                SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
+                        .findFragmentById(R.id.map);
+                mapFragment.getMapAsync(callbackFragment);
+
+                connectivityBroadcastReceiver.register();
+                mGoogleApiClient.connect();
+            }
+        }, 0);
 
         return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        connectivityBroadcastReceiver.unregister();
+        mGoogleApiClient.disconnect();
     }
 
     @Override
@@ -103,7 +123,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
             @Override
             public boolean onMyLocationButtonClick() {
-                attemptMapModeChange();
+                updateMap(true);
                 return true;
             }
         });
@@ -114,9 +134,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
                 // User denied permission request earlier or in system settings
-                // Disable location layer and inflate support menu with refresh button
                 setMyLocationEnabled(false);
-                setHasOptionsMenu(true);
             } else {
                 // User didn't grant nor deny permission earlier - request permission
                 ActivityCompat.requestPermissions(getActivity(),
@@ -127,11 +145,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         } else {
             // Permission was granted earlier - enable location layer
             setMyLocationEnabled(true);
-        }
-
-        // Creating overlay
-        if (overlayBitmapDescriptor == null) {
-            overlayBitmapDescriptor = BitmapDescriptorFactory.fromBitmap(decodeMapBitmap());
         }
 
         GroundOverlayOptions overlayOptions = new GroundOverlayOptions()
@@ -148,9 +161,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
                 .position(new LatLng(52.21293, 21.01146))
                 .title(getString(R.string.map_marker_stadium)));
 
-        setMapMode(isConnectedToInternet);
-        updateMap(isConnectedToInternet);
+        // Setting up FAB
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(overlay.getBounds(), 0));
+            }
+        });
+        fab.setVisibility(isConnectedToInternet ? View.VISIBLE : View.GONE);
 
+        setMapMode(isConnectedToInternet);
     }
 
     @Override
@@ -267,6 +287,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
     private void setMapMode(boolean online) {
         if (online) {
             overlay.setTransparency(0.25f);
+            fab.show();
             mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
             mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
                 @Override
@@ -283,25 +304,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
             });
         } else {
             overlay.setTransparency(0f);
+            fab.hide();
             mMap.setMapType(GoogleMap.MAP_TYPE_NONE);
             mMap.setOnCameraChangeListener(null);
             marker.setVisible(false);
             overlay.setVisible(true);
-        }
-    }
 
-    /**
-     * Check if connection with network has changed.
-     * If so, update local connection state (variable),
-     * switch the map mode and perform map update.
-     */
-    private void attemptMapModeChange() {
-        boolean isConnectedAtTheMoment = isDeviceConnectedToInternet();
-        if (isConnectedAtTheMoment != isConnectedToInternet) {
-            isConnectedToInternet = !isConnectedToInternet;
-            setMapMode(isConnectedToInternet);
+            Snackbar.make(getView(), R.string.map_no_internet_connection, Snackbar.LENGTH_LONG).show();
         }
-        updateMap(true);
     }
 
     /**
@@ -320,34 +330,53 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
 
     @Override
     public void onConnected(Bundle bundle) {
-        updateMap(true);
+        Log.i(getClass().getSimpleName(), "Connected with Google Play Services");
+        updateMap(isConnectedToInternet);
     }
 
     @Override
     public void onConnectionSuspended(int i) {
+        Log.i(getClass().getSimpleName(), "Google Play Services connection suspended");
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.e(getClass().getSimpleName(), "Google Play Services connection error: " + connectionResult.getErrorMessage());
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.map_menu, menu);
-    }
+    /**
+     * Broadcast Receiver, used to handle map mode changing during connection changes
+     */
+    private class ConnectivityBroadcastReceiver extends BroadcastReceiver {
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_map_refresh: {
-                attemptMapModeChange();
-                return true;
-            }
-            default:
-                return super.onOptionsItemSelected(item);
+        private Context mContext;
+
+        ConnectivityBroadcastReceiver(Context context) {
+            mContext = context;
         }
-    }
 
+        public Intent register() {
+            Log.i(getClass().getSimpleName(), "Registered");
+            return mContext.registerReceiver(this,
+                    new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
+        }
+
+        public void unregister() {
+            Log.i(getClass().getSimpleName(), "Unregistered");
+            mContext.unregisterReceiver(this);
+        }
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            boolean wasPreviouslyConnected = isConnectedToInternet;
+            isConnectedToInternet = isDeviceConnectedToInternet();
+
+            if (wasPreviouslyConnected != isConnectedToInternet) {
+                setMapMode(isConnectedToInternet);
+                updateMap(true);
+            }
+        }
+
+    }
 
 }

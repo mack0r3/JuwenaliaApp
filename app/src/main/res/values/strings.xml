@@ -53,7 +53,8 @@
     <string name="location">Lokalizacja</string>
 
     <!-- Map strings -->
-    <string name="map_menu_refresh">Odśwież</string>
+    <string name="map_menu_zoom_stadium">Pokaż stadion</string>
+    <string name="map_no_internet_connection">Połącz się z internetem aby wyświetlić pełną mapę</string>
     <string name="map_marker_stadium">Stadion Syrenka</string>
 
 </resources>
