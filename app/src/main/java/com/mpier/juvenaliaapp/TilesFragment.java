@@ -74,10 +74,8 @@ public class TilesFragment extends Fragment {
                 public void onClick(View v) {
                     MainActivity mainActivity = (MainActivity) getActivity();
                     mainActivity.setIsTilesFragment(false);
-                    getFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.main_container, fragment)
-                            .commit();
+
+                    FragmentReplacer.switchFragment(getFragmentManager(), fragment);
                 }
             });
         }
