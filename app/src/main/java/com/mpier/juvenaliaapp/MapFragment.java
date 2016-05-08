@@ -14,14 +14,12 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -46,7 +44,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 /**
  * MapFragment, displaying marker if user is far from the target
  * or surroundings overlay if he/she is close.
- * <p>
+ * <p/>
  * Created by Konpon96 on 2016-03-02.
  */
 public class MapFragment extends Fragment implements OnMapReadyCallback,
@@ -59,6 +57,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     private boolean isConnectedToInternet;
     private ConnectivityBroadcastReceiver connectivityBroadcastReceiver;
 
+    private FloatingActionButton fab;
     private GoogleApiClient mGoogleApiClient;
     private GoogleMap mMap;
 
@@ -87,14 +86,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
 
-        // Set up FAB
-        rootView.findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mMap != null && overlay != null)
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(overlay.getBounds(), 0));
-            }
-        });
+        fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
 
         final MapFragment callbackFragment = this;
 
@@ -168,6 +160,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         marker = mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(52.21293, 21.01146))
                 .title(getString(R.string.map_marker_stadium)));
+
+        // Setting up FAB
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(overlay.getBounds(), 0));
+            }
+        });
+        fab.setVisibility(isConnectedToInternet ? View.VISIBLE : View.GONE);
 
         setMapMode(isConnectedToInternet);
     }
@@ -286,6 +287,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     private void setMapMode(boolean online) {
         if (online) {
             overlay.setTransparency(0.25f);
+            fab.show();
             mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
             mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
                 @Override
@@ -302,6 +304,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
             });
         } else {
             overlay.setTransparency(0f);
+            fab.hide();
             mMap.setMapType(GoogleMap.MAP_TYPE_NONE);
             mMap.setOnCameraChangeListener(null);
             marker.setVisible(false);
