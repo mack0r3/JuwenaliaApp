@@ -27,6 +27,7 @@ public class TilesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        getActivity().setTitle(R.string.app_name);
 
         inflatedView = inflater.inflate(R.layout.fragment_tiles, container, false);
 
@@ -80,29 +81,32 @@ public class TilesFragment extends Fragment {
             });
         }
     }
+
+    private class Pair<View, Fragment>{
+        private View view;
+        private Fragment fragment;
+
+        public Pair(View view, Fragment fragment){
+            this.view = view;
+            this.fragment = fragment;
+        }
+
+        public View getView() {
+            return view;
+        }
+
+        public void setView(View view) {
+            this.view = view;
+        }
+
+        public Fragment getFragment() {
+            return fragment;
+        }
+
+        public void setFragment(Fragment fragment) {
+            this.fragment = fragment;
+        }
+    }
+
 }
-class Pair<View, Fragment>{
-    private View view;
-    private Fragment fragment;
 
-    public Pair(View view, Fragment fragment){
-        this.view = view;
-        this.fragment = fragment;
-    }
-
-    public View getView() {
-        return view;
-    }
-
-    public void setView(View view) {
-        this.view = view;
-    }
-
-    public Fragment getFragment() {
-        return fragment;
-    }
-
-    public void setFragment(Fragment fragment) {
-        this.fragment = fragment;
-    }
-}

@@ -1,18 +1,15 @@
 <resources>
     <string name="facebook_app_id">1046744862049283</string>
 
-    <string name="app_name">JuvenaliaApp</string>
-
-    <!-- Activity titles -->
-    <string name="title_activity_maps">Mapa</string>
+    <string name="app_name">Juwenalia PW</string>
 
     <!-- TilesFragment -->
     <string name="line_up_text">Line up</string>
     <string name="line_up_description">sprawdź naszych artystów</string>
     <string name="telebim_text">Twój telebim</string>
-    <string name="telebim_description">czyli pare słów od Ciebie</string>
+    <string name="telebim_description">czyli parę słów od Ciebie</string>
     <string name="selfie_text">Selfie</string>
-    <string name="selfie_description">...</string>
+    <string name="selfie_description">…</string>
     <string name="attractions_text">Atrakcje</string>
     <string name="attractions_description">na juwe</string>
     <string name="map_text">Mapa</string>

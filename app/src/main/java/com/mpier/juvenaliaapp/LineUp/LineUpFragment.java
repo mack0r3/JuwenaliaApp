@@ -29,6 +29,8 @@ public class LineUpFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
+        getActivity().setTitle(R.string.menu_line_up);
+
         View inflatedView = inflater.inflate(R.layout.fragment_lineup, container, false);
 
         viewPager = (ViewPager) inflatedView.findViewById(R.id.pager);

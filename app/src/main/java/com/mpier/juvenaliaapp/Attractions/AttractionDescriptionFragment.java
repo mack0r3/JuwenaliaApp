@@ -61,6 +61,8 @@ public class AttractionDescriptionFragment extends Fragment implements OnMapRead
     private void assignDataFromBundle() {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
+            getActivity().setTitle(bundle.getString("attrName", ""));
+
             attrName = bundle.getString("attrName", "");
             attrDesc = bundle.getString("attrDesc", "");
         }
