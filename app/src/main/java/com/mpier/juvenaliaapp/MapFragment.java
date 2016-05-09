@@ -84,6 +84,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        getActivity().setTitle(R.string.menu_map);
+
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
 
         fab = (FloatingActionButton) rootView.findViewById(R.id.fab);

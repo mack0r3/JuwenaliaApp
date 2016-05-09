@@ -16,6 +16,8 @@ public class TelebimFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
+        getActivity().setTitle(R.string.menu_telebim);
+
         return inflater.inflate(R.layout.fragment_telebim, container, false);
     }
 }

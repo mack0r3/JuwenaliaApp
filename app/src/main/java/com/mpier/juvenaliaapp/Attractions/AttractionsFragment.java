@@ -39,6 +39,7 @@ public class AttractionsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        getActivity().setTitle(R.string.menu_attractions);
 
         inflatedView = inflater.inflate(R.layout.fragment_attractions, container, false);
 

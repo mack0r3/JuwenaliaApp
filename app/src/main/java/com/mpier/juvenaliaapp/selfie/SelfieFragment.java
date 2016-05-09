@@ -69,6 +69,7 @@ public class SelfieFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        getActivity().setTitle(R.string.menu_selfie);
         return inflater.inflate(R.layout.fragment_selfie, container, false);
     }
 
