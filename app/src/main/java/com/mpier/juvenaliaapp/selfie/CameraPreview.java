@@ -158,9 +158,9 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
                 bestSize = size;
             }
             else {
-                int currentWidth = Math.max(bestSize.width, bestSize.height);
-                if (currentWidth > width
-                        && currentWidth <= 1280) {
+                int currentBestWidth = Math.max(bestSize.width, bestSize.height);
+                if (width > currentBestWidth
+                        && width <= 1280) {
                     bestSize = size;
                 }
             }
