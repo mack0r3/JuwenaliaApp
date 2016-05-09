@@ -2,13 +2,17 @@ package com.mpier.juvenaliaapp.LineUp;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.mpier.juvenaliaapp.FragmentReplacer;
 import com.mpier.juvenaliaapp.R;
+import com.mpier.juvenaliaapp.TelebimFragment;
 
 import java.util.ArrayList;
 
@@ -54,7 +58,23 @@ public class EventsFragment extends Fragment {
         ListView listView = (ListView) inflatedView.findViewById(R.id.events_list_view);
         listView.setAdapter(eventAdapter);
         ListUtils.setDynamicHeight(listView);
+        listView.setOnItemClickListener(onItemClickHandler);
     }
+
+    AdapterView.OnItemClickListener onItemClickHandler = new AdapterView.OnItemClickListener(){
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Fragment fragment = new EventDescriptionFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("eventName", events.get(position).getName());
+            bundle.putInt("eventImg", events.get(position).getImage());
+            bundle.putString("eventDesc", events.get(position).getDescription());
+            fragment.setArguments(bundle);
+
+            //getFragmentManager().beginTransaction().replace(R.id.pager_container, fragment).addToBackStack(null).commit();
+
+            FragmentReplacer.switchFragment(getFragmentManager(), fragment, true);
+        }
+    };
 
     public static class ListUtils {
         public static void setDynamicHeight(ListView mListView) {

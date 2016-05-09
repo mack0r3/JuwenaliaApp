@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
+    android:clickable="true" >
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.mpier.juvenaliaapp.LineUp.TopCropImageView
+            android:id="@+id/event_img"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_weight="3"/>
+        <TextView
+            android:id="@+id/event_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:textColor="#ffffff"
+            android:textSize="22sp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:gravity="center"
+            android:text="Dawid Podsiadło"/>
+        <TextView
+            android:id="@+id/event_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:textSize="14sp"
+            android:padding="20dp"
+            android:gravity="center_horizontal"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sed neque metus. Donec convallis, justo ac hendrerit accumsan, felis turpis commodo metus, id eleifend dolor lacus sodales arcu. Donec tempus turpis et velit imperdiet pretium. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod consectetur dolor, eget dictum lacus egestas ac. Mauris dapibus blandit ex eget iaculis." />
+    </LinearLayout>
+</ScrollView>
