@@ -55,6 +55,12 @@ public class TilesFragment extends Fragment {
         addViewFragmentPairToList(associatedTilesArrayWithFragment,
                 inflatedView.findViewById(R.id.mapTile),
                 new MapFragment());
+        addViewFragmentPairToList(associatedTilesArrayWithFragment,
+                inflatedView.findViewById(R.id.aboutTile),
+                new AboutFragment());
+        addViewFragmentPairToList(associatedTilesArrayWithFragment,
+                inflatedView.findViewById(R.id.rulesTile),
+                new RulesFragment());
 
         return associatedTilesArrayWithFragment;
     }
