@@ -219,9 +219,7 @@ public class SelfieFragment extends Fragment {
             if (!initializationSuccessful) {
                 synchronized (isRunning) {
                     if (isRunning.get()) {
-                        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.main_container, new LackOfCameraFragment());
-                        fragmentTransaction.commit();
+                        FragmentReplacer.switchFragment(getFragmentManager(), new LackOfCameraFragment(), false);
                     }
                 }
             } else {
