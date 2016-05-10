@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -69,7 +70,22 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
             }
         });
 
+        handleHeaderOnClickEvent();
+
         ((AnalyticsApplication) getApplication()).getDefaultTracker();
+    }
+
+    private void handleHeaderOnClickEvent(){
+        View header = navigationView.getHeaderView(0);
+        header.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                FragmentReplacer.switchToTiles(getSupportFragmentManager());
+                //menuItem.setChecked(false);
+                drawerLayout.closeDrawers();
+            }
+        });
     }
 
     @Override
