@@ -15,6 +15,7 @@ import android.hardware.Camera;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -46,6 +47,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.RunnableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
@@ -62,9 +64,12 @@ public class SelfieFragment extends Fragment {
 
     public static final int APP_PERMISSIONS_CAMERA = 1;
 
+    private AtomicBoolean permissionsDenied;
+
     public SelfieFragment() {
         pictureCallback = new SelfiePictureCallback();
         isRunning = new AtomicBoolean(true);
+        permissionsDenied = new AtomicBoolean(false);
     }
 
     @Override
@@ -78,6 +83,24 @@ public class SelfieFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         getActivity().setTitle(R.string.menu_selfie);
+
+        isRunning.set(true);
+
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                        || ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+                    requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            APP_PERMISSIONS_CAMERA);
+                }
+                else {
+                    new CameraInitializer().execute();
+                }
+            }
+        });
+
         return inflater.inflate(R.layout.fragment_selfie, container, false);
     }
 
@@ -87,29 +110,8 @@ public class SelfieFragment extends Fragment {
 
         getView().findViewById(R.id.cameraLoading).setVisibility(View.VISIBLE);
 
-
-        isRunning.set(true);
-
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-
-            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.CAMERA)
-                    || ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-
-                FragmentReplacer.switchToTiles(getFragmentManager());
-
-            } else {
-                ActivityCompat.requestPermissions(getActivity(),
-                        new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        APP_PERMISSIONS_CAMERA);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }
-        }
-        else {
-            new CameraInitializer().execute();
+        if (permissionsDenied.get()) {
+            FragmentReplacer.switchFragment(getFragmentManager(), new NoCameraPermissionsFragment(), false);
         }
     }
 
@@ -156,7 +158,7 @@ public class SelfieFragment extends Fragment {
                     new CameraInitializer().execute();
 
                 } else {
-                    FragmentReplacer.switchFragment(getFragmentManager(), new NoCameraPermissionsFragment(), false);
+                    permissionsDenied.set(true);
                 }
                 return;
             }
