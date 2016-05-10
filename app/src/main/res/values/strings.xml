@@ -25,7 +25,7 @@
     <string name="drawer_close">Drawer close</string>
 
     <!-- Navigation Drawer Menu Items -->
-    <string name="menu_line_up">Line up</string>
+    <string name="menu_line_up">Line-up</string>
     <string name="menu_telebim">Twój telebim</string>
     <string name="menu_map">Mapa</string>
     <string name="menu_attractions">Atrakcje</string>

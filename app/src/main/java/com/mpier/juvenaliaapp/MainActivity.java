@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
                 isTilesFragment = false;
                 //menuItem.setChecked(true);
                 getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                new Handler().postDelayed(new Runnable(){
+                new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         setFragment(menuItem);

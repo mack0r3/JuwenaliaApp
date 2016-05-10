@@ -11,25 +11,28 @@
         android:background="@drawable/event_row_borders">
 
         <RelativeLayout
-            android:id="@+id/event_row_image"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="2dp">
 
+            <com.mpier.juvenaliaapp.LineUp.TopCropImageView
+                android:id="@+id/event_row_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.5" />
             <TextView
                 android:id="@+id/event_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
                 android:fontFamily="sans-serif-light"
-                android:paddingBottom="0dp"
+                android:paddingBottom="6dp"
                 android:paddingRight="10dp"
-                android:paddingTop="100dp"
                 android:text="Bomba Kaloryczna"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#FFFFFF"
-                android:textSize="26sp" />
+                android:textSize="26sp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"/>
 
             <TextView
                 android:id="@+id/event_time"

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -54,10 +55,13 @@ public class LineUpAdapter extends BaseAdapter {
 
         Event event = getItem(position);
 
-        RelativeLayout rlayout = (RelativeLayout) customView.findViewById(R.id.event_row_image);
-        rlayout.setBackgroundResource(event.getImage());
-        Drawable background = rlayout.getBackground();
-        background.setAlpha(50);
+        //RelativeLayout rlayout = (RelativeLayout) customView.findViewById(R.id.event_row_image);
+        //rlayout.setBackgroundResource(event.getImage());
+        //Drawable background = rlayout.getBackground();
+        //background.setAlpha(50);
+
+        ImageView iv = (ImageView) customView.findViewById(R.id.event_row_image);
+        iv.setImageResource(event.getImage());
 
         ((TextView) customView.findViewById(R.id.event_name)).setText(event.getName());
         ((TextView) customView.findViewById(R.id.event_time)).setText(event.getTime());
