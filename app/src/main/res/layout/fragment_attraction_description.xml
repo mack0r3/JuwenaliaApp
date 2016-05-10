@@ -25,19 +25,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/attractionImage">
 
-                <TextView
-                    android:id="@+id/attractionName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:fontFamily="sans-serif"
-                    android:padding="16dp"
-                    android:text="Large Text"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/attractionsItemTextColor"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -48,9 +35,10 @@
                 android:id="@+id/attractionDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/attractionNameRow"
+                android:layout_below="@id/attractionImage"
                 android:fontFamily="sans-serif-thin"
                 android:padding="12sp"
+                android:layout_marginTop="16dp"
                 android:text="New Text"
                 android:textColor="@color/attractionsItemTextColor"
                 android:textSize="14sp"
