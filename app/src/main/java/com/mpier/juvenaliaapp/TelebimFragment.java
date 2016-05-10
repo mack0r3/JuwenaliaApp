@@ -38,6 +38,7 @@ public class TelebimFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstance) {
+        super.onCreate(savedInstance);
         if(getArguments() != null) {
             name = getArguments().getString(PARAM_NAME);
         }
