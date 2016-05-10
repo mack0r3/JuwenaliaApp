@@ -26,6 +26,9 @@ public final class FragmentReplacer {
         }
 
         fragmentTransaction.commit();
+
+        // Google Analytics
+        AnalyticsApplication.sendScreenName(fragment.getClass().getSimpleName());
     }
 
     /**
