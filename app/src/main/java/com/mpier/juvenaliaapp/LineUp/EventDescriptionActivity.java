@@ -2,12 +2,14 @@ package com.mpier.juvenaliaapp.LineUp;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mpier.juvenaliaapp.FragmentReplacer;
 import com.mpier.juvenaliaapp.R;
 
 /**
@@ -53,8 +55,15 @@ public class EventDescriptionActivity extends AppCompatActivity {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
                 finish();
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 }

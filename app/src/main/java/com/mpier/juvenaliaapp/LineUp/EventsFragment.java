@@ -81,6 +81,7 @@ public class EventsFragment extends Fragment {
             bundle.putString("eventDesc", events.get(position).getDescription());
             intent.putExtras(bundle);
             startActivity(intent);
+            getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         }
     };
 
