@@ -25,6 +25,7 @@ public class AttractionsFragment extends Fragment {
 
             Fragment fragment = new AttractionDescriptionFragment();
             Bundle bundle = new Bundle();
+            bundle.putInt("attrImg", attractions[position].getAttrImgRes());
             bundle.putString("attrName", attractions[position].getAttrName());
             bundle.putString("attrDesc", attractions[position].getDescription());
             fragment.setArguments(bundle);
@@ -56,23 +57,26 @@ public class AttractionsFragment extends Fragment {
 
     private Attraction[] createAttractions() {
 
-        String description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec nulla euismod, luctus dui vitae, fermentum arcu.";
+        String beerPongDescription = "Beer Pong to amerykańska, piwna gra, której początki sięgają lat 80-tych. Wszystko zaczęło się w akademikach, studenci dzielili się na dwie drużyny," +
+                " ustawiali kubki na stołach do ping-ponga, nalewali do nich piwo a następnie rzucali do nich piłeczkami do ping-ponga. Jeżeli piłka wpadła do kubka którejś drużyny," +
+                " drużyna ta musiała wypić jego zawartość.\n\nZ czasem gra ewoluowała, zaprojektowano specjalnego stoły do gry w beer ponga, powstały zasady turniejowe oraz co najważniejsze," +
+                " Mistrzostwa Świata organizowane co roku w Las Vegas\n(http://www.bpong.com/wsobp/).\n\nW Polsce to jeszcze mało znany sport, ale możemy to zmienić, dlatego zapraszamy na strefę " +
+                "Beer Ponga podczas tegorocznych Juwenaliów PW! Na strefie będą znajdować się dwa profesjonalne stoły oraz sprzęt do gry od BPONG.COM, czyli organizatora Mistrzostw Świata.";
+
+        String philipMorrisDescription = "Szukajcie jak co roku stoiska Philipa Morrisa, który przygotuje dla Was całą masę niespodzianek.";
+
+        String afterParty = "Afterparty, 13.05.2016 godz, 23:59, Klub Stodoła – Koniec piątkowych koncertów wcale nie oznacza  końca zabawy tego  dnia!  Czekamy  na Was w  Stodole,  gdzie tańce  i śpiewy  będą trwały do samego rana.";
 
         Attraction attractions[] = new Attraction[]{
-                new Attraction("Stoisko Coca - Cola", R.drawable.cocacola, description),
-                new Attraction("Gra we frisbee", R.drawable.cocacola, description),
-                new Attraction("Stoisko mediów", R.drawable.cocacola, description),
-                new Attraction("Hala piwna", R.drawable.cocacola, description),
-                new Attraction("Namiot Juwenaliowy", R.drawable.cocacola, description),
-                new Attraction("Stoisko OLX", R.drawable.cocacola, description),
-                new Attraction("Stoisko Philip Morris", R.drawable.cocacola, description)
+                new Attraction("Beer Pong", R.drawable.beerpong, beerPongDescription),
+                new Attraction("Stoisko Philip Morris", R.drawable.pmorris, philipMorrisDescription),
+                new Attraction("Afterparty", R.drawable.stodola, afterParty)
         };
 
         return attractions;
     }
 
     private ListView createListViewForAttractions(Attraction[] attractions) {
-
         ListAdapter myAdapter = new CustomAdapter(getContext(), R.layout.attraction_row, attractions);
         ListView attractionsList = (ListView) inflatedView.findViewById(R.id.attractionsList);
         attractionsList.setAdapter(myAdapter);
