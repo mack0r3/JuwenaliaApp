@@ -1,5 +1,6 @@
 package com.mpier.juvenaliaapp.selfie;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -7,9 +8,12 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import java.io.IOException;
 import java.util.List;
@@ -96,6 +100,11 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             } else {
                 ratio = (float) previewSize.width / (float) previewSize.height;
             }
+            if (width * ratio > height) {
+                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, Gravity.BOTTOM);
+                setLayoutParams(params);
+            }
+
             setMeasuredDimension(width, (int)(width * ratio));
         }
     }
