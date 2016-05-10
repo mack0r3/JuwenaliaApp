@@ -1,8 +1,10 @@
 package com.mpier.juvenaliaapp.selfie;
 
 
+import android.Manifest;
 import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,9 +15,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Gravity;
@@ -54,6 +59,8 @@ public class SelfieFragment extends Fragment {
     private CameraPreview cameraPreview;
     private Bitmap photoBitmap;
 
+    public static final int APP_PERMISSIONS_CAMERA = 1;
+
     public SelfieFragment() {
         pictureCallback = new SelfiePictureCallback();
         isRunning = new AtomicBoolean(true);
@@ -82,8 +89,29 @@ public class SelfieFragment extends Fragment {
 
         isRunning.set(true);
 
-        CameraInitializer cameraInitializer = new CameraInitializer();
-        cameraInitializer.execute();
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                    Manifest.permission.CAMERA)) {
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        APP_PERMISSIONS_CAMERA);
+
+            } else {
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        APP_PERMISSIONS_CAMERA);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
+        else {
+            new CameraInitializer().execute();
+        }
     }
 
     @Override
@@ -117,6 +145,23 @@ public class SelfieFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
 
         inflater.inflate(R.menu.selfie_menu, menu);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case APP_PERMISSIONS_CAMERA: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                        && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                    new CameraInitializer().execute();
+
+                } else {
+                    FragmentReplacer.switchFragment(getFragmentManager(), new NoCameraPermissionsFragment(), false);
+                }
+                return;
+            }
+        }
     }
 
     @Override
