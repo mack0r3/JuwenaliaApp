@@ -38,9 +38,9 @@ public class GoogleSigninFragment extends Fragment implements View.OnClickListen
         return v;
     }
 
-    private void sendSignInResult(String text) {
+    private void sendSignInResult(boolean result, String name) {
         if (mListener != null) {
-            mListener.onGoogleLoginResult(text);
+            mListener.onGoogleLoginResult(result, name);
         }
     }
 
@@ -83,7 +83,7 @@ public class GoogleSigninFragment extends Fragment implements View.OnClickListen
     }
 
     public interface LoginResultListener {
-        void onGoogleLoginResult(String text);
+        void onGoogleLoginResult(boolean result, String name);
     }
 
     @Override
@@ -102,10 +102,10 @@ public class GoogleSigninFragment extends Fragment implements View.OnClickListen
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
-            sendSignInResult("Authentication success");
+            sendSignInResult(true, acct.getDisplayName());
         } else {
             // Signed out, show unauthenticated UI.
-            sendSignInResult("Authentication failure");
+            sendSignInResult(false, null);
         }
     }
 

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,8 +15,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.facebook.login.LoginResult;
-import com.google.android.gms.analytics.Tracker;
+import com.facebook.Profile;
 import com.mpier.juvenaliaapp.Attractions.AttractionsFragment;
 import com.mpier.juvenaliaapp.LineUp.LineUpFragment;
 import com.mpier.juvenaliaapp.selfie.SelfieFragment;
@@ -28,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
     Toolbar toolbar;
     ActionBarDrawerToggle actionBarDrawerToggle;
     NavigationView navigationView;
+    private String username = null;
 
     boolean isTilesFragment;
 
@@ -53,14 +52,14 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
         navigationView = (NavigationView)findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(final MenuItem menuItem) {
+            public boolean onNavigationItemSelected(final MenuItem item) {
                 isTilesFragment = false;
                 //menuItem.setChecked(true);
                 getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 new Handler().postDelayed(new Runnable(){
                     @Override
                     public void run() {
-                        setFragment(menuItem);
+                        setFragment(item);
                     }
                 }, 300);
                 //menuItem.setChecked(false);
@@ -87,15 +86,23 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
     }
 
     @Override
-    public void onFacebookLoginResult(LoginResult loginResult) {
-        if(loginResult == null) {
+    public void onFacebookLoginResult(boolean loginResult) {
+        if(loginResult) {
+            username = Profile.getCurrentProfile().getFirstName() + " " + Profile.getCurrentProfile().getLastName();
+        } else {
+            username = null;
             new AlertDialog.Builder(this).setTitle("Facebook login").setMessage("Facebook login error").setNeutralButton("OK", null).show();
         }
     }
 
     @Override
-    public void onGoogleLoginResult(String text) {
-        new AlertDialog.Builder(this).setTitle("Google login").setMessage(text).setNeutralButton("OK", null).show();
+    public void onGoogleLoginResult(boolean result, String name) {
+        if(result) {
+            username = name;
+        } else {
+            username = null;
+            new AlertDialog.Builder(this).setTitle("Google login").setMessage("Google login error").setNeutralButton("OK", null).show();
+        }
     }
 
     public void signIn(View view) {
@@ -147,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
                 FragmentReplacer.switchFragment(getSupportFragmentManager(), new MapFragment(), false);
                 break;
             case R.id.menu_telebim:
-                FragmentReplacer.switchFragment(getSupportFragmentManager(), TelebimFragment.newInstance(), false);
+                FragmentReplacer.switchFragment(getSupportFragmentManager(), TelebimFragment.newInstance(username), false);
                 break;
             case R.id.menu_rules:
                 FragmentReplacer.switchFragment(getSupportFragmentManager(), new RulesFragment(), false);
