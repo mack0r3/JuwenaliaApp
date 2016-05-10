@@ -27,7 +27,7 @@
             android:title="@string/menu_rules" />
         <item
             android:id="@+id/menu_about"
-            android:icon="@drawable/ic_info_white_36dp"
+            android:icon="@drawable/ic_developer_mode_white_48dp"
             android:title="@string/menu_about" />
     </group>
 </menu>
