@@ -17,10 +17,10 @@
     <dimen name="tiles_texts_padding_bottom">8dp</dimen>
     <dimen name="tiles_images_alpha">0.5px</dimen>
 
-    <dimen name="line_up_title_text_size">30sp</dimen>
+    <dimen name="line_up_title_text_size">34sp</dimen>
     <dimen name="line_up_description_text_size">18sp</dimen>
-    <dimen name="tile_title_text_size">26sp</dimen>
-    <dimen name="tile_description_text_size">15sp</dimen>
+    <dimen name="tile_title_text_size">24sp</dimen>
+    <dimen name="tile_description_text_size">14sp</dimen>
     <item name="tile_alpha" format="float" type="dimen">0.4</item>
 
 </resources>

@@ -31,9 +31,5 @@
             android:text="Beer pong"
             android:textColor="#FFFFFF"
             android:textSize="30sp" />
-
     </RelativeLayout>
-
-
-
 </RelativeLayout>
