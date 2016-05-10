@@ -12,6 +12,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Telebim Fragment" />
+        android:textAlignment="center"
+        android:textSize="26sp"
+        android:textColor="@android:color/white"
+        android:text="@string/telebim_info"/>
+
+    <EditText
+        android:id="@+id/greetings"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="@android:color/white"
+        android:inputType="text"
+        android:singleLine="true"
+        android:imeOptions="actionSend"/>
 
 </LinearLayout>
