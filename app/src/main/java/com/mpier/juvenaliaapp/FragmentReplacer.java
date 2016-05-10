@@ -18,7 +18,6 @@ public final class FragmentReplacer {
      */
     public static void switchFragment(FragmentManager fragmentManager, Fragment fragment, boolean addToBackstack) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
                 .replace(R.id.main_container, fragment);
 
         if (addToBackstack) {

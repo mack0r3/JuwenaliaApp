@@ -51,6 +51,7 @@
 
             <TextView
                 android:id="@+id/lineUpTileTextDescription"
+                android:gravity="right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -112,6 +113,7 @@
                     android:id="@+id/telebimTileTextDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="right"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
                     android:fontFamily="sans-serif-bold"
@@ -163,6 +165,7 @@
                 <TextView
                     android:id="@+id/selfieTileTextDescription"
                     android:layout_width="wrap_content"
+                    android:gravity="right"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
@@ -193,6 +196,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/tilesFragmentTileHeight"
+            android:layout_marginBottom="@dimen/tilesMargin"
             android:orientation="horizontal">
 
             <RelativeLayout
@@ -222,6 +226,7 @@
                 <TextView
                     android:id="@+id/attractionsTileTextDescription"
                     android:layout_width="wrap_content"
+                    android:gravity="right"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
@@ -274,6 +279,7 @@
                 <TextView
                     android:id="@+id/mapTileTextDescription"
                     android:layout_width="wrap_content"
+                    android:gravity="right"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
@@ -297,6 +303,119 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="#FFFFFF"
                     android:textSize="@dimen/tile_title_text_size" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tilesFragmentTileHeight"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/developersTile"
+                android:layout_width="0dp"
+                android:layout_marginRight="@dimen/tilesMargin"
+                android:layout_height="@dimen/tilesFragmentTileHeight"
+                android:layout_weight="5"
+                android:background="@drawable/event_row_borders">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:alpha="@dimen/tile_alpha"
+                    android:cropToPadding="true"
+                    android:padding="2dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/recee"></ImageView>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/tiles_icons_padding"
+                    android:src="@drawable/ic_developer_mode_white_36dp" />
+
+                <TextView
+                    android:id="@+id/developertTileTextDecription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="right"
+                    android:layout_alignParentRight="true"
+                    android:fontFamily="sans-serif-bold"
+                    android:paddingBottom="@dimen/tiles_texts_padding_bottom"
+                    android:paddingRight="@dimen/tiles_texts_padding_bottom"
+                    android:text="@string/developers_description"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#FFFFFF"
+                    android:textSize="@dimen/tile_description_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/developertTileTextDecription"
+                    android:layout_alignParentRight="true"
+                    android:fontFamily="sans-serif-condensed"
+                    android:paddingRight="@dimen/tiles_texts_padding_right"
+                    android:text="@string/developers_text"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#FFFFFF"
+                    android:textSize="@dimen/tile_title_text_size" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/termTile"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/tilesFragmentTileHeight"
+                android:layout_weight="4"
+                android:background="@drawable/event_row_borders">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:alpha="@dimen/tile_alpha"
+                    android:cropToPadding="true"
+                    android:padding="2dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/regulamin"></ImageView>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/tiles_icons_padding"
+                    android:src="@drawable/ic_security_white_36dp" />
+
+                <TextView
+                    android:id="@+id/termTileTextDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="right"
+                    android:layout_alignParentRight="true"
+                    android:fontFamily="sans-serif-bold"
+                    android:paddingBottom="@dimen/tiles_texts_padding_bottom"
+                    android:paddingRight="@dimen/tiles_texts_padding_bottom"
+                    android:text="@string/terms_description"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/termTileTextDescription"
+                    android:layout_alignParentRight="true"
+                    android:fontFamily="sans-serif-condensed"
+                    android:paddingRight="@dimen/tiles_texts_padding_right"
+                    android:text="@string/terms_text"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#FFFFFF"
+                    android:textSize="@dimen/tile_title_text_size" />
+
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
