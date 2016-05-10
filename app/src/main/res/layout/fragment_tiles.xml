@@ -309,7 +309,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/tilesFragmentTileHeight"
-            android:layout_marginBottom="@dimen/tilesMargin"
             android:orientation="horizontal">
 
             <RelativeLayout
@@ -328,7 +327,7 @@
                     android:cropToPadding="true"
                     android:padding="2dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/rece"></ImageView>
+                    android:src="@drawable/recee"></ImageView>
 
                 <ImageView
                     android:layout_width="wrap_content"
