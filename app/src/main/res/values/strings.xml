@@ -19,6 +19,10 @@
     <string name="developers_text">Twórcy</string>
     <string name="developers_description">Poznaj deweloperów</string>
 
+    <!-- TelebimFragment -->
+    <string name="telebim_hint">Wpisz wiadomość (200 znaków)...</string>
+    <string name="telebim_info">Wyślij pozdrowienia prosto na Telebim</string>
+
 
     <!-- Drawer open icon -->
     <string name="drawer_open">Drawer open</string>
@@ -35,7 +39,6 @@
 
     <string name="sign_in">Sign in</string>
 
-    <string name="telebim_info">Tutaj możesz przesłać pozdrowienia dla swoich znajomych:</string>
 
     <string name="selfie_lack_of_front_camera">Twoje urządzenie nie ma przedniego aparatu</string>
     <string name="selfie_lack_of_permissions">Musisz udzielić uprawnień, aby skorzystać z funkcji selfie</string>
