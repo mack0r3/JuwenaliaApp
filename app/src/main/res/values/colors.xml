@@ -6,6 +6,8 @@
 
     <color name="colorSplashBackground">#FFFFFF</color>
 
+    <color name="colorSecondaryRed">#fd161c</color>
+
     <!-- MenuDrawer -->
     <color name="menuDrawerBackground">#0000dc</color>
     <color name="menuItemTextColor">#ecf0f1</color>

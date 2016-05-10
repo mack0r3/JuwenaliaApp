@@ -2,6 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/t1_100"
+    android:padding="3dp"
     tools:context="com.mpier.juvenaliaapp.selfie.LackOfCameraFragment">
 
     <TextView
@@ -10,7 +12,9 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:gravity="center"
         android:text="@string/selfie_lack_of_front_camera"
+        android:textColor="@android:color/white"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>
