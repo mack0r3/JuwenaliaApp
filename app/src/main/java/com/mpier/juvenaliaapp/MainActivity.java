@@ -151,6 +151,9 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
             case R.id.menu_rules:
                 FragmentReplacer.switchFragment(getSupportFragmentManager(), new RulesFragment(), false);
                 break;
+            case R.id.menu_about:
+                FragmentReplacer.switchFragment(getSupportFragmentManager(), new AboutFragment(), false);
+                break;
         }
     }
 

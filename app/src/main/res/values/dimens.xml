@@ -23,4 +23,7 @@
     <dimen name="tile_description_text_size">15sp</dimen>
     <item name="tile_alpha" format="float" type="dimen">0.4</item>
 
+    <!-- About -->
+    <dimen name="about_name">20sp</dimen>
+
 </resources>

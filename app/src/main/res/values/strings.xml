@@ -27,6 +27,7 @@
     <string name="menu_attractions">Atrakcje</string>
     <string name="menu_selfie">Selfie</string>
     <string name="menu_rules">Regulamin</string>
+    <string name="menu_about">Twórcy</string>
 
     <string name="sign_in">Sign in</string>
 
@@ -52,5 +53,13 @@
     <string name="map_menu_zoom_stadium">Pokaż stadion</string>
     <string name="map_no_internet_connection">Połącz się z internetem aby wyświetlić pełną mapę</string>
     <string name="map_marker_stadium">Stadion Syrenka</string>
+
+    <!-- About -->
+    <string name="about_hartman">Tymoteusz Hartman</string>
+    <string name="about_korzeniewski">Maciej Korzeniewski</string>
+    <string name="about_pierscieniak">Marek Pierścieniak</string>
+    <string name="about_ponichtera">Konrad Ponichtera</string>
+    <string name="about_selwesiuk">Bartek Selwesiuk</string>
+    <string name="about_szyc">Kamil Szyc</string>
 
 </resources>
