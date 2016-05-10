@@ -1,5 +1,6 @@
 package com.mpier.juvenaliaapp.LineUp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -63,16 +64,23 @@ public class EventsFragment extends Fragment {
 
     AdapterView.OnItemClickListener onItemClickHandler = new AdapterView.OnItemClickListener(){
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Fragment fragment = new EventDescriptionFragment();
+            //Fragment fragment = new EventDescriptionFragment();
+            //Bundle bundle = new Bundle();
+            //bundle.putString("eventName", events.get(position).getName());
+            //bundle.putInt("eventImg", events.get(position).getImage());
+            //bundle.putString("eventDesc", events.get(position).getDescription());
+            //fragment.setArguments(bundle);
+
+            //getFragmentManager().beginTransaction().replace(R.id.pager_container, fragment).addToBackStack(null).commit();
+            //FragmentReplacer.switchFragment(getFragmentManager(), fragment, true);
+
+            Intent intent = new Intent(getActivity(), EventDescriptionActivity.class);
             Bundle bundle = new Bundle();
             bundle.putString("eventName", events.get(position).getName());
             bundle.putInt("eventImg", events.get(position).getImage());
             bundle.putString("eventDesc", events.get(position).getDescription());
-            fragment.setArguments(bundle);
-
-            //getFragmentManager().beginTransaction().replace(R.id.pager_container, fragment).addToBackStack(null).commit();
-
-            FragmentReplacer.switchFragment(getFragmentManager(), fragment, true);
+            intent.putExtras(bundle);
+            startActivity(intent);
         }
     };
 

@@ -1,6 +1,10 @@
 package com.mpier.juvenaliaapp.LineUp;
 
-public class Event {
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
+public class Event implements Serializable {
 
     private String time;
     private String name;

@@ -1,31 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
-    android:clickable="true" >
+    android:clickable="true"
+    tools:context="com.mpier.juvenaliaapp.LineUp.EventDescriptionActivity2" >
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
+        <include
+            layout="@layout/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
         <com.mpier.juvenaliaapp.LineUp.TopCropImageView
             android:id="@+id/event_img"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_weight="3"/>
-        <TextView
-            android:id="@+id/event_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:textColor="#ffffff"
-            android:textSize="22sp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:gravity="center"
-            android:text="Dawid Podsiadło"/>
+            android:layout_weight="3" />
         <TextView
             android:id="@+id/event_description"
             android:layout_width="match_parent"
