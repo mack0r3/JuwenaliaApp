@@ -31,13 +31,12 @@
     <string name="sign_in">Sign in</string>
 
     <string name="selfie_lack_of_front_camera">Twoje urządzenie nie ma przedniego aparatu</string>
-    <string name="selfie_activity_title">Juwenaliowe selfie</string>
     <string name="selfie_photo_saved">Zdjęcie zostało zapisane</string>
     <string name="selfie_info">O funkcji selfie</string>
     <string name="selfie_info_message">Możesz zrobić sobie selfie z logiem Juwenaliów i udostępnić je</string>
     <string name="selfie_info_title">Funkcja selfie</string>
 
-    <string name="selfie_share_activity_title">Udostępnij zdjęcie</string>
+    <string name="selfie_share_title">Udostępnij</string>
     <string name="selfie_share_facebook_app_not_installed">Aplikacja Facebook nie jest zainstalowana</string>
     <string name="selfie_share_instagram_app_not_installed">Aplikacja Instagram nie jest zainstalowana</string>
     <string name="selfie_share_choose_app">Wybierz aplikację</string>
