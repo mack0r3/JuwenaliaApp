@@ -24,8 +24,6 @@ import com.mpier.juvenaliaapp.selfie.SelfieFragment;
 
 public class MainActivity extends AppCompatActivity implements FacebookLoginFragment.LoginResultListener, GoogleSigninFragment.LoginResultListener {
 
-    private Tracker mTracker;
-
     DrawerLayout drawerLayout;
     Toolbar toolbar;
     ActionBarDrawerToggle actionBarDrawerToggle;
@@ -49,9 +47,7 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
         if (savedInstanceState == null) {
             isTilesFragment = true;
 
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.main_container, new TilesFragment());
-            fragmentTransaction.commit();
+            FragmentReplacer.switchToTiles(getSupportFragmentManager());
         }
 
         navigationView = (NavigationView)findViewById(R.id.navigation_view);
@@ -74,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
             }
         });
 
-        mTracker = ((AnalyticsApplication) getApplication()).getDefaultTracker();
+        ((AnalyticsApplication) getApplication()).getDefaultTracker();
     }
 
     @Override
