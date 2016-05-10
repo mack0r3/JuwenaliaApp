@@ -51,12 +51,12 @@
 
             <TextView
                 android:id="@+id/lineUpTileTextDescription"
-                android:gravity="right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
                 android:fontFamily="sans-serif-bold"
+                android:gravity="right"
                 android:paddingBottom="@dimen/tiles_texts_padding_bottom"
                 android:paddingRight="@dimen/tiles_texts_padding_bottom"
                 android:text="@string/line_up_description"
@@ -67,6 +67,7 @@
 
             <TextView
                 android:layout_width="wrap_content"
+                android:textStyle="bold"
                 android:layout_height="wrap_content"
                 android:layout_above="@id/lineUpTileTextDescription"
                 android:layout_alignParentRight="true"
@@ -113,10 +114,10 @@
                     android:id="@+id/telebimTileTextDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
                     android:fontFamily="sans-serif-bold"
+                    android:gravity="right"
                     android:paddingBottom="@dimen/tiles_texts_padding_bottom"
                     android:paddingRight="@dimen/tiles_texts_padding_bottom"
                     android:text="@string/telebim_description"
@@ -135,7 +136,8 @@
                     android:text="@string/telebim_text"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="#FFFFFF"
-                    android:textSize="@dimen/tile_title_text_size" />
+                    android:textSize="@dimen/tile_title_text_size"
+                    android:textStyle="bold" />
 
             </RelativeLayout>
 
@@ -165,11 +167,11 @@
                 <TextView
                     android:id="@+id/selfieTileTextDescription"
                     android:layout_width="wrap_content"
-                    android:gravity="right"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
                     android:fontFamily="sans-serif-bold"
+                    android:gravity="right"
                     android:paddingBottom="@dimen/tiles_texts_padding_bottom"
                     android:paddingRight="@dimen/tiles_texts_padding_bottom"
                     android:text="@string/selfie_description"
@@ -188,7 +190,8 @@
                     android:text="@string/selfie_text"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="#FFFFFF"
-                    android:textSize="@dimen/tile_title_text_size" />
+                    android:textSize="@dimen/tile_title_text_size"
+                    android:textStyle="bold" />
 
             </RelativeLayout>
         </LinearLayout>
@@ -226,11 +229,11 @@
                 <TextView
                     android:id="@+id/attractionsTileTextDescription"
                     android:layout_width="wrap_content"
-                    android:gravity="right"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
                     android:fontFamily="sans-serif-bold"
+                    android:gravity="right"
                     android:paddingBottom="@dimen/tiles_texts_padding_bottom"
                     android:paddingRight="@dimen/tiles_texts_padding_bottom"
                     android:text="@string/attractions_description"
@@ -240,6 +243,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_above="@id/attractionsTileTextDescription"
@@ -249,7 +253,8 @@
                     android:text="@string/attractions_text"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="#FFFFFF"
-                    android:textSize="@dimen/tile_title_text_size" />
+                    android:textSize="@dimen/tile_title_text_size"
+                    android:textStyle="bold" />
 
             </RelativeLayout>
 
@@ -279,11 +284,11 @@
                 <TextView
                     android:id="@+id/mapTileTextDescription"
                     android:layout_width="wrap_content"
-                    android:gravity="right"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
                     android:fontFamily="sans-serif-bold"
+                    android:gravity="right"
                     android:paddingBottom="@dimen/tiles_texts_padding_bottom"
                     android:paddingRight="@dimen/tiles_texts_padding_bottom"
                     android:text="@string/map_description"
@@ -302,7 +307,8 @@
                     android:text="@string/map_text"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="#FFFFFF"
-                    android:textSize="@dimen/tile_title_text_size" />
+                    android:textSize="@dimen/tile_title_text_size"
+                    android:textStyle="bold" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -312,10 +318,10 @@
             android:orientation="horizontal">
 
             <RelativeLayout
-                android:id="@+id/developersTile"
+                android:id="@+id/aboutTile"
                 android:layout_width="0dp"
-                android:layout_marginRight="@dimen/tilesMargin"
                 android:layout_height="@dimen/tilesFragmentTileHeight"
+                android:layout_marginRight="@dimen/tilesMargin"
                 android:layout_weight="5"
                 android:background="@drawable/event_row_borders">
 
@@ -340,9 +346,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:gravity="right"
                     android:layout_alignParentRight="true"
                     android:fontFamily="sans-serif-bold"
+                    android:gravity="right"
                     android:paddingBottom="@dimen/tiles_texts_padding_bottom"
                     android:paddingRight="@dimen/tiles_texts_padding_bottom"
                     android:text="@string/developers_description"
@@ -361,12 +367,13 @@
                     android:text="@string/developers_text"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="#FFFFFF"
-                    android:textSize="@dimen/tile_title_text_size" />
+                    android:textSize="@dimen/tile_title_text_size"
+                    android:textStyle="bold" />
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/termTile"
+                android:id="@+id/rulesTile"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/tilesFragmentTileHeight"
                 android:layout_weight="4"
@@ -393,15 +400,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:gravity="right"
                     android:layout_alignParentRight="true"
                     android:fontFamily="sans-serif-bold"
+                    android:gravity="right"
                     android:paddingBottom="@dimen/tiles_texts_padding_bottom"
                     android:paddingRight="@dimen/tiles_texts_padding_bottom"
                     android:text="@string/terms_description"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="#FFFFFF"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -414,7 +421,8 @@
                     android:text="@string/terms_text"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="#FFFFFF"
-                    android:textSize="@dimen/tile_title_text_size" />
+                    android:textSize="@dimen/tile_title_text_size"
+                    android:textStyle="bold" />
 
             </RelativeLayout>
         </LinearLayout>

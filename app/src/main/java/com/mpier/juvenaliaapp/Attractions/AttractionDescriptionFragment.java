@@ -31,11 +31,11 @@ public class AttractionDescriptionFragment extends Fragment {
 
     ImageView attractionImage;
 
-    TextView attractionName;
+    //TextView attractionName;
     TextView attractionDescription;
 
     int attrImg;
-    String attrName;
+    //String attrName;
     String attrDesc;
 
     @Override
@@ -70,7 +70,7 @@ public class AttractionDescriptionFragment extends Fragment {
         if (bundle != null) {
             getActivity().setTitle(bundle.getString("attrName", ""));
 
-            attrName = bundle.getString("attrName", "");
+            //attrName = bundle.getString("attrName", "");
             attrDesc = bundle.getString("attrDesc", "");
             attrImg = bundle.getInt("attrImg", 0);
         }
@@ -78,11 +78,11 @@ public class AttractionDescriptionFragment extends Fragment {
 
     private void initializeAndSetTextViews() {
         attractionImage = (ImageView) inflatedView.findViewById(R.id.attractionImage);
-        attractionName = (TextView) inflatedView.findViewById(R.id.attractionName);
+        //attractionName = (TextView) inflatedView.findViewById(R.id.attractionName);
         attractionDescription = (TextView) inflatedView.findViewById(R.id.attractionDescription);
 
         attractionImage.setImageResource(attrImg);
-        attractionName.setText(attrName);
+        //attractionName.setText(attrName);
         attractionDescription.setText(attrDesc);
     }
 
