@@ -1,28 +1,38 @@
 {
   "project_info": {
-    "project_number": "62836456127",
-    "project_id": "juvenaliapw"
+    "project_number": "603951756105",
+    "project_id": "juwenalia-pw"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:62836456127:android:47367eac9b8c71f2",
+        "mobilesdk_app_id": "1:603951756105:android:47367eac9b8c71f2",
         "android_client_info": {
           "package_name": "com.mpier.juvenaliaapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "603951756105-quh27i3prvd9o4jg4t2flqr6akrl0amd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mpier.juvenaliaapp",
+            "certificate_hash": "D89C31446D4A4DA2154CA301DF5B69159F0BE0B6"
+          }
+        },
+        {
+          "client_id": "603951756105-4nrbk2tvvgeidphvc8ec95rve42th8f1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyB4etKT8hy-ysVzTFMhIhtY1TEz7-Jzmrg"
+          "current_key": "AIzaSyDnpBhszfi3AX0GEIo8N3DVZGAX-lrwudc"
         }
       ],
       "services": {
         "analytics_service": {
-          "status": 2,
-          "analytics_property": {
-            "tracking_id": "UA-77504411-1"
-          }
+          "status": 1
         },
         "appinvite_service": {
           "status": 1,
