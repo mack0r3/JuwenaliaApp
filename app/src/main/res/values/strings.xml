@@ -9,11 +9,15 @@
     <string name="telebim_text">Twój telebim</string>
     <string name="telebim_description">czyli parę słów od Ciebie</string>
     <string name="selfie_text">Selfie</string>
-    <string name="selfie_description">…</string>
+    <string name="selfie_description">Uśmiech!</string>
     <string name="attractions_text">Atrakcje</string>
     <string name="attractions_description">na juwe</string>
     <string name="map_text">Mapa</string>
     <string name="map_description">co, gdzie?</string>
+    <string name="terms_text">Regulamin</string>
+    <string name="terms_description">Wychowanie to podstawa</string>
+    <string name="developers_text">Twórcy</string>
+    <string name="developers_description">Poznaj developerów</string>
 
 
     <!-- Drawer open icon -->
