@@ -19,4 +19,8 @@
     <!-- General -->
     <color name="backgroundColor">#000080</color>
     <color name="borderColor">#ffffff</color>
+
+    <!-- About -->
+    <color name="aboutTextColor">#ecf0f1</color>
+
 </resources>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/t1_100"
+    android:orientation="vertical"
+    android:gravity="center">
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo_kni"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_gravity="center"
+            android:textSize="@dimen/about_name"
+            android:textColor="@color/aboutTextColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_hartman"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_gravity="center"
+            android:textSize="@dimen/about_name"
+            android:textColor="@color/aboutTextColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_korzeniewski"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_gravity="center"
+            android:textSize="@dimen/about_name"
+            android:textColor="@color/aboutTextColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_pierscieniak"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_gravity="center"
+            android:textSize="@dimen/about_name"
+            android:textColor="@color/aboutTextColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_ponichtera"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_gravity="center"
+            android:textSize="@dimen/about_name"
+            android:textColor="@color/aboutTextColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_selwesiuk"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_gravity="center"
+            android:textSize="@dimen/about_name"
+            android:textColor="@color/aboutTextColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_szyc"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>
