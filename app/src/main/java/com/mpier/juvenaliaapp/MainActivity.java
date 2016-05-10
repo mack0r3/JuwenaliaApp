@@ -17,11 +17,14 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.facebook.login.LoginResult;
+import com.google.android.gms.analytics.Tracker;
 import com.mpier.juvenaliaapp.Attractions.AttractionsFragment;
 import com.mpier.juvenaliaapp.LineUp.LineUpFragment;
 import com.mpier.juvenaliaapp.selfie.SelfieFragment;
 
 public class MainActivity extends AppCompatActivity implements FacebookLoginFragment.LoginResultListener, GoogleSigninFragment.LoginResultListener {
+
+    private Tracker mTracker;
 
     DrawerLayout drawerLayout;
     Toolbar toolbar;
@@ -70,6 +73,8 @@ public class MainActivity extends AppCompatActivity implements FacebookLoginFrag
                 return false;
             }
         });
+
+        mTracker = ((AnalyticsApplication) getApplication()).getDefaultTracker();
     }
 
     @Override
