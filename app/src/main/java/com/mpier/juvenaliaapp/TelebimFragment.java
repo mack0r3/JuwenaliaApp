@@ -144,7 +144,7 @@ public class TelebimFragment extends Fragment {
         else {
             sendMessage(editText.getText().toString());
             clearEditText(editText);
-            makeToast("Wiadomość zostąła wysłana!");
+            makeToast("Wiadomość została wysłana!");
         }
 
     }
