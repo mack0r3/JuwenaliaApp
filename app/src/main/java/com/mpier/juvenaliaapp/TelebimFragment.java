@@ -1,7 +1,9 @@
 package com.mpier.juvenaliaapp;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -14,7 +16,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.Profile;
+import com.facebook.ProfileTracker;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.gson.GsonBuilder;
 
 import java.io.BufferedWriter;
@@ -29,10 +39,36 @@ public class TelebimFragment extends Fragment {
     View inflatedView;
     FloatingActionButton sendMsgBtn;
     EditText greetingsEditText;
+    TextView greetingsTextView;
 
     private static final String PARAM_NAME = "name";
 
     private String name = "";
+
+
+    private CallbackManager mCallbackManager;
+    private FacebookCallback<LoginResult> mCallback = new FacebookCallback<LoginResult>() {
+        @Override
+        public void onSuccess(LoginResult loginResult) {
+
+            AccessToken accessToken = loginResult.getAccessToken();
+            Profile profile = Profile.getCurrentProfile();
+            if(profile != null){
+                name = profile.getFirstName();
+                greetingsTextView.setText("Witaj " + name + "! Podziel się swoimi wrażeniami!");
+                inflatedView.findViewById(R.id.msgPanel).setVisibility(View.VISIBLE);
+                inflatedView.findViewById(R.id.buttonMsgSend).setVisibility(View.VISIBLE);
+            }
+        }
+
+        @Override
+        public void onCancel() {
+        }
+
+        @Override
+        public void onError(FacebookException error) {
+        }
+    };
 
     public TelebimFragment() {}
 
@@ -48,6 +84,7 @@ public class TelebimFragment extends Fragment {
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
+        mCallbackManager = CallbackManager.Factory.create();
         if(getArguments() != null) {
             name = getArguments().getString(PARAM_NAME);
         }
@@ -58,6 +95,7 @@ public class TelebimFragment extends Fragment {
         getActivity().setTitle(R.string.menu_telebim);
 
         inflatedView = inflater.inflate(R.layout.fragment_telebim, container, false);
+        greetingsTextView = (TextView)inflatedView.findViewById(R.id.greetingsTextView);
 
         initializeSendMsgBtn();
         initializeMessageEditText();
@@ -65,6 +103,21 @@ public class TelebimFragment extends Fragment {
         handleSendMsgBtnOnClickEvent();
 
         return inflatedView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        LoginButton loginButton = (LoginButton)inflatedView.findViewById(R.id.login_button);
+        loginButton.setReadPermissions("user_friends");
+        loginButton.setFragment(this);
+        loginButton.registerCallback(mCallbackManager, mCallback);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

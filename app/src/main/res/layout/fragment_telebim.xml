@@ -10,16 +10,26 @@
     android:padding="@dimen/standard_activity_margin"
     tools:context=".TelebimFragment">
 
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="30dp" />
+
     <LinearLayout
+        android:id="@+id/msgPanel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="invisible">
 
         <TextView
+            android:id="@+id/greetingsTextView"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="2"
-            android:text="@string/telebim_info"
             android:gravity="center"
             android:textColor="@android:color/white"
             android:textSize="20sp" />
@@ -29,16 +39,17 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="8"
-            android:padding="16dp"
-            android:textSize="16sp"
             android:background="@color/aboutTextColor"
             android:gravity="top"
             android:hint="@string/telebim_hint"
             android:imeOptions="actionSend"
-            android:inputType="textMultiLine" />
+            android:inputType="textMultiLine"
+            android:padding="16dp"
+            android:textSize="16sp" />
+
         <View
             android:layout_width="match_parent"
-            android:layout_height="48dp"/>
+            android:layout_height="100dp" />
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
@@ -48,9 +59,9 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:src="@drawable/ic_send_white_36dp"
-        android:visibility="visible"
+        android:visibility="invisible"
+        app:backgroundTint="@color/colorSecondaryRed"
         app:layout_anchor="@id/greetings"
-        app:layout_anchorGravity="bottom|center"
-        app:backgroundTint="@color/colorSecondaryRed" />
+        app:layout_anchorGravity="bottom|center" />
 
 </android.support.design.widget.CoordinatorLayout>
