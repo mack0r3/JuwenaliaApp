@@ -95,7 +95,7 @@ public class TelebimFragment extends Fragment {
                 bw.close();
                 os.close();
 
-                conn.connect();
+                conn.getResponseCode();
             } catch (Exception e) {
                 e.printStackTrace();
                 return false;
