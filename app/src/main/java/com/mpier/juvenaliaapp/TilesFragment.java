@@ -44,6 +44,9 @@ public class TilesFragment extends Fragment {
                 inflatedView.findViewById(R.id.lineUpTile),
                 new LineUpFragment());
         addViewFragmentPairToList(associatedTilesArrayWithFragment,
+                inflatedView.findViewById(R.id.beerTile),
+                new BeerFragment());
+        addViewFragmentPairToList(associatedTilesArrayWithFragment,
                 inflatedView.findViewById(R.id.telebimTile),
                 new TelebimFragment());
         addViewFragmentPairToList(associatedTilesArrayWithFragment,

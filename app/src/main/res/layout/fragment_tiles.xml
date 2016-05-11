@@ -26,59 +26,124 @@
 
         </LinearLayout>
 
-        <RelativeLayout
-            android:id="@+id/lineUpTile"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/tilesFragmentTileHeight"
             android:layout_marginBottom="@dimen/tilesMargin"
-            android:background="@drawable/event_row_borders">
+            android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:alpha="@dimen/tile_alpha"
-                android:cropToPadding="true"
-                android:padding="2dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/lineup"></ImageView>
+            <RelativeLayout
+                android:id="@+id/lineUpTile"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/tilesFragmentTileHeight"
+                android:layout_marginBottom="@dimen/tilesMargin"
+                android:layout_marginRight="@dimen/tilesMargin"
+                android:layout_weight="7"
+                android:background="@drawable/event_row_borders">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/tiles_icons_padding"
-                android:src="@drawable/ic_event_white_48dp" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:alpha="@dimen/tile_alpha"
+                    android:cropToPadding="true"
+                    android:padding="2dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/lineup"></ImageView>
 
-            <TextView
-                android:id="@+id/lineUpTileTextDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:fontFamily="sans-serif-bold"
-                android:gravity="right"
-                android:paddingBottom="@dimen/tiles_texts_padding_bottom"
-                android:paddingRight="@dimen/tiles_texts_padding_bottom"
-                android:text="@string/line_up_description"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="#FFFFFF"
-                android:textSize="@dimen/line_up_description_text_size"
-                android:textStyle="bold" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/tiles_icons_padding"
+                    android:src="@drawable/ic_event_white_48dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:textStyle="bold"
-                android:layout_height="wrap_content"
-                android:layout_above="@id/lineUpTileTextDescription"
-                android:layout_alignParentRight="true"
-                android:fontFamily="sans-serif-condensed"
-                android:paddingRight="@dimen/tiles_texts_padding_right"
-                android:text="@string/line_up_text"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="#FFFFFF"
-                android:textSize="@dimen/line_up_title_text_size" />
+                <TextView
+                    android:id="@+id/lineUpTileTextDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:fontFamily="sans-serif-bold"
+                    android:gravity="right"
+                    android:paddingBottom="@dimen/tiles_texts_padding_bottom"
+                    android:paddingRight="@dimen/tiles_texts_padding_bottom"
+                    android:text="@string/line_up_description"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#FFFFFF"
+                    android:textSize="@dimen/tile_description_text_size"
+                    android:textStyle="bold" />
 
-        </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/lineUpTileTextDescription"
+                    android:layout_alignParentRight="true"
+                    android:fontFamily="sans-serif-condensed"
+                    android:paddingRight="@dimen/tiles_texts_padding_right"
+                    android:text="@string/line_up_text"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#FFFFFF"
+                    android:textSize="@dimen/tile_title_text_size" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/beerTile"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/tilesFragmentTileHeight"
+                android:layout_marginBottom="@dimen/tilesMargin"
+                android:layout_weight="4"
+                android:background="@drawable/event_row_borders">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:alpha="@dimen/tile_alpha"
+                    android:cropToPadding="true"
+                    android:padding="2dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/stodola"></ImageView>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/tiles_icons_padding"
+                    android:src="@drawable/ic_local_bar_white_48dp" />
+
+                <TextView
+                    android:id="@+id/beerTileTextDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:fontFamily="sans-serif-bold"
+                    android:gravity="right"
+                    android:paddingBottom="@dimen/tiles_texts_padding_bottom"
+                    android:paddingRight="@dimen/tiles_texts_padding_bottom"
+                    android:text="@string/beer_description"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#FFFFFF"
+                    android:textSize="@dimen/tile_description_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/beerTileTextDescription"
+                    android:layout_alignParentRight="true"
+                    android:fontFamily="sans-serif-condensed"
+                    android:paddingRight="@dimen/tiles_texts_padding_right"
+                    android:text="@string/beer_text"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#FFFFFF"
+                    android:textSize="@dimen/tile_title_text_size" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -91,7 +156,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="@dimen/tilesMargin"
-                android:layout_weight="6"
+                android:layout_weight="5"
                 android:background="@drawable/event_row_borders">
 
                 <ImageView
