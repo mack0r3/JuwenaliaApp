@@ -35,7 +35,7 @@ public class AttractionDescriptionFragment extends Fragment {
     TextView attractionDescription;
 
     int attrImg;
-    //String attrName;
+    String attrName;
     String attrDesc;
 
     @Override
@@ -45,6 +45,7 @@ public class AttractionDescriptionFragment extends Fragment {
             inflatedView = inflater.inflate(R.layout.fragment_attraction_description, container, false);
 
         initializeFragment();
+        getActivity().setTitle(attrName);
 
         return inflatedView;
     }
@@ -70,7 +71,7 @@ public class AttractionDescriptionFragment extends Fragment {
         if (bundle != null) {
             getActivity().setTitle(bundle.getString("attrName", ""));
 
-            //attrName = bundle.getString("attrName", "");
+            attrName = bundle.getString("attrName", "");
             attrDesc = bundle.getString("attrDesc", "");
             attrImg = bundle.getInt("attrImg", 0);
         }

@@ -26,7 +26,7 @@ public class AttractionsFragment extends Fragment {
             Fragment fragment = new AttractionDescriptionFragment();
             Bundle bundle = new Bundle();
             bundle.putInt("attrImg", attractions[position].getAttrImgRes());
-            //bundle.putString("attrName", attractions[position].getAttrName());
+            bundle.putString("attrName", attractions[position].getAttrName());
             bundle.putString("attrDesc", attractions[position].getDescription());
             fragment.setArguments(bundle);
             FragmentReplacer.switchFragment(getFragmentManager(), fragment, true);
