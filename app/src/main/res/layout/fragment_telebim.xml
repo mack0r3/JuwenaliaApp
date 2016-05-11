@@ -35,15 +35,14 @@
             android:gravity="top"
             android:hint="@string/telebim_hint"
             android:imeOptions="actionSend"
-            android:inputType="text"
-            android:singleLine="true" />
+            android:inputType="textMultiLine" />
         <View
             android:layout_width="match_parent"
             android:layout_height="48dp"/>
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/buttonSend"
+        android:id="@+id/buttonMsgSend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

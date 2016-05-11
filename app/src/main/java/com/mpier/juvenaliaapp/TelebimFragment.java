@@ -2,6 +2,7 @@ package com.mpier.juvenaliaapp;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -22,6 +23,10 @@ import java.net.URL;
 import java.util.HashMap;
 
 public class TelebimFragment extends Fragment {
+
+    View inflatedView;
+    FloatingActionButton sendMsgBtn;
+    EditText greetingsEditText;
 
     private static final String PARAM_NAME = "name";
 
@@ -49,15 +54,19 @@ public class TelebimFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         getActivity().setTitle(R.string.menu_telebim);
 
-        
+        inflatedView = inflater.inflate(R.layout.fragment_telebim, container, false);
 
-        return inflater.inflate(R.layout.fragment_telebim, container, false);
+        initializeSendMsgBtn();
+        initializeMessageEditText();
+
+        handleSendMsgBtnOnClickEvent();
+
+        return inflatedView;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        final EditText greetingsEditText = (EditText) getActivity().findViewById(R.id.greetings);
         greetingsEditText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -105,7 +114,45 @@ public class TelebimFragment extends Fragment {
         }
     }
 
-    public void sendMessageBtn(View v){
-        Log.v("ERROR", "error");
+    private void initializeSendMsgBtn() {
+        sendMsgBtn = (FloatingActionButton)inflatedView.findViewById(R.id.buttonMsgSend);
     }
+
+    private void initializeMessageEditText(){
+        greetingsEditText = (EditText) inflatedView.findViewById(R.id.greetings);
+    }
+
+    private void handleSendMsgBtnOnClickEvent(){
+        sendMsgBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    handleEditTextExceptions(greetingsEditText);
+                } catch (EditTextException e) {
+                    Log.v("ERROR", e.getMessage());
+                }
+            }
+        });
+    }
+
+    private static void handleEditTextExceptions(EditText editText) throws EditTextException{
+        if(editText.getText().toString().matches(""))
+            throw new EditTextException("Wiadomość nie może być pusta.");
+        else if(editText.getText().toString().length() > 200)
+            throw new EditTextException("Wiadomość jest zbyt długa");
+    }
+
 }
+
+class EditTextException extends Exception{
+
+    public EditTextException(){
+
+    }
+
+    public EditTextException(String message){
+        super(message);
+    }
+};
+
+
