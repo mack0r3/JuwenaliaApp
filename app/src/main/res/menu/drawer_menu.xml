@@ -4,6 +4,10 @@
         android:id="@+id/group_top"
         android:checkableBehavior="single">
         <item
+            android:id="@+id/menu_beer"
+            android:icon="@drawable/ic_local_bar_white_48dp"
+            android:title="@string/menu_beer" />
+        <item
             android:id="@+id/menu_line_up"
             android:icon="@drawable/ic_event_white_48dp"
             android:title="@string/menu_line_up" />

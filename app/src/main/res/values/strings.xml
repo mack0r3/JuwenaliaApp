@@ -6,8 +6,10 @@
     <!-- TilesFragment -->
     <string name="line_up_text">Line up</string>
     <string name="line_up_description">Sprawdź naszych artystów</string>
+    <string name="beer_text">Piwo</string>
+    <string name="beer_description">Chcesz piwo?</string>
     <string name="telebim_text">Twój telebim</string>
-    <string name="telebim_description">Czyli parę słów od Ciebie</string>
+    <string name="telebim_description">Parę słów od Ciebie</string>
     <string name="selfie_text">Selfie</string>
     <string name="selfie_description">Uśmiech!</string>
     <string name="attractions_text">Atrakcje</string>
@@ -20,8 +22,8 @@
     <string name="developers_description">Poznaj deweloperów</string>
 
     <!-- TelebimFragment -->
-    <string name="telebim_hint">Wpisz wiadomość (200 znaków)...</string>
-    <string name="telebim_info">Wyślij pozdrowienia prosto na Telebim</string>
+    <string name="telebim_hint">Wpisz wiadomość (do 200 znaków)</string>
+    <string name="telebim_info">Wyślij pozdrowienia prosto na Telebim!</string>
 
 
     <!-- Drawer open icon -->
@@ -29,6 +31,7 @@
     <string name="drawer_close">Drawer close</string>
 
     <!-- Navigation Drawer Menu Items -->
+    <string name="menu_beer">Chcesz piwo?</string>
     <string name="menu_line_up">Line-up</string>
     <string name="menu_telebim">Twój telebim</string>
     <string name="menu_map">Mapa</string>
@@ -71,5 +74,11 @@
     <string name="about_ponichtera">Konrad Ponichtera</string>
     <string name="about_selwesiuk">Bartosz Selwesiuk</string>
     <string name="about_szyc">Kamil Szyc</string>
+
+    <!-- Beer -->
+    <string name="beer_text1">1. Znajdź punkt sprzedaży kuponów na piwo.</string>
+    <string name="beer_text2">2. Stań w kolejce do kasy.</string>
+    <string name="beer_text3">3. Kup dowolną ilość kuponów.</string>
+    <string name="beer_text4">4. Odbierz swoje piwo przy nalewaku.</string>
 
 </resources>
