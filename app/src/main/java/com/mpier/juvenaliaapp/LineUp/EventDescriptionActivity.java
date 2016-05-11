@@ -35,16 +35,12 @@ public class EventDescriptionActivity extends AppCompatActivity {
 
         //TextView eventNameTextView = (TextView) findViewById(R.id.event_name);
         TextView eventDescriptionTextView = (TextView) findViewById(R.id.event_description);
+        ImageView eventImageImageView = (ImageView) findViewById(R.id.event_img);
 
         //eventNameTextView.setText(eventName);
         getSupportActionBar().setTitle(eventName);
         eventDescriptionTextView.setText(eventDesc);
-
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
-        {
-            ImageView eventImageImageView = (ImageView) findViewById(R.id.event_img);
-            eventImageImageView.setImageResource(eventImg);
-        }
+        eventImageImageView.setImageResource(eventImg);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }

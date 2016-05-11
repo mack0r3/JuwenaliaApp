@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/t1_100"
+    android:background="@color/backgroundColor"
     android:orientation="vertical">
 
 
@@ -20,8 +20,8 @@
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/logo_kni"/>
+                android:layout_height="180dp"
+                android:src="@drawable/logo_kni2"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -34,7 +34,8 @@
                     android:textColor="@color/aboutTextColor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/about_hartman"/>
+                    android:text="@string/about_hartman"
+                    android:fontFamily="sans-serif-condensed"/>
 
             </LinearLayout>
 
@@ -49,7 +50,8 @@
                     android:textColor="@color/aboutTextColor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/about_korzeniewski"/>
+                    android:text="@string/about_korzeniewski"
+                    android:fontFamily="sans-serif-condensed"/>
 
             </LinearLayout>
 
@@ -64,7 +66,8 @@
                     android:textColor="@color/aboutTextColor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/about_pierscieniak"/>
+                    android:text="@string/about_pierscieniak"
+                    android:fontFamily="sans-serif-condensed"/>
 
             </LinearLayout>
 
@@ -79,7 +82,8 @@
                     android:textColor="@color/aboutTextColor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/about_ponichtera"/>
+                    android:text="@string/about_ponichtera"
+                    android:fontFamily="sans-serif-condensed"/>
 
             </LinearLayout>
 
@@ -94,7 +98,8 @@
                     android:textColor="@color/aboutTextColor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/about_selwesiuk"/>
+                    android:text="@string/about_selwesiuk"
+                    android:fontFamily="sans-serif-condensed"/>
 
             </LinearLayout>
 
@@ -109,7 +114,8 @@
                     android:textColor="@color/aboutTextColor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/about_szyc"/>
+                    android:text="@string/about_szyc"
+                    android:fontFamily="sans-serif-condensed"/>
 
             </LinearLayout>
 

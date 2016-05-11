@@ -1,33 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
     android:clickable="true"
-    tools:context="com.mpier.juvenaliaapp.LineUp.EventDescriptionActivity2" >
+    tools:context="com.mpier.juvenaliaapp.LineUp.EventDescriptionActivity2">
+
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
         <include
             layout="@layout/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
         <com.mpier.juvenaliaapp.LineUp.TopCropImageView
             android:id="@+id/event_img"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_weight="3" />
+            android:layout_weight="3"/>
+
         <TextView
             android:id="@+id/event_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:layout_marginTop="8dp"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sed neque metus. Donec convallis, justo ac hendrerit accumsan, felis turpis commodo metus, id eleifend dolor lacus sodales arcu. Donec tempus turpis et velit imperdiet pretium. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod consectetur dolor, eget dictum lacus egestas ac. Mauris dapibus blandit ex eget iaculis."
             android:textColor="#ffffff"
-            android:textSize="14sp"
-            android:padding="20dp"
-            android:gravity="center_horizontal"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sed neque metus. Donec convallis, justo ac hendrerit accumsan, felis turpis commodo metus, id eleifend dolor lacus sodales arcu. Donec tempus turpis et velit imperdiet pretium. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod consectetur dolor, eget dictum lacus egestas ac. Mauris dapibus blandit ex eget iaculis." />
+            android:textSize="14sp" />
     </LinearLayout>
 </ScrollView>

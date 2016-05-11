@@ -19,9 +19,10 @@
 
     <dimen name="line_up_title_text_size">34sp</dimen>
     <dimen name="line_up_description_text_size">18sp</dimen>
+
     <dimen name="tile_title_text_size">20sp</dimen>
-    <dimen name="tile_description_text_size">12sp</dimen>
-    <item name="tile_alpha" format="float" type="dimen">0.4</item>
+    <dimen name="tile_description_text_size">14sp</dimen>
+    <item name="tile_alpha" format="float" type="dimen">0.5</item>
 
     <!-- About -->
     <dimen name="about_name">20sp</dimen>

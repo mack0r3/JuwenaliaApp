@@ -19,20 +19,21 @@
                 android:id="@+id/event_row_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:alpha="0.5" />
+                android:alpha="0.4" />
+
             <TextView
                 android:id="@+id/event_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
                 android:fontFamily="sans-serif-light"
                 android:paddingBottom="6dp"
                 android:paddingRight="10dp"
                 android:text="Bomba Kaloryczna"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#FFFFFF"
-                android:textSize="26sp"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"/>
+                android:textSize="26sp" />
 
             <TextView
                 android:id="@+id/event_time"

@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundColor"
     android:fitsSystemWindows="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
@@ -16,23 +15,21 @@
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/backgroundColor"
         android:fillViewport="true"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/backgroundColor"
             android:orientation="vertical">
 
             <ListView
                 android:id="@+id/events_list_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="16dp"
                 android:divider="@android:color/transparent"
-                android:dividerHeight="10.0dp"
+                android:dividerHeight="16.0dp"
                 android:fontFamily="sans-serif-condensed" />
 
         </LinearLayout>

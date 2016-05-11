@@ -14,7 +14,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/tilesFragmentTileHeight"
+            android:layout_height="120dp"
             android:layout_marginBottom="@dimen/header_logo_margin_bottom"
             android:orientation="horizontal">
 
