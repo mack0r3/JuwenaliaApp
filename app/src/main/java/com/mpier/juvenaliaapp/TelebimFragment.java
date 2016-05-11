@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.GsonBuilder;
 
@@ -127,19 +128,38 @@ public class TelebimFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 try {
-                    handleEditTextExceptions(greetingsEditText);
+                    sendMessageIfNoErrors(greetingsEditText);
                 } catch (EditTextException e) {
-                    Log.v("ERROR", e.getMessage());
+                    makeToast(e.getMessage());
                 }
             }
         });
     }
 
-    private static void handleEditTextExceptions(EditText editText) throws EditTextException{
+    private void sendMessageIfNoErrors(EditText editText) throws EditTextException{
         if(editText.getText().toString().matches(""))
             throw new EditTextException("Wiadomość nie może być pusta.");
         else if(editText.getText().toString().length() > 200)
             throw new EditTextException("Wiadomość jest zbyt długa");
+        else {
+            sendMessage(editText.getText().toString());
+            clearEditText(editText);
+            makeToast("Wiadomość zostąła wysłana!");
+        }
+
+    }
+
+    private void sendMessage(String message){
+        new SendMessage().execute(name, message);
+
+    }
+
+    private void clearEditText(EditText editText){
+        editText.setText("");
+    }
+
+    private void makeToast(String message){
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
 }
