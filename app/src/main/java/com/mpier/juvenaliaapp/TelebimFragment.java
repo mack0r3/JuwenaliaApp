@@ -4,14 +4,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.GsonBuilder;
@@ -28,27 +24,28 @@ public class TelebimFragment extends Fragment {
     View inflatedView;
     FloatingActionButton sendMsgBtn;
     EditText greetingsEditText;
+    EditText nameEditText;
 
-    private static final String PARAM_NAME = "name";
+    //private static final String PARAM_NAME = "name";
 
-    private String name = "";
+    //private String name = "";
 
     public TelebimFragment() {}
 
     public static TelebimFragment newInstance(String name) {
         TelebimFragment telebimFragment = new TelebimFragment();
-        Bundle b = new Bundle();
-        b.putString(PARAM_NAME, name);
-        telebimFragment.setArguments(b);
+        //Bundle b = new Bundle();
+        //b.putString(PARAM_NAME, name);
+        //telebimFragment.setArguments(b);
         return telebimFragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
-        if(getArguments() != null) {
-            name = getArguments().getString(PARAM_NAME);
-        }
+        //if(getArguments() != null) {
+        //name = getArguments().getString(PARAM_NAME);
+        //}
     }
 
     @Override
@@ -58,26 +55,63 @@ public class TelebimFragment extends Fragment {
         inflatedView = inflater.inflate(R.layout.fragment_telebim, container, false);
 
         initializeSendMsgBtn();
-        initializeMessageEditText();
+        initializeEditTexts();
 
         handleSendMsgBtnOnClickEvent();
 
         return inflatedView;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        greetingsEditText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+    private void initializeSendMsgBtn() {
+        sendMsgBtn = (FloatingActionButton) inflatedView.findViewById(R.id.buttonMsgSend);
+    }
+
+    private void initializeEditTexts() {
+        greetingsEditText = (EditText) inflatedView.findViewById(R.id.greetings);
+        nameEditText = (EditText) inflatedView.findViewById(R.id.name);
+    }
+
+    private void handleSendMsgBtnOnClickEvent(){
+        sendMsgBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEND) {
-                    new SendMessage().execute(name, greetingsEditText.getText().toString());
-                    return true;
+            public void onClick(View v) {
+                try {
+                    sendMessageIfNoErrors();
+                } catch (EditTextException e) {
+                    makeToast(e.getMessage());
                 }
-                return false;
             }
         });
+    }
+
+    private void sendMessageIfNoErrors() throws EditTextException {
+        if (greetingsEditText.getText().toString().matches(""))
+            throw new EditTextException("Wiadomość nie może być pusta.");
+        else if (greetingsEditText.getText().toString().length() > 200)
+            throw new EditTextException("Wiadomość jest zbyt długa");
+        else if (nameEditText.getText().toString().length() > 20)
+            throw new EditTextException("Imię jest za długie");
+        else if (nameEditText.getText().toString().length() < 3)
+            throw new EditTextException("Imię jest za krótkie");
+        else {
+            sendMessage(nameEditText.getText().toString(), greetingsEditText.getText().toString());
+            clearEditText(greetingsEditText);
+            clearEditText(nameEditText);
+        }
+
+    }
+
+    private void sendMessage(String name, String message) {
+        new SendMessage().execute(name, message);
+
+    }
+
+    private void clearEditText(EditText editText){
+        editText.setText("");
+    }
+
+    private void makeToast(String message){
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     private class SendMessage extends AsyncTask<String, Void, Boolean> {
@@ -113,53 +147,15 @@ public class TelebimFragment extends Fragment {
             }
             return true;
         }
-    }
 
-    private void initializeSendMsgBtn() {
-        sendMsgBtn = (FloatingActionButton)inflatedView.findViewById(R.id.buttonMsgSend);
-    }
-
-    private void initializeMessageEditText(){
-        greetingsEditText = (EditText) inflatedView.findViewById(R.id.greetings);
-    }
-
-    private void handleSendMsgBtnOnClickEvent(){
-        sendMsgBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    sendMessageIfNoErrors(greetingsEditText);
-                } catch (EditTextException e) {
-                    makeToast(e.getMessage());
-                }
+        @Override
+        protected void onPostExecute(Boolean success) {
+            if (success) {
+                makeToast("Wiadomość została wysłana!");
+            } else {
+                makeToast("Nie można wysłać wiadomości");
             }
-        });
-    }
-
-    private void sendMessageIfNoErrors(EditText editText) throws EditTextException{
-        if(editText.getText().toString().matches(""))
-            throw new EditTextException("Wiadomość nie może być pusta.");
-        else if(editText.getText().toString().length() > 200)
-            throw new EditTextException("Wiadomość jest zbyt długa");
-        else {
-            sendMessage(editText.getText().toString());
-            clearEditText(editText);
-            makeToast("Wiadomość została wysłana!");
         }
-
-    }
-
-    private void sendMessage(String message){
-        new SendMessage().execute(name, message);
-
-    }
-
-    private void clearEditText(EditText editText){
-        editText.setText("");
-    }
-
-    private void makeToast(String message){
-        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
 }

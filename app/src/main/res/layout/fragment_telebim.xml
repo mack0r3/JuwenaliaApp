@@ -19,23 +19,57 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="2"
-            android:text="@string/telebim_info"
             android:gravity="center"
+            android:text="@string/telebim_info"
             android:textColor="@android:color/white"
             android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|right"
+                android:padding="1dp"
+                android:text="Twoje imię:"
+                android:textColor="@android:color/white" />
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="3"
+                android:background="@color/aboutTextColor"
+                android:ems="10"
+                android:hint="od 3 do 20 znaków"
+                android:inputType="textPersonName"
+                android:padding="16dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+        </LinearLayout>
 
         <EditText
             android:id="@+id/greetings"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="8"
-            android:padding="16dp"
-            android:textSize="16sp"
             android:background="@color/aboutTextColor"
             android:gravity="top"
             android:hint="@string/telebim_hint"
-            android:imeOptions="actionSend"
-            android:inputType="textMultiLine" />
+            android:inputType="textMultiLine"
+            android:padding="16dp"
+            android:textSize="16sp" />
         <View
             android:layout_width="match_parent"
             android:layout_height="48dp"/>
@@ -49,8 +83,8 @@
         android:layout_centerHorizontal="true"
         android:src="@drawable/ic_send_white_36dp"
         android:visibility="visible"
+        app:backgroundTint="@color/colorSecondaryRed"
         app:layout_anchor="@id/greetings"
-        app:layout_anchorGravity="bottom|center"
-        app:backgroundTint="@color/colorSecondaryRed" />
+        app:layout_anchorGravity="bottom|center" />
 
 </android.support.design.widget.CoordinatorLayout>
