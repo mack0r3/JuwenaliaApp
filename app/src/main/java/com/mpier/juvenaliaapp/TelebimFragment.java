@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -45,19 +46,19 @@ public class TelebimFragment extends Fragment {
 
     private String name = "";
 
+    private AccessTokenTracker accessTokenTracker;
+    private ProfileTracker profileTracker;
 
     private CallbackManager mCallbackManager;
     private FacebookCallback<LoginResult> mCallback = new FacebookCallback<LoginResult>() {
+
         @Override
         public void onSuccess(LoginResult loginResult) {
-
             AccessToken accessToken = loginResult.getAccessToken();
             Profile profile = Profile.getCurrentProfile();
-            if(profile != null){
+            if (profile != null) {
                 name = profile.getFirstName();
-                greetingsTextView.setText("Witaj " + name + "! Podziel się swoimi wrażeniami!");
-                inflatedView.findViewById(R.id.msgPanel).setVisibility(View.VISIBLE);
-                inflatedView.findViewById(R.id.buttonMsgSend).setVisibility(View.VISIBLE);
+                showMessagePanel();
             }
         }
 
@@ -70,7 +71,8 @@ public class TelebimFragment extends Fragment {
         }
     };
 
-    public TelebimFragment() {}
+    public TelebimFragment() {
+    }
 
     public static TelebimFragment newInstance(String name) {
         TelebimFragment telebimFragment = new TelebimFragment();
@@ -85,9 +87,32 @@ public class TelebimFragment extends Fragment {
         super.onCreate(savedInstance);
         FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
         mCallbackManager = CallbackManager.Factory.create();
-        if(getArguments() != null) {
+        if (getArguments() != null) {
             name = getArguments().getString(PARAM_NAME);
         }
+
+        accessTokenTracker = new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(
+                    AccessToken oldAccessToken,
+                    AccessToken currentAccessToken) {
+
+                if (currentAccessToken == null) {
+                    hideMessagePanel();
+                }
+            }
+        };
+
+        profileTracker = new ProfileTracker() {
+            @Override
+            protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
+
+            }
+        };
+
+        accessTokenTracker.startTracking();
+        profileTracker.startTracking();
+
     }
 
     @Override
@@ -95,7 +120,11 @@ public class TelebimFragment extends Fragment {
         getActivity().setTitle(R.string.menu_telebim);
 
         inflatedView = inflater.inflate(R.layout.fragment_telebim, container, false);
-        greetingsTextView = (TextView)inflatedView.findViewById(R.id.greetingsTextView);
+        greetingsTextView = (TextView) inflatedView.findViewById(R.id.greetingsTextView);
+
+        if (isLoggedIn())
+            showMessagePanel();
+        else hideMessagePanel();
 
         initializeSendMsgBtn();
         initializeMessageEditText();
@@ -106,9 +135,16 @@ public class TelebimFragment extends Fragment {
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        accessTokenTracker.stopTracking();
+        profileTracker.stopTracking();
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        LoginButton loginButton = (LoginButton)inflatedView.findViewById(R.id.login_button);
+        LoginButton loginButton = (LoginButton) inflatedView.findViewById(R.id.login_button);
         loginButton.setReadPermissions("user_friends");
         loginButton.setFragment(this);
         loginButton.registerCallback(mCallbackManager, mCallback);
@@ -118,6 +154,39 @@ public class TelebimFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Profile profile = Profile.getCurrentProfile();
+        if(profile != null) name = profile.getFirstName();
+        displayName(profile);
+    }
+
+    private void displayName(Profile profile) {
+        if (profile != null) {
+            greetingsTextView.setText("Witaj " + profile.getFirstName() + "! Podziel się swoimi wrażeniami!");
+        }
+    }
+
+    private boolean isLoggedIn() {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        return accessToken != null;
+    }
+
+    private void showMessagePanel() {
+        greetingsTextView.setText("Witaj " + name + "! Podziel się swoimi wrażeniami!");
+        greetingsTextView.setVisibility(View.VISIBLE);
+        inflatedView.findViewById(R.id.msgPanel).setVisibility(View.VISIBLE);
+        inflatedView.findViewById(R.id.buttonMsgSend).setVisibility(View.VISIBLE);
+        inflatedView.findViewById(R.id.shareExperienceText).setVisibility(View.INVISIBLE);
+    }
+
+    private void hideMessagePanel() {
+        inflatedView.findViewById(R.id.msgPanel).setVisibility(View.INVISIBLE);
+        inflatedView.findViewById(R.id.buttonMsgSend).setVisibility(View.INVISIBLE);
+        inflatedView.findViewById(R.id.shareExperienceText).setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -171,14 +240,14 @@ public class TelebimFragment extends Fragment {
     }
 
     private void initializeSendMsgBtn() {
-        sendMsgBtn = (FloatingActionButton)inflatedView.findViewById(R.id.buttonMsgSend);
+        sendMsgBtn = (FloatingActionButton) inflatedView.findViewById(R.id.buttonMsgSend);
     }
 
-    private void initializeMessageEditText(){
+    private void initializeMessageEditText() {
         greetingsEditText = (EditText) inflatedView.findViewById(R.id.greetings);
     }
 
-    private void handleSendMsgBtnOnClickEvent(){
+    private void handleSendMsgBtnOnClickEvent() {
         sendMsgBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -191,10 +260,10 @@ public class TelebimFragment extends Fragment {
         });
     }
 
-    private void sendMessageIfNoErrors(EditText editText) throws EditTextException{
-        if(editText.getText().toString().matches(""))
+    private void sendMessageIfNoErrors(EditText editText) throws EditTextException {
+        if (editText.getText().toString().matches(""))
             throw new EditTextException("Wiadomość nie może być pusta.");
-        else if(editText.getText().toString().length() > 200)
+        else if (editText.getText().toString().length() > 200)
             throw new EditTextException("Wiadomość jest zbyt długa");
         else {
             sendMessage(editText.getText().toString());
@@ -204,28 +273,28 @@ public class TelebimFragment extends Fragment {
 
     }
 
-    private void sendMessage(String message){
+    private void sendMessage(String message) {
         new SendMessage().execute(name, message);
 
     }
 
-    private void clearEditText(EditText editText){
+    private void clearEditText(EditText editText) {
         editText.setText("");
     }
 
-    private void makeToast(String message){
+    private void makeToast(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
 }
 
-class EditTextException extends Exception{
+class EditTextException extends Exception {
 
-    public EditTextException(){
+    public EditTextException() {
 
     }
 
-    public EditTextException(String message){
+    public EditTextException(String message) {
         super(message);
     }
 };
