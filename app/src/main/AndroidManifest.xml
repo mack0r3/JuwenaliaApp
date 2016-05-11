@@ -21,7 +21,7 @@
         android:name="AnalyticsApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="Juwenalia PW"
+        android:label="Juwenalia PW 2016"
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
