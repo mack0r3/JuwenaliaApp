@@ -199,12 +199,13 @@ public class PhotoShareFragment extends Fragment implements View.OnClickListener
         @Override
         public void onClick(View v) {
             if (appInstalled("com.facebook.katana")) {
-                SharePhoto photo = new SharePhoto.Builder().setImageUrl(photoUri).build();
+                Intent shareIntent = new Intent();
+                shareIntent.setAction(Intent.ACTION_SEND);
+                shareIntent.setPackage("com.facebook.katana");
+                shareIntent.putExtra(Intent.EXTRA_STREAM, photoUri);
+                shareIntent.setType("image/*");
 
-                final SharePhotoContent content = new SharePhotoContent.Builder().addPhoto(
-                        photo).build();
-
-                ShareDialog.show(PhotoShareFragment.this, content);
+                startActivity(shareIntent);
             } else {
                 Toast.makeText(getActivity(), R.string.selfie_share_facebook_app_not_installed, Toast.LENGTH_SHORT).show();
             }
