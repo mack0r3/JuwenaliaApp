@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.FacebookSdk;
 import com.google.gson.GsonBuilder;
 
 import java.io.BufferedWriter;
@@ -46,6 +47,7 @@ public class TelebimFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
+        FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
         if(getArguments() != null) {
             name = getArguments().getString(PARAM_NAME);
         }
