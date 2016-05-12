@@ -141,7 +141,14 @@ public class TelebimFragment extends Fragment {
     public void onStop() {
         super.onStop();
         accessTokenTracker.stopTracking();
-        profileTracker.stopTracking();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(profileTracker != null) {
+            profileTracker.stopTracking();
+        }
     }
 
     @Override
