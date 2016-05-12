@@ -298,15 +298,4 @@ public class TelebimFragment extends Fragment {
 
 }
 
-class EditTextException extends Exception {
-
-    public EditTextException() {
-
-    }
-
-    public EditTextException(String message) {
-        super(message);
-    }
-};
-
 
