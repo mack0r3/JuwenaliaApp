@@ -82,7 +82,7 @@ public class TelebimFragment extends Fragment {
 
         @Override
         public void onError(FacebookException error) {
-            makeToast("Wystąpił problem z połączeniem. Sprawdź czy masz włączone Wi-Fi lub dane komórkowe");
+            makeToast("Wystąpił problem z połączeniem. Sprawdź czy masz włączony moduł Wi-Fi lub przesyłanie danych komórkowych");
         }
     };
 
