@@ -58,6 +58,18 @@ public class TelebimFragment extends Fragment {
             if (profile != null) {
                 name = profile.getFirstName();
                 showMessagePanel();
+            } else {
+                profileTracker = new ProfileTracker() {
+                    @Override
+                    protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
+                        if (currentProfile != null) {
+                            name = currentProfile.getFirstName();
+                            showMessagePanel();
+                        }
+                        profileTracker.stopTracking();
+                    }
+                };
+                profileTracker.startTracking();
             }
         }
 
@@ -102,15 +114,7 @@ public class TelebimFragment extends Fragment {
             }
         };
 
-        profileTracker = new ProfileTracker() {
-            @Override
-            protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
-
-            }
-        };
-
         accessTokenTracker.startTracking();
-        profileTracker.startTracking();
 
     }
 
