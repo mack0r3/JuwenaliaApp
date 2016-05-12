@@ -26,6 +26,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:fontFamily="sans-serif-bold"
+            android:gravity="right"
             android:paddingBottom="8dp"
             android:paddingRight="8dp"
             android:text="Beer pong"
