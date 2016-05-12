@@ -1,7 +1,8 @@
 <resources>
     <string name="facebook_app_id">271190266551416</string>
 
-    <string name="app_name">Juwenalia PW</string>
+    <string name="app_name">Juwenalia PW 2016</string>
+    <string name="app_label">JuwenaliaPW</string>
 
     <!-- TilesFragment -->
     <string name="line_up_text">Line up</string>
