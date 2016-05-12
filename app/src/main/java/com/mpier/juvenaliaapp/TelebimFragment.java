@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,6 +57,7 @@ public class TelebimFragment extends Fragment {
             AccessToken accessToken = loginResult.getAccessToken();
             Profile profile = Profile.getCurrentProfile();
             if (profile != null) {
+                Log.v("ERROR", "User is going to be logged in");
                 name = profile.getFirstName();
                 showMessagePanel();
             } else {
@@ -63,6 +65,7 @@ public class TelebimFragment extends Fragment {
                     @Override
                     protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
                         if (currentProfile != null) {
+                            Log.v("ERROR", "User is going to be logout");
                             name = currentProfile.getFirstName();
                             showMessagePanel();
                         }
@@ -101,21 +104,6 @@ public class TelebimFragment extends Fragment {
         if (getArguments() != null) {
             name = getArguments().getString(PARAM_NAME);
         }
-
-        accessTokenTracker = new AccessTokenTracker() {
-            @Override
-            protected void onCurrentAccessTokenChanged(
-                    AccessToken oldAccessToken,
-                    AccessToken currentAccessToken) {
-
-                if (currentAccessToken == null) {
-                    hideMessagePanel();
-                }
-            }
-        };
-
-        accessTokenTracker.startTracking();
-
     }
 
     @Override
@@ -172,6 +160,33 @@ public class TelebimFragment extends Fragment {
         Profile profile = Profile.getCurrentProfile();
         if(profile != null) name = profile.getFirstName();
         displayName(profile);
+        accessTokenTracker = new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(
+                    AccessToken oldAccessToken,
+                    AccessToken currentAccessToken) {
+
+                if (currentAccessToken == null) {
+                    hideMessagePanel();
+                }
+            }
+        };
+    }
+
+    @Override
+    public void onStart() {
+        Log.v("ERROR", "onStart");
+        super.onStart();
+        greetingsEditText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    new SendMessage().execute(name, greetingsEditText.getText().toString());
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     private void displayName(Profile profile) {
@@ -197,21 +212,6 @@ public class TelebimFragment extends Fragment {
         inflatedView.findViewById(R.id.msgPanel).setVisibility(View.INVISIBLE);
         inflatedView.findViewById(R.id.buttonMsgSend).setVisibility(View.INVISIBLE);
         inflatedView.findViewById(R.id.shareExperienceText).setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        greetingsEditText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEND) {
-                    new SendMessage().execute(name, greetingsEditText.getText().toString());
-                    return true;
-                }
-                return false;
-            }
-        });
     }
 
     private class SendMessage extends AsyncTask<String, Void, Boolean> {
