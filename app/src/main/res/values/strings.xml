@@ -23,8 +23,7 @@
 
     <!-- TelebimFragment -->
     <string name="telebim_hint">Wpisz wiadomość (do 200 znaków)</string>
-    <string name="telebim_info">Wyślij pozdrowienia prosto na Telebim!</string>
-
+    <string name="telebim_info">Podziel się swoimi wrażeniami na telebimie!</string>
 
     <!-- Drawer open icon -->
     <string name="drawer_open">Drawer open</string>
